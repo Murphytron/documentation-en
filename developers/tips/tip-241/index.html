@@ -1671,7 +1671,7 @@ created: 2021-03-08
 <h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
 <p>The Yul optimizer has a stage that removes assignments to variables that are overwritten again or are not used in all following control-flow branches. This logic incorrectly removes such assignments to variables declared inside a for loop if they can be removed in a control-flow branch that ends with <code>break</code> or <code>continue</code> even though they cannot be removed in other control-flow branches. Variables declared outside of the respective for loop are not affected. So we should update Tron Solidity to fix this bug.</p>
 <h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
-<p>Copyright and related rights waived via <a href="../LICENSE/">CC0</a>.</p>
+<p>Copyright and related rights waived via <a href="LICENSE.md">CC0</a>.</p>
 
 
 

@@ -7,8 +7,10 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
+        <meta name="author" content="halibobo1205@gmail.com">
       
-        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/LICENSE/">
+      
+        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/tip-833/">
       
       
       
@@ -18,7 +20,7 @@
     
     
       
-        <title>LICENSE - java-tron</title>
+        <title>Harden ResourceProcessor Resource Window Calculations - java-tron</title>
       
     
     
@@ -69,6 +71,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#simple-summary" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -99,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              LICENSE
+              Harden ResourceProcessor Resource Window Calculations
             
           </span>
         </div>
@@ -366,8 +373,6 @@
         <div class="md-main__inner md-grid">
           
             
-              
-                
               
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
@@ -1641,137 +1646,180 @@
               <article class="md-content__inner md-typeset">
                 
                   
-  
-
 
 
   
   
 
 
-  <h1>LICENSE</h1>
+  <h1>Harden ResourceProcessor Resource Window Calculations</h1>
 
-<p>Creative Commons Legal Code</p>
-<p>CC0 1.0 Universal</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">CREATIVE</span><span class="w"> </span><span class="nv">COMMONS</span><span class="w"> </span><span class="nv">CORPORATION</span><span class="w"> </span><span class="nv">IS</span><span class="w"> </span><span class="nv">NOT</span><span class="w"> </span><span class="nv">A</span><span class="w"> </span><span class="nv">LAW</span><span class="w"> </span><span class="nv">FIRM</span><span class="w"> </span><span class="nv">AND</span><span class="w"> </span><span class="nv">DOES</span><span class="w"> </span><span class="nv">NOT</span><span class="w"> </span><span class="nv">PROVIDE</span>
-<span class="nv">LEGAL</span><span class="w"> </span><span class="nv">SERVICES</span>.<span class="w"> </span><span class="nv">DISTRIBUTION</span><span class="w"> </span><span class="nv">OF</span><span class="w"> </span><span class="nv">THIS</span><span class="w"> </span><span class="nv">DOCUMENT</span><span class="w"> </span><span class="nv">DOES</span><span class="w"> </span><span class="nv">NOT</span><span class="w"> </span><span class="nv">CREATE</span><span class="w"> </span><span class="nv">AN</span>
-<span class="nv">ATTORNEY</span><span class="o">-</span><span class="nv">CLIENT</span><span class="w"> </span><span class="nv">RELATIONSHIP</span>.<span class="w"> </span><span class="nv">CREATIVE</span><span class="w"> </span><span class="nv">COMMONS</span><span class="w"> </span><span class="nv">PROVIDES</span><span class="w"> </span><span class="nv">THIS</span>
-<span class="nv">INFORMATION</span><span class="w"> </span><span class="nv">ON</span><span class="w"> </span><span class="nv">AN</span><span class="w"> </span><span class="s2">&quot;AS-IS&quot;</span><span class="w"> </span><span class="nv">BASIS</span>.<span class="w"> </span><span class="nv">CREATIVE</span><span class="w"> </span><span class="nv">COMMONS</span><span class="w"> </span><span class="nv">MAKES</span><span class="w"> </span><span class="nv">NO</span><span class="w"> </span><span class="nv">WARRANTIES</span>
-<span class="nv">REGARDING</span><span class="w"> </span><span class="nv">THE</span><span class="w"> </span><span class="nv">USE</span><span class="w"> </span><span class="nv">OF</span><span class="w"> </span><span class="nv">THIS</span><span class="w"> </span><span class="nv">DOCUMENT</span><span class="w"> </span><span class="nv">OR</span><span class="w"> </span><span class="nv">THE</span><span class="w"> </span><span class="nv">INFORMATION</span><span class="w"> </span><span class="nv">OR</span><span class="w"> </span><span class="nv">WORKS</span>
-<span class="nv">PROVIDED</span><span class="w"> </span><span class="nv">HEREUNDER</span>,<span class="w"> </span><span class="nv">AND</span><span class="w"> </span><span class="nv">DISCLAIMS</span><span class="w"> </span><span class="nv">LIABILITY</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="nv">DAMAGES</span><span class="w"> </span><span class="nv">RESULTING</span><span class="w"> </span><span class="nv">FROM</span>
-<span class="nv">THE</span><span class="w"> </span><span class="nv">USE</span><span class="w"> </span><span class="nv">OF</span><span class="w"> </span><span class="nv">THIS</span><span class="w"> </span><span class="nv">DOCUMENT</span><span class="w"> </span><span class="nv">OR</span><span class="w"> </span><span class="nv">THE</span><span class="w"> </span><span class="nv">INFORMATION</span><span class="w"> </span><span class="nv">OR</span><span class="w"> </span><span class="nv">WORKS</span><span class="w"> </span><span class="nv">PROVIDED</span>
-<span class="nv">HEREUNDER</span>.
+<div class="highlight"><pre><span></span><code>tip: 833
+title: Harden ResourceProcessor Resource Window Calculations 
+author: halibobo1205@gmail.com
+status: Last Call
+type: Standards Track
+category: Core
+created: 2026-03-05
+requires: None
 </code></pre></div>
+<h2 id="simple-summary"><strong>Simple Summary</strong><a class="headerlink" href="#simple-summary" title="Permanent link">&para;</a></h2>
+<p>This proposal hardens all calculation paths in <code>ResourceProcessor</code> that involve chained long-integer multiplication — including <code>increase</code>, <code>increaseV2</code>, <code>unDelegateIncreaseV2</code>, <code>getNewWindowSize</code>, and <code>getUsage</code> — by replacing intermediate arithmetic with <code>BigInteger</code>, upgrading the numeric safety model from "implicitly constrained by runtime context" to "explicitly enforced by the language type."</p>
+<h2 id="motivation"><strong>Motivation</strong><a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>Several methods in <code>ResourceProcessor</code> perform chained <code>long</code> multiplications whose correctness currently relies on implicit range constraints imposed by on-chain parameters. As on-chain bandwidth and energy caps grow, the safety margin provided by those implicit constraints will gradually narrow.</p>
+<p>A representative expression from <code>increaseV2()</code> at L134 illustrates the risk:</p>
+<div class="highlight"><pre><span></span><code><span class="n">usage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">windowSize</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">WINDOW_SIZE_PRECISION</span>
+</code></pre></div>
+<p><strong>Key constants and limits:</strong></p>
+<div class="highlight"><pre><span></span><code>windowSize            = 86_400_000ms / 3_000ms = 28,800 blocks
+WINDOW_SIZE_PRECISION = 1,000
+PRECISION             = 1,000,000
+Long.MAX_VALUE        = 9,223,372,036,854,775,807
+</code></pre></div>
+<p><strong>Current safety margin:</strong></p>
+<div class="highlight"><pre><span></span><code>Long.MAX_VALUE / windowSize / WINDOW_SIZE_PRECISION ≈ 320,255,973,502 (~320.3 billion)
+</code></pre></div>
+<p>Note: The current mainnet energy cap is 180 billion (<a href="https://tronscan.org/#/proposal/97">Proposal #97</a>), leaving a safety margin of approximately <strong>1.78×</strong>.</p>
+<p>The numeric safety hardening follows these principles:</p>
+<ul>
+<li>Intermediate products are carried in <code>BigInteger</code>, removing all <code>long</code>-width constraints.</li>
+<li>Before writing back to <code>long</code>, <code>longValueExact()</code> performs an explicit range check; if the result exceeds <code>long</code> range, an <code>ArithmeticException</code> is thrown, the transaction is rejected, and no on-chain state is written.</li>
+</ul>
+<h2 id="specification"><strong>Specification</strong><a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<p>All changes described in this section take effect upon activation of a new governance proposal parameter. Until activation, all existing code paths remain completely unchanged.</p>
+<h3 id="1-new-helper-method"><strong>1. New Helper Method</strong><a class="headerlink" href="#1-new-helper-method" title="Permanent link">&para;</a></h3>
+<p>A private helper method <code>divideCeilExact</code> is added alongside the existing <code>divideCeil</code>, accepting <code>BigInteger</code> arguments and writing back safely via <code>longValueExact()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// ResourceProcessor.java</span>
+<span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">divideCeilExact</span><span class="p">(</span><span class="n">BigInteger</span><span class="w"> </span><span class="n">numerator</span><span class="p">,</span><span class="w"> </span><span class="n">BigInteger</span><span class="w"> </span><span class="n">denominator</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">BigInteger</span><span class="o">[]</span><span class="w"> </span><span class="n">qr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numerator</span><span class="p">.</span><span class="na">divideAndRemainder</span><span class="p">(</span><span class="n">denominator</span><span class="p">);</span>
+<span class="w">    </span><span class="n">BigInteger</span><span class="w"> </span><span class="n">quotient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qr</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">.</span><span class="na">signum</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">qr</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">ONE</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">qr</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">quotient</span><span class="p">.</span><span class="na">longValueExact</span><span class="p">();</span><span class="w"> </span><span class="c1">// throws ArithmeticException if result exceeds long range ArithmeticException</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="2-hardened-calculation-paths"><strong>2. Hardened Calculation Paths</strong><a class="headerlink" href="#2-hardened-calculation-paths" title="Permanent link">&para;</a></h3>
+<p><strong><code>increase()</code></strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Before</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">averageLastUsage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">divideCeil</span><span class="p">(</span><span class="n">lastUsage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">precision</span><span class="p">,</span><span class="w"> </span><span class="n">windowSize</span><span class="p">);</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">averageUsage</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">divideCeil</span><span class="p">(</span><span class="n">usage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">precision</span><span class="p">,</span><span class="w"> </span><span class="n">windowSize</span><span class="p">);</span>
 
-<p>Statement of Purpose</p>
-<p>The laws of most jurisdictions throughout the world automatically confer
-exclusive Copyright and Related Rights (defined below) upon the creator
-and subsequent owner(s) (each and all, an "owner") of an original work of
-authorship and/or a database (each, a "Work").</p>
-<p>Certain owners wish to permanently relinquish those rights to a Work for
-the purpose of contributing to a commons of creative, cultural and
-scientific works ("Commons") that the public can reliably and without fear
-of later claims of infringement build upon, modify, incorporate in other
-works, reuse and redistribute as freely as possible in any form whatsoever
-and for any purposes, including without limitation commercial purposes.
-These owners may contribute to the Commons to promote the ideal of a free
-culture and the further production of creative, cultural and scientific
-works, or to gain reputation or greater distribution for their Work in
-part through the use and efforts of others.</p>
-<p>For these and/or other purposes and motivations, and without any
-expectation of additional consideration or compensation, the person
-associating CC0 with a Work (the "Affirmer"), to the extent that he or she
-is an owner of Copyright and Related Rights in the Work, voluntarily
-elects to apply CC0 to the Work and publicly distribute the Work under its
-terms, with knowledge of his or her Copyright and Related Rights in the
-Work and the meaning and intended legal effect of CC0 on those rights.</p>
-<ol>
-<li>Copyright and Related Rights. A Work made available under CC0 may be
-   protected by copyright and related or neighboring rights ("Copyright and
-   Related Rights"). Copyright and Related Rights include, but are not
-   limited to, the following:</li>
-</ol>
-<p>i. the right to reproduce, adapt, distribute, perform, display,
-communicate, and translate a Work;
-ii. moral rights retained by the original author(s) and/or performer(s);
-iii. publicity and privacy rights pertaining to a person's image or
-likeness depicted in a Work;
-iv. rights protecting against unfair competition in regards to a Work,
-subject to the limitations in paragraph 4(a), below;
-v. rights protecting the extraction, dissemination, use and reuse of data
-in a Work;
-vi. database rights (such as those arising under Directive 96/9/EC of the
-European Parliament and of the Council of 11 March 1996 on the legal
-protection of databases, and under any national implementation
-thereof, including any amended or successor version of such
-directive); and
-vii. other similar, equivalent or corresponding rights throughout the
-world based on applicable law or treaty, and any national
-implementations thereof.</p>
-<ol>
-<li>
-<p>Waiver. To the greatest extent permitted by, but not in contravention
-   of, applicable law, Affirmer hereby overtly, fully, permanently,
-   irrevocably and unconditionally waives, abandons, and surrenders all of
-   Affirmer's Copyright and Related Rights and associated claims and causes
-   of action, whether now known or unknown (including existing as well as
-   future claims and causes of action), in the Work (i) in all territories
-   worldwide, (ii) for the maximum duration provided by applicable law or
-   treaty (including future time extensions), (iii) in any current or future
-   medium and for any number of copies, and (iv) for any purpose whatsoever,
-   including without limitation commercial, advertising or promotional
-   purposes (the "Waiver"). Affirmer makes the Waiver for the benefit of each
-   member of the public at large and to the detriment of Affirmer's heirs and
-   successors, fully intending that such Waiver shall not be subject to
-   revocation, rescission, cancellation, termination, or any other legal or
-   equitable action to disrupt the quiet enjoyment of the Work by the public
-   as contemplated by Affirmer's express Statement of Purpose.</p>
-</li>
-<li>
-<p>Public License Fallback. Should any part of the Waiver for any reason
-   be judged legally invalid or ineffective under applicable law, then the
-   Waiver shall be preserved to the maximum extent permitted taking into
-   account Affirmer's express Statement of Purpose. In addition, to the
-   extent the Waiver is so judged Affirmer hereby grants to each affected
-   person a royalty-free, non transferable, non sublicensable, non exclusive,
-   irrevocable and unconditional license to exercise Affirmer's Copyright and
-   Related Rights in the Work (i) in all territories worldwide, (ii) for the
-   maximum duration provided by applicable law or treaty (including future
-   time extensions), (iii) in any current or future medium and for any number
-   of copies, and (iv) for any purpose whatsoever, including without
-   limitation commercial, advertising or promotional purposes (the
-   "License"). The License shall be deemed effective as of the date CC0 was
-   applied by Affirmer to the Work. Should any part of the License for any
-   reason be judged legally invalid or ineffective under applicable law, such
-   partial invalidity or ineffectiveness shall not invalidate the remainder
-   of the License, and in such case Affirmer hereby affirms that he or she
-   will not (i) exercise any of his or her remaining Copyright and Related
-   Rights in the Work or (ii) assert any associated claims and causes of
-   action with respect to the Work, in either case contrary to Affirmer's
-   express Statement of Purpose.</p>
-</li>
-<li>
-<p>Limitations and Disclaimers.</p>
-</li>
-</ol>
-<p>a. No trademark or patent rights held by Affirmer are waived, abandoned,
-surrendered, licensed or otherwise affected by this document.
-b. Affirmer offers the Work as-is and makes no representations or
-warranties of any kind concerning the Work, express, implied,
-statutory or otherwise, including without limitation warranties of
-title, merchantability, fitness for a particular purpose, non
-infringement, or the absence of latent or other defects, accuracy, or
-the present or absence of errors, whether or not discoverable, all to
-the greatest extent permissible under applicable law.
-c. Affirmer disclaims responsibility for clearing rights of other persons
-that may apply to the Work or any use thereof, including without
-limitation any person's Copyright and Related Rights in the Work.
-Further, Affirmer disclaims responsibility for obtaining any necessary
-consents, permissions or other rights required for any use of the
-Work.
-d. Affirmer understands and acknowledges that Creative Commons is not a
-party to this document and has no duty or obligation with respect to
-this CC0 or use of the Work.</p>
+<span class="c1">// After</span>
+<span class="n">BigInteger</span><span class="w"> </span><span class="n">biPrecision</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">precision</span><span class="p">);</span>
+<span class="n">BigInteger</span><span class="w"> </span><span class="n">biWindowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">windowSize</span><span class="p">);</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">averageLastUsage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">divideCeilExact</span><span class="p">(</span>
+<span class="w">    </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">lastUsage</span><span class="p">).</span><span class="na">multiply</span><span class="p">(</span><span class="n">biPrecision</span><span class="p">),</span><span class="w"> </span><span class="n">biWindowSize</span><span class="p">);</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">averageUsage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">divideCeilExact</span><span class="p">(</span>
+<span class="w">    </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">usage</span><span class="p">).</span><span class="na">multiply</span><span class="p">(</span><span class="n">biPrecision</span><span class="p">),</span><span class="w"> </span><span class="n">biWindowSize</span><span class="p">);</span>
+</code></pre></div>
+<p><strong><code>increaseV2()</code></strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Before</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">newWindowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">divideCeil</span><span class="p">(</span>
+<span class="w">    </span><span class="n">remainUsage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">remainWindowSize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">usage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">windowSize</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">WINDOW_SIZE_PRECISION</span><span class="p">,</span>
+<span class="w">    </span><span class="n">newUsage</span><span class="p">);</span>
+
+<span class="c1">// After</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">newWindowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">divideCeilExact</span><span class="p">(</span>
+<span class="w">    </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">remainUsage</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">remainWindowSize</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">usage</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="na">windowSize</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">WINDOW_SIZE_PRECISION</span><span class="p">))),</span>
+<span class="w">    </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">newUsage</span><span class="p">));</span>
+</code></pre></div>
+<p><strong><code>unDelegateIncreaseV2()</code></strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Before</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">newOwnerWindowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">divideCeil</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ownerUsage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">remainOwnerWindowSizeV2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">transferUsage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">remainReceiverWindowSizeV2</span><span class="p">,</span>
+<span class="w">    </span><span class="n">newOwnerUsage</span><span class="p">);</span>
+
+<span class="c1">// After</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">newOwnerWindowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">divideCeilExact</span><span class="p">(</span>
+<span class="w">    </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">ownerUsage</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">remainOwnerWindowSizeV2</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">transferUsage</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">remainReceiverWindowSizeV2</span><span class="p">))),</span>
+<span class="w">    </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">newOwnerUsage</span><span class="p">));</span>
+</code></pre></div>
+<p><strong><code>getNewWindowSize()</code></strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Before</span>
+<span class="kd">private</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">getNewWindowSize</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">lastUsage</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastWindowSize</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">usage</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">windowSize</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">newUsage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">lastUsage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lastWindowSize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">usage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">windowSize</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">newUsage</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// After</span>
+<span class="kd">private</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">getNewWindowSize</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">lastUsage</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastWindowSize</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">usage</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">windowSize</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">newUsage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">lastUsage</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">lastWindowSize</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">usage</span><span class="p">).</span><span class="na">multiply</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">windowSize</span><span class="p">)))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">divide</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">newUsage</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">longValueExact</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong><code>getUsage()</code></strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Before</span>
+<span class="kd">private</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">getUsage</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">usage</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">windowSize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">usage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">windowSize</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">precision</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">getUsage</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">oldUsage</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">oldWindowSize</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">newUsage</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">newWindowSize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">oldUsage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">oldWindowSize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">newUsage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">newWindowSize</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">precision</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// After</span>
+<span class="kd">private</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">getUsage</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">usage</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">windowSize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">usage</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">windowSize</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">divide</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">precision</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">longValueExact</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">getUsage</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">oldUsage</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">oldWindowSize</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">newUsage</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">newWindowSize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">oldUsage</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">oldWindowSize</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">newUsage</span><span class="p">).</span><span class="na">multiply</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">newWindowSize</span><span class="p">)))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">divide</span><span class="p">(</span><span class="n">BigInteger</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">precision</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">longValueExact</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="rationale"><strong>Rationale</strong><a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<h3 id="1-biginteger-is-the-least-invasive-safe-solution-for-intermediate-products"><strong>1. <code>BigInteger Is the Least-Invasive Safe Solution for Intermediate Products</code></strong><a class="headerlink" href="#1-biginteger-is-the-least-invasive-safe-solution-for-intermediate-products" title="Permanent link">&para;</a></h3>
+<p><code>StrictMath.multiplyExact()</code> can throw <code>ArithmeticException</code> on a single overflow, but it is unsuitable for the patterns addressed here. In chain expressions such as <code>a * b + c * d</code> or <code>a * b * c</code>, applying <code>multiplyExact</code> to each binary step still requires storing every intermediate result in a <code>long</code> — and that intermediate value may already have overflowed before any check is performed.</p>
+<p><code>BigInteger</code> eliminates intermediate overflow at the root. <code>longValueExact()</code> on the final write-back provides the same <code>ArithmeticException</code> contract as <code>multiplyExact</code>, but fires only when the mathematically correct final result exceeds <code>long</code> range. Compared with replacing numeric types globally, this approach has the smallest possible footprint and a manageable performance impact.</p>
+<h3 id="2-reduced-long-term-maintenance-risk"><strong>2. Reduced Long-Term Maintenance Risk</strong><a class="headerlink" href="#2-reduced-long-term-maintenance-risk" title="Permanent link">&para;</a></h3>
+<p>The <code>BigInteger</code> path has explicit semantics: intermediate products are unconstrained by <code>long</code> width, the final result is range-checked unconditionally, and the safety guarantee is provided by the language mechanism rather than relying on external parameter constraints. This removes a class of latent risk that grows as on-chain resource limits are raised over time.</p>
+<h2 id="backwards-compatibility"><strong>Backwards Compatibility</strong><a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
+<p>This proposal is gated behind the Proposal mechanism and is fully backwards compatible.</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before activation</td>
+<td>All existing code paths are completely unchanged</td>
+</tr>
+<tr>
+<td>After activation, all intermediate products within <code>long</code> range</td>
+<td>Results are identical to the old logic</td>
+</tr>
+<tr>
+<td>After activation, intermediate product exceeds <code>long</code> range</td>
+<td><code>ArithmeticException</code> is thrown; transaction is rejected; no on-chain state is written</td>
+</tr>
+<tr>
+<td>Historical block replay</td>
+<td>Each block follows the branch corresponding to its original on-chain parameters; no impact</td>
+</tr>
+</tbody>
+</table>
+<h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
+<p>Copyright and related rights waived via <a href="LICENSE.md">CC0</a>.</p>
 
 
 
@@ -1784,8 +1832,6 @@ this CC0 or use of the Work.</p>
 
 
 
-
-  
 
 
 

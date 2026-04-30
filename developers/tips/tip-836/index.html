@@ -7,10 +7,10 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
-        <meta name="author" content="<a list of the authors or authors name(s) and/or username(s), or name(s) and email(s), e.g. (use with the parentheses or triangular brackets): FirstName LastName (@GitHubUsername), FirstName LastName <foo@bar.com>, FirstName (@GitHubUsername) and GitHubUsername (@GitHubUsername)>">
+        <meta name="author" content="halibobo1205@gmail.com">
       
       
-        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/template/">
+        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/tip-836/">
       
       
       
@@ -20,7 +20,7 @@
     
     
       
-        <title><TIP title> - java-tron</title>
+        <title>harden exchange transaction calculations - java-tron</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#simple-summary-required" class="md-skip">
+        <a href="#simple-summary" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              <TIP title>
+              harden exchange transaction calculations
             
           </span>
         </div>
@@ -373,8 +373,6 @@
         <div class="md-main__inner md-grid">
           
             
-              
-                
               
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
@@ -1648,48 +1646,138 @@
               <article class="md-content__inner md-typeset">
                 
                   
-  
-
 
 
   
   
 
 
-  <h1><TIP title></h1>
+  <h1>harden exchange transaction calculations</h1>
 
-<div class="highlight"><pre><span></span><code>tip: &lt;to be assigned&gt;
-title: &lt;TIP title&gt;
-author: &lt;a list of the author&#39;s or authors&#39; name(s) and/or username(s), or name(s) and email(s), e.g. (use with the parentheses or triangular brackets): FirstName LastName (@GitHubUsername), FirstName LastName &lt;foo@bar.com&gt;, FirstName (@GitHubUsername) and GitHubUsername (@GitHubUsername)&gt;
-discussions-to: &lt;URL&gt;
-status: &lt;Draft | Last Call | Accepted | Final | Deferred&gt;
-type: &lt;Standards Track (Core, Networking, Interface, TRC, VM) | Informational&gt;
-category (*only required for Standard Track): &lt;Core | Networking | Interface | TRC | VM&gt;
-created: &lt;date created on, in ISO 8601 (yyyy-mm-dd) format&gt;
-requires (*optional): &lt;TIP number(s)&gt;
-replaces (*optional): &lt;TIP number(s)&gt;
+<div class="highlight"><pre><span></span><code>tip: 836
+title: harden exchange transaction calculations
+author: halibobo1205@gmail.com
+status: Last Call
+type: Standards Track
+category: Core
+created: 2026-03-19
+requires: None
 </code></pre></div>
-<p>This is the suggested template for new TIPs.</p>
-<p>Note that an TIP number will be assigned by an editor. When opening a pull request to submit your TIP, please use an abbreviated title in the filename.</p>
-<p>The title should be 44 characters or less.</p>
-<h2 id="simple-summary-required">Simple Summary (required)<a class="headerlink" href="#simple-summary-required" title="Permanent link">&para;</a></h2>
-<p>Provide a simplified explanation of the TIP.</p>
-<h2 id="abstract-required">Abstract (required)<a class="headerlink" href="#abstract-required" title="Permanent link">&para;</a></h2>
-<p>A short (~200 word) description of the technical issue being addressed.</p>
-<h2 id="motivation-required">Motivation (required)<a class="headerlink" href="#motivation-required" title="Permanent link">&para;</a></h2>
-<p>The motivation is critical for TIPs that want to change the TRON protocol. It should clearly explain why the existing protocol specification is inadequate to address the problem that the TIP solves. TIP submissions without sufficient motivation may be rejected outright.</p>
-<h2 id="specification-required">Specification (required)<a class="headerlink" href="#specification-required" title="Permanent link">&para;</a></h2>
-<p>The technical specification should describe the syntax and semantics of any new feature. </p>
-<h2 id="rationale-required">Rationale (required)<a class="headerlink" href="#rationale-required" title="Permanent link">&para;</a></h2>
-<p>The rationale fleshes out the specification by describing what motivated the design and why particular design decisions were made. It should describe alternate designs that were considered and related work, e.g. how the feature is supported in other languages. The rationale may also provide evidence of consensus within the community, and should discuss important objections or concerns raised during discussion.</p>
-<h2 id="backwards-compatibility-optional">Backwards Compatibility (optional)<a class="headerlink" href="#backwards-compatibility-optional" title="Permanent link">&para;</a></h2>
-<p>All TIPs that introduce backwards incompatibilities must include a section describing these incompatibilities and their severity. The TIP must explain how the author proposes to deal with these incompatibilities. TIP submissions without a sufficient backwards compatibility treatise may be rejected outright.</p>
-<h2 id="test-cases-optional">Test Cases (optional)<a class="headerlink" href="#test-cases-optional" title="Permanent link">&para;</a></h2>
-<p>Test cases for an implementation are mandatory for TIPs that are affecting consensus changes. Other TIPs can choose to include links to test cases if applicable.</p>
-<h2 id="implementation-required">Implementation (required)<a class="headerlink" href="#implementation-required" title="Permanent link">&para;</a></h2>
-<p>The implementations must be completed before any TIP is given status "Final", but it need not be completed before the TIP is accepted. While there is merit to the approach of reaching consensus on the specification and rationale before writing code, the principle of "rough consensus and running code" is still useful when it comes to resolving many discussions of API details.</p>
+<h2 id="simple-summary">Simple Summary<a class="headerlink" href="#simple-summary" title="Permanent link">&para;</a></h2>
+<p>This proposal hardens the core calculation logic of <code>Exchange trading pairs</code> by replacing floating-point arithmetic with <code>BigDecimal</code> (except for <code>pow</code> operations), and introducing explicit overflow detection for all integer arithmetic and type conversions.</p>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>The goal is to upgrade the numeric safety model for <code>Exchange trading pair</code> calculations from "implicitly constrained by runtime context" to "explicitly enforced by the language type," ensuring that safety guarantees are actively provided at the implementation level.</p>
+<p>Explicit safety mechanisms offer the following engineering advantages:</p>
+<ul>
+<li><strong>Higher readability:</strong> Code intent is unambiguous; safety assumptions can be understood without reading comments or surrounding context.</li>
+<li><strong>Deterministic semantics:</strong> Overflow behaviour is guaranteed by the language mechanism rather than relying on external constraints.</li>
+<li><strong>Predictable failure:</strong> Problems surface immediately as exceptions, making them easier to locate and fix.</li>
+</ul>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<p>All changes described in this section take effect when a new governance proposal parameter is activated. Until activation, all existing code paths remain completely unchanged.</p>
+<h3 id="1-principles"><strong>1. Principles</strong><a class="headerlink" href="#1-principles" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>No <code>double</code>/<code>float</code> arithmetic:</strong> All floating-point operations are replaced with <code>BigDecimal</code>, except <code>pow</code> (see Section 2).</li>
+<li><strong>Integer overflow detection:</strong> All integer arithmetic must use the overflow-detecting methods provided by <code>StrictMath</code>: <code>addExact</code>, <code>subtractExact</code>, <code>multiplyExact</code>, etc.</li>
+<li><strong>Type conversion overflow checks:</strong><ul>
+<li>When converting <code>BigInteger</code> or <code>BigDecimal</code> to <code>long</code> or <code>int</code>, <code>longValueExact()</code> or <code>intValueExact()</code> must be called. Using <code>longValue()</code> / <code>intValue()</code>, which silently truncates, is prohibited.</li>
+<li>When narrowing <code>long</code> to <code>int</code>, <code>StrictMath.toIntExact</code> must be used.</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-pow-operations-hybrid-strictmathpow-bigdecimal-approach"><strong>2. <code>pow</code> Operations: Hybrid <code>StrictMath.pow</code> + <code>BigDecimal</code> Approach</strong><a class="headerlink" href="#2-pow-operations-hybrid-strictmathpow-bigdecimal-approach" title="Permanent link">&para;</a></h3>
+<p>The Bancor pricing curve uses fractional exponents (0.0005 is the Connector Weight in the Bancor formula, which determines the steepness of the curve). <code>BigDecimal</code>'s native <code>pow</code> method supports only integer exponents and cannot be used directly in this context.</p>
+<p>This proposal adopts a hybrid approach: <code>StrictMath.pow</code> handles the fractional exponentiation, and the result is wrapped in a <code>BigDecimal</code> for all subsequent operations.</p>
+<h3 id="_1"><a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Before (ExchangeProcessor)</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">issuedSupply</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">supply</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span>
+<span class="w">    </span><span class="o">-</span><span class="w"> </span><span class="n">Maths</span><span class="p">.</span><span class="na">pow</span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="w"> </span><span class="n">quant</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">newBalance</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0005</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">useStrictMath</span><span class="p">));</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="w"> </span><span class="n">issuedSupply</span><span class="p">;</span>
+
+<span class="c1">// After</span>
+<span class="n">BigDecimal</span><span class="w"> </span><span class="n">bdSupply</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">BigDecimal</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">supply</span><span class="p">);</span>
+<span class="n">BigDecimal</span><span class="w"> </span><span class="n">bdNewBalance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BigDecimal</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">newBalance</span><span class="p">);</span>
+<span class="n">BigDecimal</span><span class="w"> </span><span class="n">bdQuant</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">BigDecimal</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">quant</span><span class="p">);</span>
+
+<span class="c1">// base = 1 + quant / newBalance, computed precisely with BigDecimal.</span>
+<span class="c1">// 18 decimal places (HALF_UP) are retained — greater than the effective precision</span>
+<span class="c1">// of the subsequent StrictMath.pow doubleValue() input (~15–16 digits),</span>
+<span class="c1">// so no additional rounding error is introduced.</span>
+<span class="n">BigDecimal</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BigDecimal</span><span class="p">.</span><span class="na">ONE</span><span class="p">.</span><span class="na">add</span><span class="p">(</span>
+<span class="w">    </span><span class="n">bdQuant</span><span class="p">.</span><span class="na">divide</span><span class="p">(</span><span class="n">bdNewBalance</span><span class="p">,</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w"> </span><span class="n">RoundingMode</span><span class="p">.</span><span class="na">HALF_UP</span><span class="p">));</span>
+
+<span class="c1">// StrictMath.pow guarantees bit-for-bit identical results across all JVM</span>
+<span class="c1">// implementations, satisfying the on-chain determinism requirement.</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">powResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">StrictMath</span><span class="p">.</span><span class="na">pow</span><span class="p">(</span><span class="n">base</span><span class="p">.</span><span class="na">doubleValue</span><span class="p">(),</span><span class="w"> </span><span class="mf">0.0005</span><span class="p">);</span>
+
+<span class="c1">// All subsequent arithmetic is performed at the BigDecimal level,</span>
+<span class="c1">// preventing floating-point error accumulation.</span>
+<span class="n">BigDecimal</span><span class="w"> </span><span class="n">issuedSupply</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bdSupply</span><span class="p">.</span><span class="na">negate</span><span class="p">().</span><span class="na">multiply</span><span class="p">(</span>
+<span class="w">    </span><span class="n">BigDecimal</span><span class="p">.</span><span class="na">ONE</span><span class="p">.</span><span class="na">subtract</span><span class="p">(</span><span class="n">BigDecimal</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">powResult</span><span class="p">)));</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">issuedSupply</span><span class="p">.</span><span class="na">setScale</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">RoundingMode</span><span class="p">.</span><span class="na">DOWN</span><span class="p">).</span><span class="na">longValueExact</span><span class="p">();</span>
+</code></pre></div>
+<p>The key distinction between <code>StrictMath.pow</code> and <code>Math.pow</code> is that <code>StrictMath</code> requires all JVM implementations to produce <strong>bit-for-bit identical results</strong>, independent of the underlying hardware or JVM optimization behavior. This satisfies the determinism requirement for on-chain computation.</p>
+<h3 id="3-non-negative-validation-before-state-write"><strong>3. Non-Negative Validation Before State Write</strong><a class="headerlink" href="#3-non-negative-validation-before-state-write" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">long</span><span class="w"> </span><span class="n">newFirstBalance</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">StrictMathWrapper</span><span class="p">.</span><span class="na">addExact</span><span class="p">(</span><span class="n">firstTokenBalance</span><span class="p">,</span><span class="w"> </span><span class="n">sellTokenQuant</span><span class="p">);</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">newSecondBalance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">StrictMathWrapper</span><span class="p">.</span><span class="na">subtractExact</span><span class="p">(</span><span class="n">secondTokenBalance</span><span class="p">,</span><span class="w"> </span><span class="n">buyTokenQuant</span><span class="p">);</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">newFirstBalance</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">newSecondBalance</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ContractExeException</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;Exchange balance must remain positive after transaction&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">this</span><span class="p">.</span><span class="na">exchange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">exchange</span><span class="p">.</span><span class="na">toBuilder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setFirstTokenBalance</span><span class="p">(</span><span class="n">newFirstBalance</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setSecondTokenBalance</span><span class="p">(</span><span class="n">newSecondBalance</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+</code></pre></div>
+<h3 id="4-unified-use-of-exact-family-methods-for-integer-arithmetic"><strong>4. Unified Use of <code>Exact</code>-Family Methods for Integer Arithmetic</strong><a class="headerlink" href="#4-unified-use-of-exact-family-methods-for-integer-arithmetic" title="Permanent link">&para;</a></h3>
+<p>All integer addition, subtraction, multiplication, and type conversions are replaced with overflow-safe equivalents:</p>
+<table>
+<thead>
+<tr>
+<th>Original Operation</th>
+<th>Replacement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a + b</code></td>
+<td><code>StrictMathWrapper.addExact(a, b)</code></td>
+</tr>
+<tr>
+<td><code>a - b</code></td>
+<td><code>StrictMathWrapper.subtractExact(a, b)</code></td>
+</tr>
+<tr>
+<td><code>a * b</code></td>
+<td><code>StrictMathWrapper.multiplyExact(a, b)</code></td>
+</tr>
+<tr>
+<td><code>(int) longVal</code></td>
+<td><code>StrictMathWrapper.toIntExact(longVal)</code></td>
+</tr>
+<tr>
+<td><code>bigInteger.longValue()</code></td>
+<td><code>bigInteger.longValueExact()</code></td>
+</tr>
+<tr>
+<td><code>bigDecimal.longValue()</code></td>
+<td><code>bigDecimal.longValueExact()</code></td>
+</tr>
+</tbody>
+</table>
+<p>All of the above methods throw <code>ArithmeticException</code> on overflow or truncation. The exception is caught by the upper-level transaction execution framework and treated as a contract execution failure, causing the transaction to be rolled back.</p>
+<p><code>StrictMathWrapper</code> is an internal utility class that provides a unified wrapper around <code>StrictMath</code>'s <code>Exact</code>-family methods.</p>
+<h2 id="rationale"><strong>Rationale</strong><a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<h3 id="strictmathpow-bigdecimal-is-the-correct-implementation-path-for-the-bancor-algorithm"><strong><code>StrictMath.pow</code> + <code>BigDecimal</code> Is the Correct Implementation Path for the Bancor Algorithm</strong><a class="headerlink" href="#strictmathpow-bigdecimal-is-the-correct-implementation-path-for-the-bancor-algorithm" title="Permanent link">&para;</a></h3>
+<p>The Bancor pricing curve requires fractional exponentiation. <code>BigDecimal</code> does not natively support fractional powers; implementing <code>ln</code>/<code>exp</code> approximations from scratch or introducing a third-party library would increase implementation complexity and add external dependency risk.</p>
+<p><code>StrictMath.pow</code> guarantees bit-for-bit cross-platform consistency at the JVM specification level, directly satisfying the on-chain determinism requirement without introducing any additional dependencies. By wrapping the <code>pow</code> result in <code>BigDecimal</code>, all subsequent addition, subtraction, and multiplication operations are performed at the <code>BigDecimal</code> level, preventing the accumulation and propagation of floating-point errors.</p>
+<p>This approach deliberately confines floating-point precision limits to the single <code>pow</code> step, with <code>StrictMath</code> guaranteeing cross-platform consistency for that step. The overall calculation path achieves both greater determinism and higher precision than the original implementation.</p>
+<h2 id="backwards-compatibility"><strong>Backwards Compatibility</strong><a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
+<p>This proposal is gated behind the Proposal mechanism and is fully backwards compatible.</p>
 <h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
-<p>Copyright and related rights waived via <a href="../LICENSE/">CC0</a>.</p>
+<p>Copyright and related rights waived via <a href="LICENSE.md">CC0</a>.</p>
 
 
 
@@ -1702,8 +1790,6 @@ replaces (*optional): &lt;TIP number(s)&gt;
 
 
 
-
-  
 
 
 
