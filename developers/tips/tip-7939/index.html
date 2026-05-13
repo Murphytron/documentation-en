@@ -6,9 +6,13 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Opcode to count the number of leading zero bits in a 256-bit word">
       
       
-        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/category-core/">
+        <meta name="author" content="ouy95917@gmail.com">
+      
+      
+        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/tip-7939/">
       
       
       
@@ -18,7 +22,7 @@
     
     
       
-        <title>TRON Improvement Proposals (TIPs) - java-tron</title>
+        <title>Count leading zeros (CLZ) opcode - java-tron</title>
       
     
     
@@ -70,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tron-improvement-proposals-tips" class="md-skip">
+        <a href="#summary" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              TRON Improvement Proposals (TIPs)
+              Count leading zeros (CLZ) opcode
             
           </span>
         </div>
@@ -1650,346 +1654,155 @@
   
 
 
-<h1 id="tron-improvement-proposals-tips">TRON Improvement Proposals (TIPs)<a class="headerlink" href="#tron-improvement-proposals-tips" title="Permanent link">&para;</a></h1>
-<p><strong>Categories:</strong></p>
-<p><a class="md-button" href="../">All</a> <a class="md-button md-button--primary" href="./">Core</a> <a class="md-button" href="../category-networking/">Networking</a> <a class="md-button" href="../category-interface/">Interface</a> <a class="md-button" href="../category-trc/">TRC</a> <a class="md-button" href="../category-vm/">VM</a> <a class="md-button" href="../category-informational/">Informational</a></p>
-<p><strong>Quick Jump to Status:</strong></p>
-<p><a class="md-button" href="#draft">Draft</a> <a class="md-button" href="#last-call">Last Call</a> <a class="md-button" href="#final">Final</a> <a class="md-button" href="#unknown">Unknown</a></p>
-<hr />
-<h2 id="draft">Draft<a class="headerlink" href="#draft" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">178</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-178.md">TOKENISSUE and UPDATEASSET Instruction in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">171</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-171.md">STAKE instructions in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">156</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-156.md">Vote instructions in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">64</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-64.md">tron mix consensus Analytics</a></td>
-<td style="text-align: left;">billtron(<a href="https://github.com/billtron">@billtron</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">62</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-62.md">Tron consensus algorithm introduction</a></td>
-<td style="text-align: left;">billtron(<a href="https://github.com/billtron">@billtron</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
-<h2 id="last-call">Last Call<a class="headerlink" href="#last-call" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">2935</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-2935.md">Serve historical block hashes from state</a></td>
-<td style="text-align: left;">lily309@gmail.com</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">836</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-836.md">harden exchange transaction calculations</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">833</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-833.md">Harden ResourceProcessor Resource Window Calculations</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">128</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-128.md">TIP128 Lite Fullnode support</a></td>
-<td style="text-align: left;">guoquan-wu(<a href="https://github.com/guoquan-wu">@guoquan-wu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
-<h2 id="final">Final<a class="headerlink" href="#final" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">767</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-767.md">Transitioning proposal expire time configuration to Chain Governance</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">697</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-697.md">Migrate Floating-Point Calculations from Math to StrictMath</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">694</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-694.md">Enhance Verification of Transaction Limitation at Consensus Layer</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">635</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-635.md">Optimize Reward Withdrawal To Improve TPS</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">586</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-586.md">GRPC Implementation for Resource Price Interfaces</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">555</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-555.md">Network upgrade logic optimization</a></td>
-<td style="text-align: left;">jwrct(<a href="https://github.com/jwrct">@jwrct</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">542</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-542.md">Resource delegating supports customizable lock period</a></td>
-<td style="text-align: left;">tronenergymarket(<a href="https://github.com/tronenergymarket">@tronenergymarket</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">541</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-541.md">Support canceling unstaking in Stake 2.0</a></td>
-<td style="text-align: left;">CooperDepp(<a href="https://github.com/CooperDepp">@CooperDepp</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">534</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-534.md">Remove Vulnerable APIs</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">491</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-491.md">Dynamic Energy Model</a></td>
-<td style="text-align: left;">kongchi(<a href="https://github.com/kongchi-ken">@kongchi-ken</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">476</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-476.md">Delegate Data Structure Optimization</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">467</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-467.md">Stake 2.0 - A new TRON staking model</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">465</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-465.md">new reward calculation algorithm</a></td>
-<td style="text-align: left;">bladehan1(<a href="https://github.com/bladehan1">@bladehan1</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">461</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-461.md">Optimize data consistency for system abnormals</a></td>
-<td style="text-align: left;">guoquan-wu(<a href="https://github.com/guoquan-wu">@guoquan-wu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">440</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-440.md">Transaction cache optimization</a></td>
-<td style="text-align: left;">Andy(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">428</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-428.md">Increase the probability that the block processing thread acquires the lock</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">388</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-388.md">Optimize light node synchronization logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">383</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-383.md">Optimize transaction cache loading</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">382</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-382.md">Optimize the data structure of account assets</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">370</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-370.md">Node support conditionalized stop</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">369</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-369.md">Node support prometheus metrics</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">366</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-366.md">TIP-366 Node startup optimization</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">362</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-362.md">Optimized node broadcast data caching</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">343</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-343.md">TIP-343 Refine Write Parameters For Leveldb</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">298</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-298.md">Reformat manifest</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">295</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-295.md">Optimize account assets</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">290</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-290.md">Dynamic store optimization</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">289</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-289.md">Block Broadcast Optimization</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">285</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-285.md">Optimize transaction cache initialization logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">281</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-281.md">Optimize the query of database</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">276</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-276.md">Optimize block verification logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">269</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-269.md">Optimize the performance of block processing</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">250</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-250.md">Include transaction results on the chain</a></td>
-<td style="text-align: left;">zhang0125(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">207</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-207.md">A proposal to improve network resources model</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">196</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-196.md">Reward SRs with the transaction fees charged for bandwidth and Energy</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">127</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-127.md">Support Tron-DEX based on system contracts</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">60</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-60.md">TRC-60:Precompiled contract function for multi-signature verification</a></td>
-<td style="text-align: left;">Julian.Kang(<a href="https://github.com/Sh11thead">@Sh11thead</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
-<h2 id="unknown">Unknown<a class="headerlink" href="#unknown" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">01</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-01.md">Tron Wallet Proposal - Key Derivation Methods for Tron Accounts with BIP39</a></td>
-<td style="text-align: left;">dbuarque(<a href="https://github.com/dbuarque">@dbuarque</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
+  <h1>Count leading zeros (CLZ) opcode</h1>
+
+<div class="highlight"><pre><span></span><code>tip: 7939
+title: Count leading zeros (CLZ) opcode
+description: Opcode to count the number of leading zero bits in a 256-bit word
+author: ouy95917@gmail.com
+discussions-to: https://github.com/tronprotocol/tips/issues/838
+status: Last Call
+type: Standards Track
+category: VM
+created: 2026-03-19
+</code></pre></div>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>EIP-7939 introduces a new EVM opcode <code>CLZ</code> (<code>0x1e</code>) that counts the number of leading zero bits in a 256-bit stack value. This operation is a fundamental primitive natively supported by most modern processor architectures (x86, ARM), yet the EVM has lacked it since inception — forcing developers to use costly Solidity workarounds consuming ~184 gas and ~110–160 bytes of bytecode for what hardware accomplishes in a single cycle. The new opcode costs only 5 gas (matching <code>MUL</code>) and adds just 1 byte of bytecode, benefiting a wide range of use cases including fixed-point math (<code>lnWad</code>, <code>sqrt</code>, <code>powWad</code>), bitmap scanning, calldata compression, and post-quantum signature schemes. It also significantly reduces ZK proving costs by eliminating expensive dynamic bitwise shifts.</p>
+<p>Bringing EIP-7939 to TRON would directly lower compute and deployment costs for on-chain math libraries, DeFi protocols, and ZK-related applications deployed on the TRON network. As <code>CLZ</code> is scheduled for Ethereum's Fusaka (Fulu/Osaka) hard fork, implementing it on TRON ensures continued EVM compatibility, reduces cross-chain development friction for Solidity developers targeting both ecosystems, and keeps TRON aligned with mainstream EVM opcode evolution. Therefore, EIP-7939 should be implemented on TRON as soon as possible to maintain compatibility with mainstream EVM standards.</p>
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>Introduce a new opcode, <code>CLZ(x)</code>, which pops <code>x</code> from the stack and pushes the number of leading zero bits in <code>x</code> to the stack. If <code>x</code> is zero, pushes 256.</p>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>Count leading zeros (CLZ) is a native opcode in many processor architectures (even in RISC architectures like ARM).</p>
+<p>It is a basic building block used in math operations, byte operations, compression algorithms, data structures:</p>
+<ul>
+<li>lnWad</li>
+<li>powWad</li>
+<li>lambertW0Wad</li>
+<li>sqrt</li>
+<li>cbrt</li>
+<li>byte string comparisons</li>
+<li>generalized calldata compression/decompression</li>
+<li>bitmaps (for finding the next/previous set/unset bit)</li>
+<li>post quantum signature schemes</li>
+</ul>
+<p>Adding a <code>CLZ</code> opcode will:</p>
+<ul>
+<li>Lead to cheaper compute.</li>
+<li>Lead to cheaper ZK proving costs. The fastest known Solidity implementation uses several dynamic bitwise right shifts <code>shr</code>, which are very expensive to prove. In SP1 rv32im, a 32-bit right shift costs 1.6x more than a 32-bit mul.</li>
+<li>Lead to smaller bytecode size. The fastest known Solidity implementation contains several large constants and is often inlined for performance.</li>
+</ul>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<p>A new opcode is introduced: <code>CLZ</code> (<code>0x1e</code>).</p>
+<ul>
+<li>Pops 1 value from the stack.</li>
+<li>Pushes a value to the stack, according to the following code:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">/// @dev Count leading zeros.</span>
+<span class="c1">/// Returns the number of zeros preceding the most significant one bit.</span>
+<span class="c1">/// If `x` is zero, returns 256.</span>
+<span class="c1">/// This is the fastest known `CLZ` implementation in Solidity and uses about 184 gas.</span>
+<span class="kt">function</span><span class="w"> </span><span class="nv">clz</span><span class="p">(</span><span class="kt">uint256</span><span class="w"> </span><span class="nv">x</span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>pure<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">uint256</span><span class="w"> </span><span class="nv">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">/// @solidity memory-safe-assembly</span>
+<span class="w">    </span>assembly<span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>r<span class="w"> </span><span class="o">:=</span><span class="w"> </span>shl<span class="p">(</span><span class="m m-Decimal">7</span><span class="p">,</span><span class="w"> </span>lt<span class="p">(</span><span class="mh">0xffffffffffffffffffffffffffffffff</span><span class="p">,</span><span class="w"> </span>x<span class="p">))</span>
+<span class="w">        </span>r<span class="w"> </span><span class="o">:=</span><span class="w"> </span>or<span class="p">(</span>r<span class="p">,</span><span class="w"> </span>shl<span class="p">(</span><span class="m m-Decimal">6</span><span class="p">,</span><span class="w"> </span>lt<span class="p">(</span><span class="mh">0xffffffffffffffff</span><span class="p">,</span><span class="w"> </span>shr<span class="p">(</span>r<span class="p">,</span><span class="w"> </span>x<span class="p">))))</span>
+<span class="w">        </span>r<span class="w"> </span><span class="o">:=</span><span class="w"> </span>or<span class="p">(</span>r<span class="p">,</span><span class="w"> </span>shl<span class="p">(</span><span class="m m-Decimal">5</span><span class="p">,</span><span class="w"> </span>lt<span class="p">(</span><span class="mh">0xffffffff</span><span class="p">,</span><span class="w"> </span>shr<span class="p">(</span>r<span class="p">,</span><span class="w"> </span>x<span class="p">))))</span>
+<span class="w">        </span>r<span class="w"> </span><span class="o">:=</span><span class="w"> </span>or<span class="p">(</span>r<span class="p">,</span><span class="w"> </span>shl<span class="p">(</span><span class="m m-Decimal">4</span><span class="p">,</span><span class="w"> </span>lt<span class="p">(</span><span class="mh">0xffff</span><span class="p">,</span><span class="w"> </span>shr<span class="p">(</span>r<span class="p">,</span><span class="w"> </span>x<span class="p">))))</span>
+<span class="w">        </span>r<span class="w"> </span><span class="o">:=</span><span class="w"> </span>or<span class="p">(</span>r<span class="p">,</span><span class="w"> </span>shl<span class="p">(</span><span class="m m-Decimal">3</span><span class="p">,</span><span class="w"> </span>lt<span class="p">(</span><span class="mh">0xff</span><span class="p">,</span><span class="w"> </span>shr<span class="p">(</span>r<span class="p">,</span><span class="w"> </span>x<span class="p">))))</span>
+<span class="w">        </span><span class="c1">// forgefmt: disable-next-item</span>
+<span class="w">        </span>r<span class="w"> </span><span class="o">:=</span><span class="w"> </span>add<span class="p">(</span>xor<span class="p">(</span>r<span class="p">,</span><span class="w"> </span>byte<span class="p">(</span>and<span class="p">(</span><span class="mh">0x1f</span><span class="p">,</span><span class="w"> </span>shr<span class="p">(</span>shr<span class="p">(</span>r<span class="p">,</span><span class="w"> </span>x<span class="p">),</span><span class="w"> </span><span class="mh">0x8421084210842108cc6318c6db6d54be</span><span class="p">)),</span>
+<span class="w">            </span><span class="mh">0xf8f9f9faf9fdfafbf9fdfcfdfafbfcfef9fafdfafcfcfbfefafafcfbffffffff</span><span class="p">)),</span><span class="w"> </span>iszero<span class="p">(</span>x<span class="p">))</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Or in Python,</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">clz</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the number of zeros preceding the most significant one bit.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;clz is undefined for negative numbers&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;clz is undefined for numbers larger than 2**256 - 1&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">256</span>
+    <span class="c1"># Convert to binary string and remove any &#39;0b&#39; prefix.</span>
+    <span class="n">bin_str</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;0b&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">256</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">bin_str</span><span class="p">)</span>
+</code></pre></div>
+<p>Or in C++,</p>
+<div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">clz</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xFFFF0000</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;=</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xFF000000</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w">  </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xF0000000</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">  </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xC0000000</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">  </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x80000000</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">r</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// `x` is a uint256 bit number represented with 8 uint32 limbs.</span>
+<span class="c1">// This implementation is optimized for SP1 proving via rv32im.</span>
+<span class="c1">// For regular compute, it performs similarly to `ADD`.</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">clz</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">clz</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">7</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">clz</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">6</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">64</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">clz</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">5</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">96</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">clz</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">128</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">clz</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">160</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">clz</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">192</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">clz</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">224</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">clz</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The cost of the opcode is 5, matching MUL (raised from 3 to avoid under-pricing DoS risk).</p>
+<h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<h3 id="the-special-0-case">The special 0 case<a class="headerlink" href="#the-special-0-case" title="Permanent link">&para;</a></h3>
+<p>256 is the smallest number after 255. Returning a small number allows the result to be compared with minimal additional bytecode.</p>
+<p>For byte scanning operations, one can get the number of bytes to be skipped for a zero word by simply computing <code>256 &gt;&gt; 3</code>, which gives 32.</p>
+<h3 id="preference-over-ctz-count-trailing-zeros">Preference over <code>CTZ</code> (count trailing zeros)<a class="headerlink" href="#preference-over-ctz-count-trailing-zeros" title="Permanent link">&para;</a></h3>
+<p>Computing the least significant bit can be easily implemented with <code>CLZ</code> by isolating the smallest bit via <code>x &amp; -x</code>.</p>
+<p>However, it is not possible to implement <code>CLZ</code> with <code>CTZ</code>.</p>
+<h3 id="gas-cost">Gas cost<a class="headerlink" href="#gas-cost" title="Permanent link">&para;</a></h3>
+<p>We have benchmarked the <code>CLZ</code> implementation against the <code>ADD</code> implementation in the intx library. <code>CLZ</code> uses approximately the same amount of compute cycles as <code>ADD</code>. </p>
+<p>The SP1 rv32im optimized variant uses less compute cycles than <code>ADD</code>, in the average and worst cases.</p>
+<p>In SP1 rv32im, a 256-bit <code>CLZ</code> is cheaper to prove than <code>ADD</code>. </p>
+<h2 id="backwards-compatibility">Backwards Compatibility<a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
+<p>This is a new opcode not present prior.</p>
+<h2 id="test-cases">Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>PUSH32 0x000000000000000000000000000000000000000000000000000000000000000
+CLZ
+---
+0x0000000000000000000000000000000000000000000000000000000000000100
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>PUSH32 0x8000000000000000000000000000000000000000000000000000000000000000
+CLZ
+---
+0x0000000000000000000000000000000000000000000000000000000000000000
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>PUSH32 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+CLZ
+---
+0x0000000000000000000000000000000000000000000000000000000000000000
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>PUSH32 0x4000000000000000000000000000000000000000000000000000000000000000
+CLZ
+---
+0x0000000000000000000000000000000000000000000000000000000000000001
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>PUSH32 0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+CLZ
+---
+0x0000000000000000000000000000000000000000000000000000000000000001
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>PUSH32 0x0000000000000000000000000000000000000000000000000000000000000001
+CLZ
+---
+0x00000000000000000000000000000000000000000000000000000000000000ff
+</code></pre></div>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<p><code>CLZ</code> is a stateless opcode that has a low worst-case constant cost in memory usage, compute and proving costs. It is therefore safe from being exploited for denial of service attacks.</p>
+<h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 
 
 

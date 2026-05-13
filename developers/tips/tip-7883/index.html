@@ -6,9 +6,13 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Increases cost of ModExp precompile">
       
       
-        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/category-core/">
+        <meta name="author" content="ouy95917@gmail.com">
+      
+      
+        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/tip-7883/">
       
       
       
@@ -18,7 +22,7 @@
     
     
       
-        <title>TRON Improvement Proposals (TIPs) - java-tron</title>
+        <title>ModExp Gas Cost Increase - java-tron</title>
       
     
     
@@ -70,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tron-improvement-proposals-tips" class="md-skip">
+        <a href="#summary" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              TRON Improvement Proposals (TIPs)
+              ModExp Gas Cost Increase
             
           </span>
         </div>
@@ -1650,346 +1654,277 @@
   
 
 
-<h1 id="tron-improvement-proposals-tips">TRON Improvement Proposals (TIPs)<a class="headerlink" href="#tron-improvement-proposals-tips" title="Permanent link">&para;</a></h1>
-<p><strong>Categories:</strong></p>
-<p><a class="md-button" href="../">All</a> <a class="md-button md-button--primary" href="./">Core</a> <a class="md-button" href="../category-networking/">Networking</a> <a class="md-button" href="../category-interface/">Interface</a> <a class="md-button" href="../category-trc/">TRC</a> <a class="md-button" href="../category-vm/">VM</a> <a class="md-button" href="../category-informational/">Informational</a></p>
-<p><strong>Quick Jump to Status:</strong></p>
-<p><a class="md-button" href="#draft">Draft</a> <a class="md-button" href="#last-call">Last Call</a> <a class="md-button" href="#final">Final</a> <a class="md-button" href="#unknown">Unknown</a></p>
-<hr />
-<h2 id="draft">Draft<a class="headerlink" href="#draft" title="Permanent link">&para;</a></h2>
+  <h1>ModExp Gas Cost Increase</h1>
+
+<div class="highlight"><pre><span></span><code>tip: 7883
+title: ModExp Gas Cost Increase
+description: Increases cost of ModExp precompile
+author: ouy95917@gmail.com
+discussions-to: https://github.com/tronprotocol/tips/issues/837
+status: Last Call
+type: Standards Track
+category: VM
+created: 2026-03-19
+</code></pre></div>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>EIP-7883 modifies the <code>ModExp</code> precompile pricing algorithm introduced in EIP-2565, addressing scenarios where the current gas cost significantly underestimates actual resource consumption. The key changes include raising the minimum gas cost from 200 to 500, tripling the general cost by removing the division by 3, doubling the multiplier for exponents larger than 32 bytes, and introducing a minimal multiplication complexity of 16 with doubled complexity for base/modulus lengths exceeding 32 bytes.</p>
+<p>Bringing EIP-7883 to TRON would correct the underpriced <code>ModExp</code> precompile on TVM, mitigating potential DoS attack vectors where adversaries exploit cheap but computationally heavy <code>MODEXP</code> calls. This repricing also aligns TRON with Ethereum's Osaka upgrade roadmap, reduces cross-chain development friction for dApps relying on cryptographic primitives, and lays the groundwork for potential future increases in TRON's block energy limit. Therefore, EIP-7883 should be implemented on TRON as soon as possible to maintain compatibility with mainstream EVM standards.</p>
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>This TIP is modifying the <code>ModExp</code> precompile pricing algorithm introduced in <a href="https://eips.ethereum.org/EIPS/eip-2565">EIP-2565</a>.</p>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>Currently the <code>ModExp</code> precompile is underpriced in certain scenarios relative to its resource consumption. By adjusting the pricing formula, this TIP aims to address these discrepancies, making <code>ModExp</code> sufficiently efficient to enable potential increases in the block gas limit.</p>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<p>Upon activation of this TIP, the gas cost of calling the precompile at address <code>0x0000000000000000000000000000000000000005</code> will be calculated as follows:</p>
+<div class="highlight"><pre><span></span><code>def calculate_multiplication_complexity(base_length, modulus_length):
+    max_length = max(base_length, modulus_length)
+    words = math.ceil(max_length / 8)
+    multiplication_complexity = 16
+    if max_length &gt; 32: multiplication_complexity = 2 * words**2
+    return multiplication_complexity
+
+def calculate_iteration_count(exponent_length, exponent):
+    iteration_count = 0
+    if exponent_length &lt;= 32 and exponent == 0: iteration_count = 0
+    elif exponent_length &lt;= 32: iteration_count = exponent.bit_length() - 1
+    elif exponent_length &gt; 32: iteration_count = (16 * (exponent_length - 32)) + ((exponent &amp; (2**256 - 1)).bit_length() - 1)
+    return max(iteration_count, 1)
+
+def calculate_gas_cost(base_length, modulus_length, exponent_length, exponent):
+    multiplication_complexity = calculate_multiplication_complexity(base_length, modulus_length)
+    iteration_count = calculate_iteration_count(exponent_length, exponent)
+    return max(500, math.floor(multiplication_complexity * iteration_count))
+</code></pre></div>
+<p>The specific changes from the algorithm defined in <a href="https://eips.ethereum.org/EIPS/eip-2565">EIP-2565</a>:</p>
+<h3 id="1-increased-minimal-and-general-price">1. Increased minimal and general price<a class="headerlink" href="#1-increased-minimal-and-general-price" title="Permanent link">&para;</a></h3>
+<p>The gas cost calculation is modified from:</p>
+<div class="highlight"><pre><span></span><code>    return max(200, math.floor(multiplication_complexity * iteration_count / 3))
+</code></pre></div>
+<p>to:</p>
+<div class="highlight"><pre><span></span><code>    return max(500, math.floor(multiplication_complexity * iteration_count))
+</code></pre></div>
+<p>This change increases the minimum gas cost from 200 to 500 and triples the general cost by removing the division by 3.</p>
+<h3 id="2-increase-cost-for-exponents-larger-than-32-bytes">2. Increase cost for exponents larger than 32 bytes<a class="headerlink" href="#2-increase-cost-for-exponents-larger-than-32-bytes" title="Permanent link">&para;</a></h3>
+<p>The gas cost calculation is modified from:</p>
+<div class="highlight"><pre><span></span><code>    elif exponent_length &gt; 32: iteration_count = (8 * (exponent_length - 32)) + ((exponent &amp; (2**256 - 1)).bit_length() - 1)
+</code></pre></div>
+<p>to:</p>
+<div class="highlight"><pre><span></span><code>    elif exponent_length &gt; 32: iteration_count = (16 * (exponent_length - 32)) + ((exponent &amp; (2**256 - 1)).bit_length() - 1)
+</code></pre></div>
+<p>The multiplier for exponents larger than 32 bytes is increased from 8 to 16, doubling its impact.</p>
+<h3 id="3-assume-the-minimal-base-modulus-length-to-be-32-and-increase-the-cost-when-it-is-larger-than-32-bytes">3. Assume the minimal base / modulus length to be 32 and increase the cost when it is larger than 32 bytes<a class="headerlink" href="#3-assume-the-minimal-base-modulus-length-to-be-32-and-increase-the-cost-when-it-is-larger-than-32-bytes" title="Permanent link">&para;</a></h3>
+<p>The gas cost calculation is modified from:</p>
+<div class="highlight"><pre><span></span><code>def calculate_multiplication_complexity(base_length, modulus_length):
+    max_length = max(base_length, modulus_length)
+    words = math.ceil(max_length / 8)
+    return words**2
+</code></pre></div>
+<p>to:</p>
+<div class="highlight"><pre><span></span><code>def calculate_multiplication_complexity(base_length, modulus_length):
+    max_length = max(base_length, modulus_length)
+    words = math.ceil(max_length / 8)
+    multiplication_complexity = 16
+    if max_length &gt; 32: multiplication_complexity = 2 * words**2
+    return multiplication_complexity
+</code></pre></div>
+<p>This change introduces a minimal multiplication complexity of 16 and doubles the complexity if the base or modulus length exceeds 32 bytes.</p>
+<h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<p>Benchmarking the <code>ModExp</code> precompile revealed several scenarios where its gas cost was significantly underestimated. Pricing adjustments are designed to rectify underpriced edge cases by modifying the existing <code>ModExp</code> pricing formula parameters. Specifically, the minimum cost for <code>ModExp</code> will rise from 200 to 500 (a 150% increase), the general cost will triple (a 200% increase), a minimum base/modulus length of 32 bytes will be assumed and the cost will scale more aggressively when the base, modulus, or exponent exceed 32 bytes. These modifications aim to ensure that the <code>ModExp</code> precompile's performance, even in its most resource-intensive edge cases across all execution layer clients, no longer impedes potential increases to the block gas limit.</p>
+<h2 id="backwards-compatibility">Backwards Compatibility<a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
+<p>This TIP introduces a backwards-incompatible change. However, similar gas repricings have occurred multiple times in the Ethereum ecosystem, and their effects are well understood.</p>
+<p>An empirical analysis of this proposal is available <a href="https://eips.ethereum.org/assets/eip-7883/call_analysis.md">here</a>, with a separate breakdown by affected entities provided <a href="https://eips.ethereum.org/assets/eip-7883/entity_analysis.md">here</a>.</p>
+<h2 id="test-cases">Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h2>
+<p>The most common usages (approximately 99.69% of historical <code>Modexp</code> calls as of January 4th, 2025) will experience either a 150% increase (from 200 to 500 gas) or a 200% increase (tripling from approximately 1360 gas).
+No changes are made to the underlying interface or arithmetic algorithms, allowing existing test vectors to be reused. The table below presents the updated gas costs for these test vectors:</p>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
+<th>Test Case</th>
+<th><a href="https://eips.ethereum.org/EIPS/eip-2565">EIP-2565</a> Pricing</th>
+<th>TIP-7883 Pricing</th>
+<th>Increase</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">178</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-178.md">TOKENISSUE and UPDATEASSET Instruction in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>modexp_nagydani_1_square</td>
+<td>200</td>
+<td>500</td>
+<td>150%</td>
 </tr>
 <tr>
-<td style="text-align: left;">171</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-171.md">STAKE instructions in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>modexp_nagydani_1_qube</td>
+<td>200</td>
+<td>500</td>
+<td>150%</td>
 </tr>
 <tr>
-<td style="text-align: left;">156</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-156.md">Vote instructions in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>modexp_nagydani_1_pow0x10001</td>
+<td>341</td>
+<td>2048</td>
+<td>501%</td>
 </tr>
 <tr>
-<td style="text-align: left;">64</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-64.md">tron mix consensus Analytics</a></td>
-<td style="text-align: left;">billtron(<a href="https://github.com/billtron">@billtron</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>modexp_nagydani_2_square</td>
+<td>200</td>
+<td>512</td>
+<td>156%</td>
 </tr>
 <tr>
-<td style="text-align: left;">62</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-62.md">Tron consensus algorithm introduction</a></td>
-<td style="text-align: left;">billtron(<a href="https://github.com/billtron">@billtron</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>modexp_nagydani_2_qube</td>
+<td>200</td>
+<td>512</td>
+<td>156%</td>
+</tr>
+<tr>
+<td>modexp_nagydani_2_pow0x10001</td>
+<td>1365</td>
+<td>8192</td>
+<td>501%</td>
+</tr>
+<tr>
+<td>modexp_nagydani_3_square</td>
+<td>341</td>
+<td>2048</td>
+<td>501%</td>
+</tr>
+<tr>
+<td>modexp_nagydani_3_qube</td>
+<td>341</td>
+<td>2048</td>
+<td>501%</td>
+</tr>
+<tr>
+<td>modexp_nagydani_3_pow0x10001</td>
+<td>5461</td>
+<td>32768</td>
+<td>500%</td>
+</tr>
+<tr>
+<td>modexp_nagydani_4_square</td>
+<td>1365</td>
+<td>8192</td>
+<td>501%</td>
+</tr>
+<tr>
+<td>modexp_nagydani_4_qube</td>
+<td>1365</td>
+<td>8192</td>
+<td>501%</td>
+</tr>
+<tr>
+<td>modexp_nagydani_4_pow0x10001</td>
+<td>21845</td>
+<td>131072</td>
+<td>500%</td>
+</tr>
+<tr>
+<td>modexp_nagydani_5_square</td>
+<td>5461</td>
+<td>32768</td>
+<td>500%</td>
+</tr>
+<tr>
+<td>modexp_nagydani_5_qube</td>
+<td>5461</td>
+<td>32768</td>
+<td>500%</td>
+</tr>
+<tr>
+<td>modexp_nagydani_5_pow0x10001</td>
+<td>87381</td>
+<td>524288</td>
+<td>500%</td>
+</tr>
+<tr>
+<td>modexp_marius_1_even</td>
+<td>2057</td>
+<td>45296</td>
+<td>2102%</td>
+</tr>
+<tr>
+<td>modexp_guido_1_even</td>
+<td>2298</td>
+<td>51136</td>
+<td>2125%</td>
+</tr>
+<tr>
+<td>modexp_guido_2_even</td>
+<td>2300</td>
+<td>51152</td>
+<td>2124%</td>
+</tr>
+<tr>
+<td>modexp_guido_3_even</td>
+<td>5400</td>
+<td>32400</td>
+<td>500%</td>
+</tr>
+<tr>
+<td>modexp_guido_4_even</td>
+<td>1026</td>
+<td>94448</td>
+<td>9105%</td>
+</tr>
+<tr>
+<td>modexp_marcin_1_base_heavy</td>
+<td>200</td>
+<td>1152</td>
+<td>476%</td>
+</tr>
+<tr>
+<td>modexp_marcin_1_exp_heavy</td>
+<td>215</td>
+<td>16624</td>
+<td>7632%</td>
+</tr>
+<tr>
+<td>modexp_marcin_1_balanced</td>
+<td>200</td>
+<td>1200</td>
+<td>500%</td>
+</tr>
+<tr>
+<td>modexp_marcin_2_base_heavy</td>
+<td>867</td>
+<td>5202</td>
+<td>500%</td>
+</tr>
+<tr>
+<td>modexp_marcin_2_exp_heavy</td>
+<td>852</td>
+<td>16368</td>
+<td>1821%</td>
+</tr>
+<tr>
+<td>modexp_marcin_2_balanced</td>
+<td>996</td>
+<td>5978</td>
+<td>500%</td>
+</tr>
+<tr>
+<td>modexp_marcin_3_base_heavy</td>
+<td>677</td>
+<td>2032</td>
+<td>200%</td>
+</tr>
+<tr>
+<td>modexp_marcin_3_exp_heavy</td>
+<td>765</td>
+<td>4080</td>
+<td>433%</td>
+</tr>
+<tr>
+<td>modexp_marcin_3_balanced</td>
+<td>1360</td>
+<td>4080</td>
+<td>200%</td>
 </tr>
 </tbody>
 </table>
-<h2 id="last-call">Last Call<a class="headerlink" href="#last-call" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">2935</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-2935.md">Serve historical block hashes from state</a></td>
-<td style="text-align: left;">lily309@gmail.com</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">836</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-836.md">harden exchange transaction calculations</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">833</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-833.md">Harden ResourceProcessor Resource Window Calculations</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">128</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-128.md">TIP128 Lite Fullnode support</a></td>
-<td style="text-align: left;">guoquan-wu(<a href="https://github.com/guoquan-wu">@guoquan-wu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
-<h2 id="final">Final<a class="headerlink" href="#final" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">767</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-767.md">Transitioning proposal expire time configuration to Chain Governance</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">697</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-697.md">Migrate Floating-Point Calculations from Math to StrictMath</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">694</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-694.md">Enhance Verification of Transaction Limitation at Consensus Layer</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">635</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-635.md">Optimize Reward Withdrawal To Improve TPS</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">586</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-586.md">GRPC Implementation for Resource Price Interfaces</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">555</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-555.md">Network upgrade logic optimization</a></td>
-<td style="text-align: left;">jwrct(<a href="https://github.com/jwrct">@jwrct</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">542</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-542.md">Resource delegating supports customizable lock period</a></td>
-<td style="text-align: left;">tronenergymarket(<a href="https://github.com/tronenergymarket">@tronenergymarket</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">541</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-541.md">Support canceling unstaking in Stake 2.0</a></td>
-<td style="text-align: left;">CooperDepp(<a href="https://github.com/CooperDepp">@CooperDepp</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">534</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-534.md">Remove Vulnerable APIs</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">491</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-491.md">Dynamic Energy Model</a></td>
-<td style="text-align: left;">kongchi(<a href="https://github.com/kongchi-ken">@kongchi-ken</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">476</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-476.md">Delegate Data Structure Optimization</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">467</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-467.md">Stake 2.0 - A new TRON staking model</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">465</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-465.md">new reward calculation algorithm</a></td>
-<td style="text-align: left;">bladehan1(<a href="https://github.com/bladehan1">@bladehan1</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">461</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-461.md">Optimize data consistency for system abnormals</a></td>
-<td style="text-align: left;">guoquan-wu(<a href="https://github.com/guoquan-wu">@guoquan-wu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">440</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-440.md">Transaction cache optimization</a></td>
-<td style="text-align: left;">Andy(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">428</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-428.md">Increase the probability that the block processing thread acquires the lock</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">388</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-388.md">Optimize light node synchronization logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">383</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-383.md">Optimize transaction cache loading</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">382</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-382.md">Optimize the data structure of account assets</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">370</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-370.md">Node support conditionalized stop</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">369</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-369.md">Node support prometheus metrics</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">366</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-366.md">TIP-366 Node startup optimization</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">362</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-362.md">Optimized node broadcast data caching</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">343</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-343.md">TIP-343 Refine Write Parameters For Leveldb</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">298</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-298.md">Reformat manifest</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">295</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-295.md">Optimize account assets</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">290</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-290.md">Dynamic store optimization</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">289</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-289.md">Block Broadcast Optimization</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">285</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-285.md">Optimize transaction cache initialization logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">281</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-281.md">Optimize the query of database</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">276</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-276.md">Optimize block verification logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">269</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-269.md">Optimize the performance of block processing</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">250</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-250.md">Include transaction results on the chain</a></td>
-<td style="text-align: left;">zhang0125(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">207</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-207.md">A proposal to improve network resources model</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">196</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-196.md">Reward SRs with the transaction fees charged for bandwidth and Energy</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">127</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-127.md">Support Tron-DEX based on system contracts</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">60</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-60.md">TRC-60:Precompiled contract function for multi-signature verification</a></td>
-<td style="text-align: left;">Julian.Kang(<a href="https://github.com/Sh11thead">@Sh11thead</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
-<h2 id="unknown">Unknown<a class="headerlink" href="#unknown" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">01</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-01.md">Tron Wallet Proposal - Key Derivation Methods for Tron Accounts with BIP39</a></td>
-<td style="text-align: left;">dbuarque(<a href="https://github.com/dbuarque">@dbuarque</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<p>This TIP does not introduce any new functionality or make existing operations cheaper, therefore there are no direct security concerns related to new attack vectors or reduced costs. The primary security consideration for this TIP is the potential for <code>ModExp</code> scenarios to be overpriced, though this is deemed a lesser risk compared to the current underpricing issues.</p>
+<h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 
 
 

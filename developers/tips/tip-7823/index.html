@@ -6,9 +6,13 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Each input field is restricted to a maximum of 8192 bits">
       
       
-        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/category-core/">
+        <meta name="author" content="ouy95917@gmail.com">
+      
+      
+        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/tip-7823/">
       
       
       
@@ -18,7 +22,7 @@
     
     
       
-        <title>TRON Improvement Proposals (TIPs) - java-tron</title>
+        <title>Set upper bounds for MODEXP - java-tron</title>
       
     
     
@@ -70,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tron-improvement-proposals-tips" class="md-skip">
+        <a href="#summary" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              TRON Improvement Proposals (TIPs)
+              Set upper bounds for MODEXP
             
           </span>
         </div>
@@ -1650,346 +1654,205 @@
   
 
 
-<h1 id="tron-improvement-proposals-tips">TRON Improvement Proposals (TIPs)<a class="headerlink" href="#tron-improvement-proposals-tips" title="Permanent link">&para;</a></h1>
-<p><strong>Categories:</strong></p>
-<p><a class="md-button" href="../">All</a> <a class="md-button md-button--primary" href="./">Core</a> <a class="md-button" href="../category-networking/">Networking</a> <a class="md-button" href="../category-interface/">Interface</a> <a class="md-button" href="../category-trc/">TRC</a> <a class="md-button" href="../category-vm/">VM</a> <a class="md-button" href="../category-informational/">Informational</a></p>
-<p><strong>Quick Jump to Status:</strong></p>
-<p><a class="md-button" href="#draft">Draft</a> <a class="md-button" href="#last-call">Last Call</a> <a class="md-button" href="#final">Final</a> <a class="md-button" href="#unknown">Unknown</a></p>
-<hr />
-<h2 id="draft">Draft<a class="headerlink" href="#draft" title="Permanent link">&para;</a></h2>
+  <h1>Set upper bounds for MODEXP</h1>
+
+<div class="highlight"><pre><span></span><code>tip: 7823
+title: Set upper bounds for MODEXP
+description: Each input field is restricted to a maximum of 8192 bits
+author: ouy95917@gmail.com
+discussions-to: https://github.com/tronprotocol/tips/issues/826
+status: Last Call
+type: Standards Track
+category: VM
+created: 2026-02-26
+</code></pre></div>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>EIP-7823 introduces a clear upper bound (8192 bits per parameter) on the input sizes of the MODEXP precompiled contract, restricting its previously unbounded input space. This reduces potential consensus risks, improves execution determinism, and makes the contract easier to test and maintain. The change has virtually no impact on existing applications but significantly enhances protocol-level safety and stability.</p>
+<p>Bringing EIP-7823 to TRON would improve alignment with Ethereum's Osaka upgrade, strengthen predictability for cryptographic workloads relying on MODEXP, and reduce cross-chain development friction. Therefore, EIP-7823 should be implemented on TRON as soon as possible to maintain compatibility with mainstream EVM standards.</p>
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>Introduce an upper bound on the inputs of the MODEXP precompile. This can reduce the number of potential bugs, because the testing surface is not infinite anymore, and makes it easier to be replaced using EVMMAX.</p>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>The MODEXP precompile has been a source of numerous consensus bugs. Many of them were due to specifically crafted cases using impractical input lengths.</p>
+<p>Its pricing function is also quite complex given its nature of unbounded inputs. While we don't suggest to rework the pricing function, it may be possible in a future upgrade once the limits are in place.</p>
+<p>Furthermore this limitation makes it more feasible to have the precompile replaced with EVM code through features like EVMMAX.</p>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<p>Recap from <a href="https://eips.ethereum.org/EIPS/eip-198">EIP-198</a>:</p>
+<blockquote>
+<p>At address <code>0x00……05</code>, add a precompile that expects input in the following format:</p>
+<p><code>&lt;length_of_BASE&gt; &lt;length_of_EXPONENT&gt; &lt;length_of_MODULUS&gt; &lt;BASE&gt; &lt;EXPONENT&gt; &lt;MODULUS&gt;</code></p>
+</blockquote>
+<p>We introduce an upper bound to the inputs of the precompile, each of the length inputs (<code>length_of_BASE</code>, <code>length_of_EXPONENT</code> and <code>length_of_MODULUS</code>) MUST be less than or equal to 8192 bits (1024 bytes).</p>
+<p>If any of these inputs are larger than the limit, the precompile execution stops, returns an error, and consumes all gas.</p>
+<h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<h3 id="limit">Limit<a class="headerlink" href="#limit" title="Permanent link">&para;</a></h3>
+<p>This upper bound allows the existing use cases of MODEXP:</p>
+<ol>
+<li>RSA verification with up to 8192 bit keys. Commonly used ones are 1024/2048/4096 bits.</li>
+<li>Elliptic curve related use cases are usually less than 384 bits.</li>
+</ol>
+<h3 id="evmmax">EVMMAX<a class="headerlink" href="#evmmax" title="Permanent link">&para;</a></h3>
+<p>Replacing the precompile with EVM code using an instruction set like EVMMAX would be made simpler with this limit: Common cases (256, 381, 1024, 2048) could be implemented in special fast paths, while a slow fallback could be provided for the rest. Or even special, frequently used, moduli could have their own paths.</p>
+<p>Furthermore one could consider limiting the lengths to certain inputs only.</p>
+<h3 id="analysis">Analysis<a class="headerlink" href="#analysis" title="Permanent link">&para;</a></h3>
+<p>Since MODEXP was introduced in the Byzantium hard fork, an analysis has been conducted between block 5472266 (April 20, 2018) and block 21550926 (January 4th, 2025). All lengths of inputs are expressed in bytes.</p>
+<h4 id="base-length-occurrences">Base length occurrences<a class="headerlink" href="#base-length-occurrences" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
+<th><code>input_of_BASE</code></th>
+<th>count</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">178</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-178.md">TOKENISSUE and UPDATEASSET Instruction in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>32</td>
+<td>2439595</td>
 </tr>
 <tr>
-<td style="text-align: left;">171</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-171.md">STAKE instructions in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>128</td>
+<td>4167</td>
 </tr>
 <tr>
-<td style="text-align: left;">156</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-156.md">Vote instructions in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>256</td>
+<td>2969</td>
 </tr>
 <tr>
-<td style="text-align: left;">64</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-64.md">tron mix consensus Analytics</a></td>
-<td style="text-align: left;">billtron(<a href="https://github.com/billtron">@billtron</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>160</td>
+<td>436</td>
 </tr>
 <tr>
-<td style="text-align: left;">62</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-62.md">Tron consensus algorithm introduction</a></td>
-<td style="text-align: left;">billtron(<a href="https://github.com/billtron">@billtron</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>512</td>
+<td>36</td>
+</tr>
+<tr>
+<td>0</td>
+<td>13</td>
+</tr>
+<tr>
+<td>64</td>
+<td>7</td>
+</tr>
+<tr>
+<td>78</td>
+<td>2</td>
+</tr>
+<tr>
+<td>513</td>
+<td>2</td>
+</tr>
+<tr>
+<td>129</td>
+<td>1</td>
+</tr>
+<tr>
+<td>385</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
-<h2 id="last-call">Last Call<a class="headerlink" href="#last-call" title="Permanent link">&para;</a></h2>
+<h4 id="exponent-length-occurrences">Exponent length occurrences<a class="headerlink" href="#exponent-length-occurrences" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
+<th><code>input_of_EXPONENT</code></th>
+<th>count</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">2935</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-2935.md">Serve historical block hashes from state</a></td>
-<td style="text-align: left;">lily309@gmail.com</td>
-<td style="text-align: left;">Core</td>
+<td>32</td>
+<td>2442255</td>
 </tr>
 <tr>
-<td style="text-align: left;">836</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-836.md">harden exchange transaction calculations</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>3</td>
+<td>4771</td>
 </tr>
 <tr>
-<td style="text-align: left;">833</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-833.md">Harden ResourceProcessor Resource Window Calculations</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>1</td>
+<td>159</td>
 </tr>
 <tr>
-<td style="text-align: left;">128</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-128.md">TIP128 Lite Fullnode support</a></td>
-<td style="text-align: left;">guoquan-wu(<a href="https://github.com/guoquan-wu">@guoquan-wu</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>128</td>
+<td>29</td>
+</tr>
+<tr>
+<td>0</td>
+<td>13</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
 </tr>
 </tbody>
 </table>
-<h2 id="final">Final<a class="headerlink" href="#final" title="Permanent link">&para;</a></h2>
+<h4 id="modulo-length-occurrences">Modulo length occurrences<a class="headerlink" href="#modulo-length-occurrences" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
+<th><code>input_of_MODULUS</code></th>
+<th>count</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">767</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-767.md">Transitioning proposal expire time configuration to Chain Governance</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>32</td>
+<td>2439594</td>
 </tr>
 <tr>
-<td style="text-align: left;">697</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-697.md">Migrate Floating-Point Calculations from Math to StrictMath</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>128</td>
+<td>4167</td>
 </tr>
 <tr>
-<td style="text-align: left;">694</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-694.md">Enhance Verification of Transaction Limitation at Consensus Layer</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>256</td>
+<td>2968</td>
 </tr>
 <tr>
-<td style="text-align: left;">635</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-635.md">Optimize Reward Withdrawal To Improve TPS</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>160</td>
+<td>436</td>
 </tr>
 <tr>
-<td style="text-align: left;">586</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-586.md">GRPC Implementation for Resource Price Interfaces</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>512</td>
+<td>38</td>
 </tr>
 <tr>
-<td style="text-align: left;">555</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-555.md">Network upgrade logic optimization</a></td>
-<td style="text-align: left;">jwrct(<a href="https://github.com/jwrct">@jwrct</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>0</td>
+<td>13</td>
 </tr>
 <tr>
-<td style="text-align: left;">542</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-542.md">Resource delegating supports customizable lock period</a></td>
-<td style="text-align: left;">tronenergymarket(<a href="https://github.com/tronenergymarket">@tronenergymarket</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>64</td>
+<td>8</td>
 </tr>
 <tr>
-<td style="text-align: left;">541</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-541.md">Support canceling unstaking in Stake 2.0</a></td>
-<td style="text-align: left;">CooperDepp(<a href="https://github.com/CooperDepp">@CooperDepp</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>78</td>
+<td>2</td>
 </tr>
 <tr>
-<td style="text-align: left;">534</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-534.md">Remove Vulnerable APIs</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>129</td>
+<td>1</td>
 </tr>
 <tr>
-<td style="text-align: left;">491</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-491.md">Dynamic Energy Model</a></td>
-<td style="text-align: left;">kongchi(<a href="https://github.com/kongchi-ken">@kongchi-ken</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>384</td>
+<td>1</td>
 </tr>
 <tr>
-<td style="text-align: left;">476</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-476.md">Delegate Data Structure Optimization</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">467</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-467.md">Stake 2.0 - A new TRON staking model</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">465</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-465.md">new reward calculation algorithm</a></td>
-<td style="text-align: left;">bladehan1(<a href="https://github.com/bladehan1">@bladehan1</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">461</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-461.md">Optimize data consistency for system abnormals</a></td>
-<td style="text-align: left;">guoquan-wu(<a href="https://github.com/guoquan-wu">@guoquan-wu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">440</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-440.md">Transaction cache optimization</a></td>
-<td style="text-align: left;">Andy(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">428</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-428.md">Increase the probability that the block processing thread acquires the lock</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">388</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-388.md">Optimize light node synchronization logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">383</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-383.md">Optimize transaction cache loading</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">382</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-382.md">Optimize the data structure of account assets</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">370</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-370.md">Node support conditionalized stop</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">369</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-369.md">Node support prometheus metrics</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">366</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-366.md">TIP-366 Node startup optimization</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">362</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-362.md">Optimized node broadcast data caching</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">343</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-343.md">TIP-343 Refine Write Parameters For Leveldb</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">298</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-298.md">Reformat manifest</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">295</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-295.md">Optimize account assets</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">290</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-290.md">Dynamic store optimization</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">289</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-289.md">Block Broadcast Optimization</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">285</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-285.md">Optimize transaction cache initialization logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">281</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-281.md">Optimize the query of database</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">276</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-276.md">Optimize block verification logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">269</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-269.md">Optimize the performance of block processing</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">250</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-250.md">Include transaction results on the chain</a></td>
-<td style="text-align: left;">zhang0125(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">207</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-207.md">A proposal to improve network resources model</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">196</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-196.md">Reward SRs with the transaction fees charged for bandwidth and Energy</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">127</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-127.md">Support Tron-DEX based on system contracts</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">60</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-60.md">TRC-60:Precompiled contract function for multi-signature verification</a></td>
-<td style="text-align: left;">Julian.Kang(<a href="https://github.com/Sh11thead">@Sh11thead</a>)</td>
-<td style="text-align: left;">Core</td>
+<td>257</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
-<h2 id="unknown">Unknown<a class="headerlink" href="#unknown" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">01</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-01.md">Tron Wallet Proposal - Key Derivation Methods for Tron Accounts with BIP39</a></td>
-<td style="text-align: left;">dbuarque(<a href="https://github.com/dbuarque">@dbuarque</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
+<p>This shows that no past successful use case exceeded an input length of 513 bytes, and the majority uses 32/128/256 byte inputs.</p>
+<p>Besides these, there were a few invocations with invalid inputs:</p>
+<ul>
+<li>Empty inputs</li>
+<li>Inputs consisting of only <code>0x9e5faafc</code> or <code>0x85474728</code></li>
+<li>A large, but invalid input: <code>0x9e281a98000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000021e19e0c9bab2400000</code></li>
+</ul>
+<h2 id="backwards-compatibility">Backwards Compatibility<a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
+<p>This is a backwards incompatible change. However, based on analysis until block 21550926 (see above), no past transaction would have behaved differently after this change.</p>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<p>Since only the accepted input range is reduced, no new security surface area is expected.</p>
+<h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 
 
 

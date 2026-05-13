@@ -7,8 +7,10 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
+        <meta name="author" content="lily309@gmail.com">
       
-        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/category-core/">
+      
+        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/tip-2935/">
       
       
       
@@ -18,7 +20,7 @@
     
     
       
-        <title>TRON Improvement Proposals (TIPs) - java-tron</title>
+        <title>Serve historical block hashes from state - java-tron</title>
       
     
     
@@ -70,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tron-improvement-proposals-tips" class="md-skip">
+        <a href="#summary" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              TRON Improvement Proposals (TIPs)
+              Serve historical block hashes from state
             
           </span>
         </div>
@@ -1650,346 +1652,183 @@
   
 
 
-<h1 id="tron-improvement-proposals-tips">TRON Improvement Proposals (TIPs)<a class="headerlink" href="#tron-improvement-proposals-tips" title="Permanent link">&para;</a></h1>
-<p><strong>Categories:</strong></p>
-<p><a class="md-button" href="../">All</a> <a class="md-button md-button--primary" href="./">Core</a> <a class="md-button" href="../category-networking/">Networking</a> <a class="md-button" href="../category-interface/">Interface</a> <a class="md-button" href="../category-trc/">TRC</a> <a class="md-button" href="../category-vm/">VM</a> <a class="md-button" href="../category-informational/">Informational</a></p>
-<p><strong>Quick Jump to Status:</strong></p>
-<p><a class="md-button" href="#draft">Draft</a> <a class="md-button" href="#last-call">Last Call</a> <a class="md-button" href="#final">Final</a> <a class="md-button" href="#unknown">Unknown</a></p>
-<hr />
-<h2 id="draft">Draft<a class="headerlink" href="#draft" title="Permanent link">&para;</a></h2>
+  <h1>Serve historical block hashes from state</h1>
+
+<div class="highlight"><pre><span></span><code>tip: 2935
+title: Serve historical block hashes from state
+author: lily309@gmail.com
+discussions-to: https://github.com/tronprotocol/tips/issues/719
+status: Last Call
+type: Standards Track
+category: Core
+created: 2025-01-20
+</code></pre></div>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>As part of the Ethereum Pectra upgrade, <a href="https://eips.ethereum.org/EIPS/eip-2935">EIP-2935:Serve historical block hashes from state</a> is required to be implemented in TRON.</p>
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>Store last <code>HISTORY_SERVE_WINDOW</code> historical block hashes in the storage of a system contract as part of the block processing logic. Furthermore this TIP has no impact on <code>BLOCKHASH</code> resolution mechanism (and hence its range/costs etc).</p>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>TVM implicitly assumes the client has the recent block (hashes) at hand. This assumption is not future-proof given the prospect of stateless clients. Including the block hashes in the state will allow bundling these hashes in the witness provided to a stateless client.</p>
+<p>Extending the range of blocks which <code>BLOCKHASH</code> can serve (<code>BLOCKHASH_SERVE_WINDOW</code>) would have been a semantics change. Extending it via this contract storage instead allows a soft transition. Rollups can benefit from the longer history window through directly querying this contract.</p>
+<p>A side benefit of this approach could be that it allows building/validating proofs related to last <code>HISTORY_SERVE_WINDOW</code> ancestors directly against the current state.</p>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
+<th>Parameter</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">178</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-178.md">TOKENISSUE and UPDATEASSET Instruction in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
+<td><code>BLOCKHASH_SERVE_WINDOW</code></td>
+<td><code>256</code></td>
 </tr>
 <tr>
-<td style="text-align: left;">171</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-171.md">STAKE instructions in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
+<td><code>HISTORY_SERVE_WINDOW</code></td>
+<td><code>8191</code></td>
 </tr>
 <tr>
-<td style="text-align: left;">156</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-156.md">Vote instructions in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
+<td><code>SYSTEM_ADDRESS</code></td>
+<td><code>0xfffffffffffffffffffffffffffffffffffffffe</code> (Base58Check: <code>TZJozAg1ruapycCicgz31GxvYJ1Fmd2Pm8</code>)</td>
 </tr>
 <tr>
-<td style="text-align: left;">64</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-64.md">tron mix consensus Analytics</a></td>
-<td style="text-align: left;">billtron(<a href="https://github.com/billtron">@billtron</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">62</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-62.md">Tron consensus algorithm introduction</a></td>
-<td style="text-align: left;">billtron(<a href="https://github.com/billtron">@billtron</a>)</td>
-<td style="text-align: left;">Core</td>
+<td><code>HISTORY_STORAGE_ADDRESS</code></td>
+<td><code>0x0000F90827F1C53a10cb7A02335B175320002935</code> (Base58Check: <code>T9yEAebSu94c1ndzJa1rpPtrjXBXp2FCMV</code>)</td>
 </tr>
 </tbody>
 </table>
-<h2 id="last-call">Last Call<a class="headerlink" href="#last-call" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">2935</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-2935.md">Serve historical block hashes from state</a></td>
-<td style="text-align: left;">lily309@gmail.com</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">836</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-836.md">harden exchange transaction calculations</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">833</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-833.md">Harden ResourceProcessor Resource Window Calculations</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">128</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-128.md">TIP128 Lite Fullnode support</a></td>
-<td style="text-align: left;">guoquan-wu(<a href="https://github.com/guoquan-wu">@guoquan-wu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
-<h2 id="final">Final<a class="headerlink" href="#final" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">767</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-767.md">Transitioning proposal expire time configuration to Chain Governance</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">697</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-697.md">Migrate Floating-Point Calculations from Math to StrictMath</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">694</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-694.md">Enhance Verification of Transaction Limitation at Consensus Layer</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">635</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-635.md">Optimize Reward Withdrawal To Improve TPS</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">586</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-586.md">GRPC Implementation for Resource Price Interfaces</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">555</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-555.md">Network upgrade logic optimization</a></td>
-<td style="text-align: left;">jwrct(<a href="https://github.com/jwrct">@jwrct</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">542</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-542.md">Resource delegating supports customizable lock period</a></td>
-<td style="text-align: left;">tronenergymarket(<a href="https://github.com/tronenergymarket">@tronenergymarket</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">541</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-541.md">Support canceling unstaking in Stake 2.0</a></td>
-<td style="text-align: left;">CooperDepp(<a href="https://github.com/CooperDepp">@CooperDepp</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">534</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-534.md">Remove Vulnerable APIs</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">491</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-491.md">Dynamic Energy Model</a></td>
-<td style="text-align: left;">kongchi(<a href="https://github.com/kongchi-ken">@kongchi-ken</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">476</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-476.md">Delegate Data Structure Optimization</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">467</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-467.md">Stake 2.0 - A new TRON staking model</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">465</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-465.md">new reward calculation algorithm</a></td>
-<td style="text-align: left;">bladehan1(<a href="https://github.com/bladehan1">@bladehan1</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">461</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-461.md">Optimize data consistency for system abnormals</a></td>
-<td style="text-align: left;">guoquan-wu(<a href="https://github.com/guoquan-wu">@guoquan-wu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">440</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-440.md">Transaction cache optimization</a></td>
-<td style="text-align: left;">Andy(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">428</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-428.md">Increase the probability that the block processing thread acquires the lock</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">388</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-388.md">Optimize light node synchronization logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">383</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-383.md">Optimize transaction cache loading</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">382</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-382.md">Optimize the data structure of account assets</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">370</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-370.md">Node support conditionalized stop</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">369</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-369.md">Node support prometheus metrics</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">366</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-366.md">TIP-366 Node startup optimization</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">362</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-362.md">Optimized node broadcast data caching</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">343</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-343.md">TIP-343 Refine Write Parameters For Leveldb</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">298</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-298.md">Reformat manifest</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">295</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-295.md">Optimize account assets</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">290</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-290.md">Dynamic store optimization</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">289</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-289.md">Block Broadcast Optimization</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">285</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-285.md">Optimize transaction cache initialization logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">281</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-281.md">Optimize the query of database</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">276</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-276.md">Optimize block verification logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">269</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-269.md">Optimize the performance of block processing</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">250</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-250.md">Include transaction results on the chain</a></td>
-<td style="text-align: left;">zhang0125(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">207</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-207.md">A proposal to improve network resources model</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">196</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-196.md">Reward SRs with the transaction fees charged for bandwidth and Energy</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">127</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-127.md">Support Tron-DEX based on system contracts</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">60</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-60.md">TRC-60:Precompiled contract function for multi-signature verification</a></td>
-<td style="text-align: left;">Julian.Kang(<a href="https://github.com/Sh11thead">@Sh11thead</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
-<h2 id="unknown">Unknown<a class="headerlink" href="#unknown" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">01</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-01.md">Tron Wallet Proposal - Key Derivation Methods for Tron Accounts with BIP39</a></td>
-<td style="text-align: left;">dbuarque(<a href="https://github.com/dbuarque">@dbuarque</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
+<p>This TIP specifies for storing last <code>HISTORY_SERVE_WINDOW</code> block hashes in a ring buffer storage of <code>HISTORY_SERVE_WINDOW</code> length. Note that <code>HISTORY_SERVE_WINDOW</code> &gt; <code>BLOCKHASH_SERVE_WINDOW</code> (which remains unchanged).</p>
+<p><code>HISTORY_STORAGE_ADDRESS</code> matches the canonical EIP-2935 address used by Ethereum mainnet, so cross-chain Solidity contracts hardcoding this constant work on TRON unchanged. The Base58Check forms are provided for use with TronWeb / TronGrid / TronLink and TRON block explorers.</p>
+<h3 id="block-processing">Block processing<a class="headerlink" href="#block-processing" title="Permanent link">&para;</a></h3>
+<p>At the start of processing any block where this TIP is active (ie. before processing any transactions), call to <code>HISTORY_STORAGE_ADDRESS</code> as <code>SYSTEM_ADDRESS</code> with the 32-byte input of <code>block.parent.hash</code>, a gas limit of <code>30_000_000</code>, and <code>0</code> value. This will trigger the <code>set()</code> routine of the history contract. This is a system operation and therefore:</p>
+<ul>
+<li>the call must execute to completion</li>
+<li>the call does not count against the block's gas limit</li>
+<li>if no code exists at <code>HISTORY_STORAGE_ADDRESS</code>, the call must fail silently</li>
+</ul>
+<p>Note: Alternatively clients can choose to directly write to the storage of the contract but TVM calling the contract remains preferred. Refer to the rationale for more info.</p>
+<p>Note that, it will take <code>HISTORY_SERVE_WINDOW</code> blocks after the TIP's activation to completely fill up the ring buffer. The contract will only contain the parent hash of the fork block and no hashes prior to that.</p>
+<h3 id="tvm-changes">TVM Changes<a class="headerlink" href="#tvm-changes" title="Permanent link">&para;</a></h3>
+<p>The <code>BLOCKHASH</code> opcode semantics remains the same as before.</p>
+<h3 id="block-hash-history-contract">Block hash history contract<a class="headerlink" href="#block-hash-history-contract" title="Permanent link">&para;</a></h3>
+<p>The history contract has two operations: <code>get</code> and <code>set</code>. The <code>set</code> operation is invoked only when the <code>caller</code> is equal to the <code>SYSTEM_ADDRESS</code>.</p>
+<h4 id="get"><code>get</code><a class="headerlink" href="#get" title="Permanent link">&para;</a></h4>
+<p>It is used from the TVM for looking up block hashes.</p>
+<ul>
+<li>Callers provide the block number they are querying in a big-endian encoding.</li>
+<li>If calldata is not 32 bytes, revert.</li>
+<li>For any request outside the range of [block.number-<code>HISTORY_SERVE_WINDOW</code>, block.number-1], revert.</li>
+</ul>
+<h4 id="set"><code>set</code><a class="headerlink" href="#set" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Caller provides <code>block.parent.hash</code> as calldata to the contract.</li>
+<li>Set the storage value at <code>(block.number-1) % HISTORY_SERVE_WINDOW</code> to be <code>calldata[0:32]</code>.</li>
+</ul>
+<h4 id="bytecode">Bytecode<a class="headerlink" href="#bytecode" title="Permanent link">&para;</a></h4>
+<p>Exact TVM assembly that can be used for the history contract:</p>
+<div class="highlight"><pre><span></span><code>// https://github.com/lightclient/sys-asm/blob/f1c13e285b6aeef2b19793995e00861bf0f32c9a/src/execution_hash/main.eas
+caller
+push20 0xfffffffffffffffffffffffffffffffffffffffe
+eq
+push1 0x46
+jumpi
+push1 0x20
+calldatasize
+sub
+push1 0x42
+jumpi
+push0
+calldataload
+push1 0x01
+number
+sub
+dup2
+gt
+push1 0x42
+jumpi
+push2 0x1fff
+dup2
+number
+sub
+gt
+push1 0x42
+jumpi
+push2 0x1fff
+swap1
+mod
+sload
+push0
+mstore
+push1 0x20
+push0
+return
+jumpdest
+push0
+push0
+revert
+jumpdest
+push0
+calldataload
+push2 0x1fff
+push1 0x01
+number
+sub
+mod
+sstore
+stop
+</code></pre></div>
+<h4 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h4>
+<p>The contract will be deployed as a system contract at the predefined address <code>HISTORY_STORAGE_ADDRESS</code> during the network upgrade that activates this TIP. Because a TRON contract-creation transaction includes <code>owner_address</code>, <code>expiration</code>, and <code>ref_block_num</code>, the pre-signed deployment transaction pattern used on Ethereum cannot produce a deterministic address on TRON; deployment is therefore handled directly by the protocol at activation time rather than through a regular contract creation transaction.</p>
+<p>Activation is governed by committee proposal <code>ALLOW_TVM_PRAGUE</code> (proposal ID <code>95</code>) with value <code>1</code>, gated by hard-fork version <code>VERSION_4_8_2</code>. The proposal is one-shot and cannot be toggled off.</p>
+<h3 id="gas-costs">Gas costs<a class="headerlink" href="#gas-costs" title="Permanent link">&para;</a></h3>
+<p>The system update at the beginning of the block, i.e. <code>process_block_hash_history</code> (or via system call to the contract with <code>SYSTEM_ADDRESS</code> caller), will not warm the <code>HISTORY_STORAGE_ADDRESS</code> account or its storage slots. As such the first call to the contract will pay for warming up the account and storage slots it accesses. To clarify further any contract call to the <code>HISTORY_STORAGE_ADDRESS</code> will follow normal TVM execution semantics.</p>
+<p>Since <code>BLOCKHASH</code> semantics doesn't change, this TIP has no impact on <code>BLOCKHASH</code> mechanism and costs.</p>
+<h3 id="bootstrap-period">Bootstrap period<a class="headerlink" href="#bootstrap-period" title="Permanent link">&para;</a></h3>
+<p>It takes up to <code>HISTORY_SERVE_WINDOW</code> blocks after activation for the ring buffer to fully populate. During this period, given activation block <code>A</code> and current block <code>N</code>:</p>
+<ul>
+<li><code>get(K)</code> where <code>K &gt;= N</code> or <code>K &lt; N - HISTORY_SERVE_WINDOW</code>: reverts (normal out-of-range behavior).</li>
+<li><code>get(K)</code> where <code>A &lt;= K &lt;= N - 1</code>: returns the stored hash.</li>
+<li><code>get(K)</code> where <code>N - HISTORY_SERVE_WINDOW &lt;= K &lt; A</code> (slot still unwritten): returns <code>bytes32(0)</code>, <strong>not</strong> a revert.</li>
+</ul>
+<p>Developers should therefore treat a <code>bytes32(0)</code> return as "unavailable" rather than a valid hash, and continue to use the <code>BLOCKHASH</code> opcode for the most recent 256 blocks where it is the cheapest and always-available option. Applications with strict correctness requirements (rollups, bridges) should gate their logic on <code>block.number &gt;= A + HISTORY_SERVE_WINDOW</code>, or fall back to an off-chain oracle during the bootstrap window.</p>
+<h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<p>Very similar ideas were proposed before. This TIP is a simplification, removing three sources of needless complexity:</p>
+<ol>
+<li>Having a tree-like structure with multiple layers as opposed to a single list</li>
+<li>Writing the TIP in TVM code</li>
+<li>Serial unbounded storage of hashes for a deep access to the history</li>
+</ol>
+<p>However after weighing pros and cons, we decided to go with just a limited ring buffer to only serve the requisite <code>HISTORY_SERVE_WINDOW</code>.</p>
+<p>Second concern was how to best transition the BLOCKHASH resolution logic post fork by:</p>
+<ol>
+<li>Either waiting for <code>HISTORY_SERVE_WINDOW</code> blocks for the entire relevant history to persist</li>
+<li>Storing of all last <code>HISTORY_SERVE_WINDOW</code> block hashes on the fork block.</li>
+</ol>
+<p>We choose to go with the former. It simplifies the logic greatly. It will take roughly 7 hours at TRON's 3-second block interval to bootstrap the contract. Given that this is a new way of accessing history and no contract depends on it, it is deemed a favorable tradeoff.</p>
+<h3 id="inserting-the-parent-block-hash">Inserting the parent block hash<a class="headerlink" href="#inserting-the-parent-block-hash" title="Permanent link">&para;</a></h3>
+<p>Clients have generally two options for inserting the parent block hash into state:</p>
+<ol>
+<li>Performing a system call to <code>HISTORY_STORAGE_ADDRESS</code> and letting that handle the storing in state.</li>
+<li>Avoid TVM processing and directly write to the state trie.</li>
+</ol>
+<p>The latter option is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">process_block_hash_history</span><span class="p">(</span><span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">State</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&gt;=</span> <span class="n">FORK_TIMESTAMP</span><span class="p">:</span> <span class="o">//</span> <span class="n">FORK_TIMESTAMP</span> <span class="n">should</span> <span class="n">be</span> <span class="n">defined</span> <span class="n">outside</span> <span class="n">of</span> <span class="n">the</span> <span class="n">TIP</span>
+        <span class="n">state</span><span class="o">.</span><span class="n">insert_slot</span><span class="p">(</span><span class="n">HISTORY_STORAGE_ADDRESS</span><span class="p">,</span> <span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">number</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">HISTORY_SERVE_WINDOW</span> <span class="p">,</span> <span class="n">block</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">hash</span><span class="p">)</span>
+</code></pre></div>
+<p>The TRON reference implementation takes option 2 (direct state write). The effect on storage is byte-identical to what the system-call path produces, but avoids introducing synthetic-transaction / system-caller infrastructure solely for this one contract — TRON has no other Prague system contracts (no beacon chain, no withdrawal/consolidation queues) that would share such infrastructure.</p>
+<h3 id="size-of-ring-buffers">Size of ring buffers<a class="headerlink" href="#size-of-ring-buffers" title="Permanent link">&para;</a></h3>
+<p>The ring buffer data structure is sized to hold 8191 hashes. In other system contracts a prime ring buffer size is chosen because using a prime as the modulus ensures that no value is overwritten until the entire ring buffer has been saturated, and thereafter each value will be updated once per iteration, regardless of whether some slots are missing or the slot time changes. However, in this TIP the block number is the value in the modulo operation and it only ever increases by 1 each iteration, which means we can be confident that the ring buffer will always remain saturated.</p>
+<p>For consistency with other system contracts, we have decided to retain the buffer size of 8191. At TRON's 3-second block interval, 8191 hashes provides about 7 hours of coverage. This also gives users plenty of time to make a transaction with a verification against a specific hash and get the transaction included on-chain.</p>
+<h2 id="backwards-compatibility">Backwards Compatibility<a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
+<p>This TIP introduces backwards incompatible changes to the block validation rule set. But neither of these changes break anything related to current user activity and experience.</p>
+<h2 id="test-cases">Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h2>
+<p>Reference implementation and tests: <code>tronprotocol/java-tron#6686</code>.</p>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<p>Having contracts (system or otherwise) with hot update paths (branches) poses a risk of "branch" poisoning attacks where attacker could sprinkle trivial amounts of trx around these hot paths (branches). But it has been deemed that cost of attack would escalate significantly to cause any meaningful slow down of state root updates.</p>
+<h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 
 
 

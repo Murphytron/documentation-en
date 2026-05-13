@@ -7,8 +7,10 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
+        <meta name="author" content="lei19942016@hotmail.com">
       
-        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/category-core/">
+      
+        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/tip-7951/">
       
       
       
@@ -18,7 +20,7 @@
     
     
       
-        <title>TRON Improvement Proposals (TIPs) - java-tron</title>
+        <title>Precompile for secp256r1 Curve Support - java-tron</title>
       
     
     
@@ -70,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tron-improvement-proposals-tips" class="md-skip">
+        <a href="#summary" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              TRON Improvement Proposals (TIPs)
+              Precompile for secp256r1 Curve Support
             
           </span>
         </div>
@@ -1650,346 +1652,272 @@
   
 
 
-<h1 id="tron-improvement-proposals-tips">TRON Improvement Proposals (TIPs)<a class="headerlink" href="#tron-improvement-proposals-tips" title="Permanent link">&para;</a></h1>
-<p><strong>Categories:</strong></p>
-<p><a class="md-button" href="../">All</a> <a class="md-button md-button--primary" href="./">Core</a> <a class="md-button" href="../category-networking/">Networking</a> <a class="md-button" href="../category-interface/">Interface</a> <a class="md-button" href="../category-trc/">TRC</a> <a class="md-button" href="../category-vm/">VM</a> <a class="md-button" href="../category-informational/">Informational</a></p>
-<p><strong>Quick Jump to Status:</strong></p>
-<p><a class="md-button" href="#draft">Draft</a> <a class="md-button" href="#last-call">Last Call</a> <a class="md-button" href="#final">Final</a> <a class="md-button" href="#unknown">Unknown</a></p>
-<hr />
-<h2 id="draft">Draft<a class="headerlink" href="#draft" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">178</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-178.md">TOKENISSUE and UPDATEASSET Instruction in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">171</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-171.md">STAKE instructions in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">156</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-156.md">Vote instructions in TVM</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">64</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-64.md">tron mix consensus Analytics</a></td>
-<td style="text-align: left;">billtron(<a href="https://github.com/billtron">@billtron</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">62</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-62.md">Tron consensus algorithm introduction</a></td>
-<td style="text-align: left;">billtron(<a href="https://github.com/billtron">@billtron</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
-<h2 id="last-call">Last Call<a class="headerlink" href="#last-call" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">2935</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-2935.md">Serve historical block hashes from state</a></td>
-<td style="text-align: left;">lily309@gmail.com</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">836</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-836.md">harden exchange transaction calculations</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">833</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-833.md">Harden ResourceProcessor Resource Window Calculations</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">128</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-128.md">TIP128 Lite Fullnode support</a></td>
-<td style="text-align: left;">guoquan-wu(<a href="https://github.com/guoquan-wu">@guoquan-wu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
-<h2 id="final">Final<a class="headerlink" href="#final" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">767</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-767.md">Transitioning proposal expire time configuration to Chain Governance</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">697</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-697.md">Migrate Floating-Point Calculations from Math to StrictMath</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">694</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-694.md">Enhance Verification of Transaction Limitation at Consensus Layer</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">635</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-635.md">Optimize Reward Withdrawal To Improve TPS</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">586</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-586.md">GRPC Implementation for Resource Price Interfaces</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">555</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-555.md">Network upgrade logic optimization</a></td>
-<td style="text-align: left;">jwrct(<a href="https://github.com/jwrct">@jwrct</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">542</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-542.md">Resource delegating supports customizable lock period</a></td>
-<td style="text-align: left;">tronenergymarket(<a href="https://github.com/tronenergymarket">@tronenergymarket</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">541</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-541.md">Support canceling unstaking in Stake 2.0</a></td>
-<td style="text-align: left;">CooperDepp(<a href="https://github.com/CooperDepp">@CooperDepp</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">534</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-534.md">Remove Vulnerable APIs</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">491</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-491.md">Dynamic Energy Model</a></td>
-<td style="text-align: left;">kongchi(<a href="https://github.com/kongchi-ken">@kongchi-ken</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">476</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-476.md">Delegate Data Structure Optimization</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">467</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-467.md">Stake 2.0 - A new TRON staking model</a></td>
-<td style="text-align: left;">lxcmyf(<a href="https://github.com/lxcmyf">@lxcmyf</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">465</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-465.md">new reward calculation algorithm</a></td>
-<td style="text-align: left;">bladehan1(<a href="https://github.com/bladehan1">@bladehan1</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">461</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-461.md">Optimize data consistency for system abnormals</a></td>
-<td style="text-align: left;">guoquan-wu(<a href="https://github.com/guoquan-wu">@guoquan-wu</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">440</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-440.md">Transaction cache optimization</a></td>
-<td style="text-align: left;">Andy(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">428</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-428.md">Increase the probability that the block processing thread acquires the lock</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">388</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-388.md">Optimize light node synchronization logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">383</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-383.md">Optimize transaction cache loading</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">382</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-382.md">Optimize the data structure of account assets</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">370</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-370.md">Node support conditionalized stop</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">369</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-369.md">Node support prometheus metrics</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">366</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-366.md">TIP-366 Node startup optimization</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">362</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-362.md">Optimized node broadcast data caching</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">343</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-343.md">TIP-343 Refine Write Parameters For Leveldb</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">298</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-298.md">Reformat manifest</a></td>
-<td style="text-align: left;">halibobo1205(<a href="https://github.com/halibobo1205">@halibobo1205</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">295</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-295.md">Optimize account assets</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">290</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-290.md">Dynamic store optimization</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">289</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-289.md">Block Broadcast Optimization</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">285</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-285.md">Optimize transaction cache initialization logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">281</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-281.md">Optimize the query of database</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">276</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-276.md">Optimize block verification logic</a></td>
-<td style="text-align: left;">xxo1shine(<a href="https://github.com/xxo1shine">@xxo1shine</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">269</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-269.md">Optimize the performance of block processing</a></td>
-<td style="text-align: left;">Kayle(<a href="https://github.com/forfreeday">@forfreeday</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">250</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-250.md">Include transaction results on the chain</a></td>
-<td style="text-align: left;">zhang0125(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">207</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-207.md">A proposal to improve network resources model</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">196</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-196.md">Reward SRs with the transaction fees charged for bandwidth and Energy</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">127</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-127.md">Support Tron-DEX based on system contracts</a></td>
-<td style="text-align: left;">renchenchang(<a href="http://github.com/renchenchang">@renchenchang</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-<tr>
-<td style="text-align: left;">60</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-60.md">TRC-60:Precompiled contract function for multi-signature verification</a></td>
-<td style="text-align: left;">Julian.Kang(<a href="https://github.com/Sh11thead">@Sh11thead</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
-<h2 id="unknown">Unknown<a class="headerlink" href="#unknown" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">01</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-01.md">Tron Wallet Proposal - Key Derivation Methods for Tron Accounts with BIP39</a></td>
-<td style="text-align: left;">dbuarque(<a href="https://github.com/dbuarque">@dbuarque</a>)</td>
-<td style="text-align: left;">Core</td>
-</tr>
-</tbody>
-</table>
+  <h1>Precompile for secp256r1 Curve Support</h1>
+
+<div class="highlight"><pre><span></span><code>tip: 7951
+title: Precompile for secp256r1 Curve Support
+author: lei19942016@hotmail.com
+discussions-to: https://github.com/tronprotocol/tips/issues/785
+status: Last Call
+type: Standards Track
+category: VM
+created: 2025-07-25
+</code></pre></div>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>Ethereum has proposed <a href="https://eips.ethereum.org/EIPS/eip-7951">EIP-7951</a> to add support for secp256r1 ECDSA signature verification through a precompiled contract and has scheduled it for inclusion in next Osaka upgrade. To maintain compatibility with Ethereum's implementation, TRON needs to introduce this TIP and implement the secp256r1 signature verification precompile.</p>
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>Add functionality to efficiently perform ECDSA signature verification over the secp256r1 elliptic curve (also known as P-256 or prime256v1). This precompile enables native support for signatures generated by modern secure hardware including Apple Secure Enclave, Android Keystore, and FIDO2/WebAuthn devices.</p>
+<p>This specification addresses critical security issues discovered in RIP-7212 while maintaining full interface compatibility with existing Layer 2 implementations.</p>
+<p>This TIP follows Ethereum's EIP-7951 specification, which supersedes RIP-7212 by implementing the same functionality with enhanced security fixes and proper validation checks.</p>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>To maintain compatibility with Ethereum's precompiled contract standards, we are implementing corresponding secp256r1 ECDSA signature verification functionality in the TVM.</p>
+<p><strong>Original motivation from EIP-7951:</strong></p>
+<p>The secp256r1 elliptic curve is a NIST-standardized curve widely supported in modern secure hardware and authentication systems. Adding native support for secp256r1 signature verification to Ethereum enables several important use cases that are currently impossible or prohibitively expensive.</p>
+<p>Modern secure hardware devices, including Apple Secure Enclave, Android Keystore, HSMs, TEEs, and FIDO2/WebAuthn authenticators, use secp256r1 for key storage and signing operations. Native secp256r1 support enables sophisticated account abstraction patterns like device-native signing, multi-factor authentication, and simplified key management - ultimately reducing friction for mainstream adoption through familiar authentication flows.</p>
+<p>The secp256r1 curve is already widely supported across blockchain networks and protocols, including Layer 2 networks, enterprise blockchains, and interoperability protocols. This broad compatibility enables seamless integration with existing infrastructure while maintaining security through hardware-backed signing capabilities.</p>
+<p>This EIP supersedes RIP-7212 by implementing the same functionality with the same interface, but without the vulnerability.</p>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in RFC 2119 and RFC 8174.</p>
+<h3 id="precompile">Precompile<a class="headerlink" href="#precompile" title="Permanent link">&para;</a></h3>
+<p>We introduce <code>P256VERIFY</code> a precompile at the address <code>0x100</code> which performs ECDSA signature verification over the secp256r1 curve with a gas cost of <code>6900</code> gas</p>
+<h3 id="curve-parameters">Curve Parameters<a class="headerlink" href="#curve-parameters" title="Permanent link">&para;</a></h3>
+<p>The secp256r1 curve is fully defined by the following set of parameters:</p>
+<div class="highlight"><pre><span></span><code>Base field modulus = p = 0xffffffff00000001000000000000000000000000ffffffffffffffffffffffff
+Curve equation: y^2 = x^3 + ax + b (mod p)
+Curve coefficient a = 0xffffffff00000001000000000000000000000000fffffffffffffffffffffffc
+Curve coefficient b = 0x5ac635d8aa3a93e7b3ebbd55769886bc651d06b0cc53b0f63bce3c3e27d2604b
+Base point G:
+  Gx = 0x6b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296
+  Gy = 0x4fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5
+Subgroup order = n = 0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551
+Cofactor = h = 0x1
+</code></pre></div>
+<p>These parameters are standardized by NIST in SP 800-186[^1].</p>
+<h3 id="fields-and-groups">Fields and Groups<a class="headerlink" href="#fields-and-groups" title="Permanent link">&para;</a></h3>
+<p>The field Fp is defined as the finite field of size <code>p</code> with elements represented as integers between 0 and p-1 (both inclusive).</p>
+<p>The group G is defined as a set of Fp pairs (points) <code>(x,y)</code> such that either <code>(x,y)</code> is <code>(0,0)</code> (representing the point at infinity) or <code>x,y</code> satisfy the curve equation <code>y^2 = x^3 + ax + b (mod p)</code>.</p>
+<h3 id="points-and-encoding">Points and Encoding<a class="headerlink" href="#points-and-encoding" title="Permanent link">&para;</a></h3>
+<h4 id="field-elements-encoding">Field Elements Encoding<a class="headerlink" href="#field-elements-encoding" title="Permanent link">&para;</a></h4>
+<p>A base field element (Fp) is encoded as <code>32</code> bytes by performing BigEndian encoding of the corresponding (unsigned) integer. The corresponding integer <strong>must</strong> be less than the field modulus <code>p</code>.</p>
+<h4 id="encoding-of-points-in-g">Encoding of Points in G<a class="headerlink" href="#encoding-of-points-in-g" title="Permanent link">&para;</a></h4>
+<p>Points in G are encoded as byte concatenation of the respective encodings of the <code>x</code> and <code>y</code> coordinates. Total encoding length for a G point is thus <code>64</code> bytes.</p>
+<h4 id="point-of-infinity-encoding">Point of Infinity Encoding<a class="headerlink" href="#point-of-infinity-encoding" title="Permanent link">&para;</a></h4>
+<p>For secp256r1, the point with coordinates <code>(0, 0)</code> (zeroes in Fp) is <em>not</em> on the curve, so a sequence of <code>64</code> zero bytes is used by convention to encode the point of infinity.</p>
+<h4 id="encoding-of-scalars">Encoding of Scalars<a class="headerlink" href="#encoding-of-scalars" title="Permanent link">&para;</a></h4>
+<p>A scalar is encoded as <code>32</code> bytes by performing BigEndian encoding of the corresponding (unsigned) integer. The corresponding integer is <strong>not</strong> required to be less than or equal to the subgroup order <code>n</code>.</p>
+<h4 id="behavior-on-invalid-inputs">Behavior on Invalid Inputs<a class="headerlink" href="#behavior-on-invalid-inputs" title="Permanent link">&para;</a></h4>
+<p>On inputs that cannot be valid encodings of field elements or points, the precompile <em>must</em> return `` (failure).</p>
+<h3 id="abi-for-p256verify-operation">ABI for <code>P256VERIFY</code> Operation<a class="headerlink" href="#abi-for-p256verify-operation" title="Permanent link">&para;</a></h3>
+<h4 id="input">Input<a class="headerlink" href="#input" title="Permanent link">&para;</a></h4>
+<p><code>P256VERIFY</code> call expects <code>160</code> bytes as input that is interpreted as byte concatenation of:</p>
+<ul>
+<li><code>32</code> bytes: message hash <code>h</code></li>
+<li><code>32</code> bytes: signature component <code>r</code></li>
+<li><code>32</code> bytes: signature component <code>s</code></li>
+<li><code>32</code> bytes: public key x-coordinate <code>qx</code></li>
+<li><code>32</code> bytes: public key y-coordinate <code>qy</code></li>
+</ul>
+<h4 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h4>
+<p>Output is <code>32</code> bytes on successful verification and <code>0</code> bytes on failure:</p>
+<ul>
+<li><code>0x0000000000000000000000000000000000000000000000000000000000000001</code> for valid signatures</li>
+<li>`` for invalid signatures or invalid inputs</li>
+</ul>
+<h4 id="input-validation">Input Validation<a class="headerlink" href="#input-validation" title="Permanent link">&para;</a></h4>
+<p>The precompile MUST perform the following validation checks and return `` (failure) if any check fails:</p>
+<ol>
+<li><strong>Input length</strong>: Input MUST be exactly <code>160</code> bytes</li>
+<li><strong>Signature component bounds</strong>: Both <code>r</code> and <code>s</code> MUST satisfy <code>0 &lt; r &lt; n</code> and <code>0 &lt; s &lt; n</code></li>
+<li><strong>Public key bounds</strong>: Both <code>qx</code> and <code>qy</code> MUST satisfy <code>0 ≤ qx &lt; p</code> and <code>0 ≤ qy &lt; p</code></li>
+<li><strong>Point validity</strong>: The point <code>(qx, qy)</code> MUST satisfy the curve equation <code>qy^2 ≡ qx^3 + a*qx + b (mod p)</code></li>
+<li><strong>Point not at infinity</strong>: The point <code>(qx, qy)</code> MUST NOT be the point at infinity (represented as <code>(0, 0)</code>)</li>
+</ol>
+<h4 id="signature-verification-algorithm">Signature Verification Algorithm<a class="headerlink" href="#signature-verification-algorithm" title="Permanent link">&para;</a></h4>
+<p>The verification algorithm follows these steps:</p>
+<div class="highlight"><pre><span></span><code># Input validation (as specified above)
+if input_length != 160:
+    return
+if not (0 &lt; r &lt; n and 0 &lt; s &lt; n):
+    return
+if not (0 ≤ qx &lt; p and 0 ≤ qy &lt; p):
+    return 
+if qy^2 ≢ qx^3 + a*qx + b (mod p):
+    return
+if (qx, qy) == (0, 0):
+    return
+
+# Signature verification
+s1 = s^(-1) (mod n)
+
+# Recover the random point used during signing
+R&#39; = (h * s1) * G + (r * s1) * (qx, qy)
+
+# Check for point at infinity
+if R&#39; is the point at infinity:
+    return
+
+# Extract x-coordinate from r
+r&#39; = R&#39;.x
+
+# Compare with modular reduction
+if r&#39; ≡ r (mod n):
+    return 0x0000000000000000000000000000000000000000000000000000000000000001
+else:
+    return 
+</code></pre></div>
+<h4 id="error-cases">Error Cases<a class="headerlink" href="#error-cases" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Invalid input length (not exactly 160 bytes)</li>
+<li>Invalid field element encoding (≥ field modulus)</li>
+<li>Invalid signature component bounds (r or s not in range (0, n))</li>
+<li>Invalid public key (point at infinity or not on curve)</li>
+<li>Signature verification failure</li>
+</ul>
+<h3 id="gas-schedule">Gas Schedule<a class="headerlink" href="#gas-schedule" title="Permanent link">&para;</a></h3>
+<h4 id="p256verify-operation"><code>P256VERIFY</code> operation<a class="headerlink" href="#p256verify-operation" title="Permanent link">&para;</a></h4>
+<p><code>6900</code> gas</p>
+<p>This cost is based on benchmarking against the existing <code>ECRECOVER</code> precompile (<code>3000</code> gas). During benchmarks we found that the actual cost of R1 verification was significantly slower than the <code>ECRECOVER</code> precompile and the decision was made to increase the gas cost to <code>6900</code> gas.</p>
+<h4 id="gas-burning-on-error">Gas Burning on Error<a class="headerlink" href="#gas-burning-on-error" title="Permanent link">&para;</a></h4>
+<p>The precompile MUST NOT revert under any circumstances. Invalid inputs or verification failures MUST return `` and consume the same amount of gas had verification succeeded.</p>
+<h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<h3 id="security-fixes">Security Fixes<a class="headerlink" href="#security-fixes" title="Permanent link">&para;</a></h3>
+<p>This specification addresses two critical vulnerabilities in RIP-7212:</p>
+<ol>
+<li>
+<p><strong>Point-at-infinity check</strong>: The original RIP-7212 failed to check if the recovered point R' is the point at infinity. This could lead to non-deterministic behavior where the verification result depends on the underlying implementation's handling of infinity points, potentially causing consensus failures.</p>
+</li>
+<li>
+<p><strong>Modular comparison</strong>: The original comparison <code>r' == r</code> should be <code>r' ≡ r (mod n)</code> to handle cases where the x-coordinate of R' exceeds the curve order n. This ensures mathematically correct verification according to ECDSA standards.</p>
+</li>
+</ol>
+<h3 id="verification-vs-recovery">Verification vs Recovery<a class="headerlink" href="#verification-vs-recovery" title="Permanent link">&para;</a></h3>
+<p>This specification uses signature verification rather than public key recovery (like <code>ECRECOVER</code>) because:</p>
+<ul>
+<li>Most secp256r1 implementations in hardware and software verify signatures directly</li>
+<li>The NIST FIPS 186-5 standard[^2] specifies verification, not recovery</li>
+<li>Verification is more efficient than recovery for this curve</li>
+<li>Existing hardware implementations provide verification interfaces</li>
+</ul>
+<h3 id="gas-cost-justification">Gas Cost Justification<a class="headerlink" href="#gas-cost-justification" title="Permanent link">&para;</a></h3>
+<p>The 6900 gas cost does not maintain compatibility with L2s, but it matches closer the benchmarks of actual implementations.</p>
+<h2 id="backwards-compatibility">Backwards Compatibility<a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
+<p>This TIP maintains full interface compatibility with RIP-7212 implementations deployed on Layer 2 networks. The same contract bytecode that works with RIP-7212 will work with this specification.</p>
+<p>The security fixes are transparent to correctly implemented callers - they only affect edge cases that should have failed verification anyway. No existing valid use cases are broken.</p>
+<h3 id="interface-compatibility">Interface Compatibility<a class="headerlink" href="#interface-compatibility" title="Permanent link">&para;</a></h3>
+<p>The precompile maintains a similar interface as RIP-7212 to ensure compatibility with existing Layer 2 deployments:</p>
+<ul>
+<li>Same address: <code>0x100</code></li>
+<li>Same input format: 160 bytes</li>
+<li>Same output format: 32 bytes</li>
+<li>Different gas cost: 3450 gas vs 6900 gas</li>
+<li>Same return values</li>
+</ul>
+<h2 id="test-cases">Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h2>
+<p>A set of test vectors for verifying implementations is located in a separate <a href="https://eips.ethereum.org/assets/eip-7951/test-vectors.json">file</a>.</p>
+<h2 id="reference-implementation">Reference Implementation<a class="headerlink" href="#reference-implementation" title="Permanent link">&para;</a></h2>
+<p>A reference implementation is not supplied due to the ubiquity of secp256r1, if however a reference is needed, the NIST specification in FIPS 186-5[^2]</p>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<h3 id="cryptographic-security">Cryptographic Security<a class="headerlink" href="#cryptographic-security" title="Permanent link">&para;</a></h3>
+<p>The secp256r1 curve provides approximately 128 bits of security, equivalent to secp256k1 already in use in TRON. The curve parameters are standardized by NIST SP 800-186[^1] and have undergone extensive cryptographic analysis by the wider cryptographic community in addition to this curve being deployed to several L2s in the form of RIP-7212.</p>
+<h3 id="malleability">Malleability<a class="headerlink" href="#malleability" title="Permanent link">&para;</a></h3>
+<p>Unlike secp256k1 ECDSA signatures, secp256r1 ECDSA signatures are not required to be non-malleable per NIST FIPS 186-5 standard [^2]. Applications requiring non-malleability should implement additional checks at the application layer.</p>
+<h3 id="side-channel-resistance">Side-Channel Resistance<a class="headerlink" href="#side-channel-resistance" title="Permanent link">&para;</a></h3>
+<p>We explicitly state that this precompile <strong>IS NOT REQUIRED</strong> to perform all the operations using constant time algorithms.</p>
+<h2 id="use-case">Use Case<a class="headerlink" href="#use-case" title="Permanent link">&para;</a></h2>
+<p>TIP-7951 <strong>enables new capabilities</strong> that were previously impossible or prohibitively expensive:</p>
+<ol>
+<li>
+<p><strong>Mobile Wallets with Hardware Security</strong>: Enable iOS/Android wallets to use device-native secure hardware (Apple Secure Enclave, Android Keystore). </p>
+</li>
+<li>
+<p><strong>FIDO2/WebAuthn Integration</strong>: Enable support for standard authentication protocols (FIDO2/WebAuthn) that use secp256r1 and are used by billions of devices. </p>
+</li>
+<li>
+<p><strong>Hardware-Backed Key Management</strong>: Enable enterprise solutions using Hardware Security Modules (HSMs) and Trusted Execution Environments (TEEs) that use secp256r1. </p>
+</li>
+</ol>
+<h3 id="use-case-smart-contract-wallet-with-mobile-hardware-security">Use Case: Smart Contract Wallet with Mobile Hardware Security<a class="headerlink" href="#use-case-smart-contract-wallet-with-mobile-hardware-security" title="Permanent link">&para;</a></h3>
+<h4 id="scenario-overview">Scenario Overview<a class="headerlink" href="#scenario-overview" title="Permanent link">&para;</a></h4>
+<p>This use case demonstrates a <strong>smart contract wallet</strong> that leverages mobile device hardware security for transaction signing and authentication.</p>
+<p>A mobile wallet application wants to provide users with seamless, secure transactions using the <strong>built-in hardware security features already present in billions of smartphones worldwide</strong>. Modern mobile devices (iPhone, Android) use secp256r1 for their secure hardware (Apple Secure Enclave, Android Keystore).</p>
+<p><strong>Security Comparison:</strong></p>
+<ul>
+<li><strong>secp256r1 (Hardware-Backed)</strong>: Private keys are stored in the device's <strong>built-in secure hardware and cannot be exported</strong>, providing cold wallet-level security. Keys never leave the secure hardware, making wallets extremely difficult to compromise. Available to every iPhone and Android user with biometric authentication (Face ID, Touch ID, Fingerprint).</li>
+<li><strong>secp256k1 (Software-Based)</strong>: Private keys are stored as exportable data (mnemonic phrases, keystore files) in the device's file system or memory. If compromised by malware, phishing, or physical access, the mnemonic phrase or private key can be extracted, leading to complete wallet theft. Users must manually protect mnemonic phrases, which is error-prone and insecure.</li>
+</ul>
+<h4 id="current-limitation-without-tip-7951">Current Limitation (Without TIP-7951)<a class="headerlink" href="#current-limitation-without-tip-7951" title="Permanent link">&para;</a></h4>
+<p><strong>Current Workaround</strong> (if secp256r1 is not supported):
+<div class="highlight"><pre><span></span><code><span class="c1">// Contract must verify secp256r1 signatures in Solidity</span>
+<span class="c1">// This is extremely expensive and impractical</span>
+<span class="kt">function</span><span class="w"> </span><span class="nv">verifySecp256r1Signature</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">messageHash</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">r</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">s</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">qx</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">qy</span>
+<span class="p">)</span><span class="w"> </span><span class="kt">public</span><span class="w"> </span>pure<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Manual secp256r1 verification in Solidity</span>
+<span class="w">    </span><span class="c1">// Cost: ~500,000+ gas (prohibitively expensive)</span>
+<span class="w">    </span><span class="c1">// Complexity: Requires complex elliptic curve math</span>
+<span class="w">    </span><span class="c1">// Security: Error-prone implementation</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Issues</strong>:</p>
+<ul>
+<li>Gas cost: &gt;1000,000+ energy per verification (prohibitively expensive)</li>
+<li>Complexity: Requires implementing complex elliptic curve math in Solidity</li>
+<li>Security: High risk of implementation errors</li>
+<li>Performance: Extremely slow execution</li>
+<li>User Experience: Transactions fail or are too expensive</li>
+</ul>
+<h4 id="solution-with-tip-7951">Solution (With TIP-7951)<a class="headerlink" href="#solution-with-tip-7951" title="Permanent link">&para;</a></h4>
+<p><strong>Native Precompile Support</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Simple, efficient secp256r1 signature verification</span>
+<span class="kt">function</span><span class="w"> </span><span class="nv">verifyBiometricSignature</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">messageHash</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">r</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">s</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">qx</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">qy</span>
+<span class="p">)</span><span class="w"> </span><span class="kt">public</span><span class="w"> </span>view<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Call precompile at address 0x100</span>
+<span class="w">    </span><span class="kt">bytes</span><span class="w"> </span><span class="nv">memory</span><span class="w"> </span>input<span class="w"> </span><span class="o">=</span><span class="w"> </span>abi<span class="p">.</span>encodePacked<span class="p">(</span>
+<span class="w">        </span>messageHash<span class="p">,</span>
+<span class="w">        </span>r<span class="p">,</span>
+<span class="w">        </span>s<span class="p">,</span>
+<span class="w">        </span>qx<span class="p">,</span>
+<span class="w">        </span>qy
+<span class="w">    </span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="nv">success</span><span class="p">,</span><span class="w"> </span><span class="kt">bytes</span><span class="w"> </span><span class="nv">memory</span><span class="w"> </span>result<span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">address</span><span class="p">(</span><span class="mh">0x100</span><span class="p">).</span>staticcall<span class="p">(</span>input<span class="p">);</span>
+
+<span class="w">    </span><span class="kt">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span>success<span class="w"> </span><span class="o">||</span><span class="w"> </span>result<span class="p">.</span>length<span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="m m-Decimal">32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">return</span><span class="w"> </span><span class="kt">false</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Result is 0x00...01 for valid, 0x00...00 for invalid</span>
+<span class="w">    </span><span class="kt">return</span><span class="w"> </span>result<span class="p">[</span><span class="m m-Decimal">31</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0x01</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>Gas cost: 73x cheaper than Solidity implementation</li>
+<li>Simplicity: Simple precompile call, no complex math</li>
+<li>Security: Cryptographically secure, battle-tested implementation</li>
+<li>Performance: Native execution, extremely fast</li>
+<li>User Experience: Affordable, reliable transactions</li>
+</ul>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+<p>TIP-7951 is essential for TRON's growth and mainstream adoption. By enabling native secp256r1 signature verification, TRON can:</p>
+<ol>
+<li><strong>Support modern mobile wallets</strong> with device-native security</li>
+<li><strong>Reduce transaction costs</strong> by at least 50x compared to Solidity implementations</li>
+<li><strong>Improve user experience</strong> with biometric authentication</li>
+<li><strong>Maintain compatibility</strong> with Ethereum and Layer 2 networks</li>
+<li><strong>Enable new use cases</strong> in DeFi, enterprise, and consumer applications</li>
+</ol>
+<h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
+<p>Copyright and related rights waived via <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
 
 
 
