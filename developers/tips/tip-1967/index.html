@@ -1,0 +1,2161 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A consistent location where proxies store the address of the logic contract they delegate to, as well as other proxy-specific information.">
+      
+      
+        <meta name="author" content="yanghang8612@gmail.com">
+      
+      
+        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/tip-1967/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.8">
+    
+    
+      
+        <title>Proxy Storage Slots - java-tron</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#abstract" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="java-tron" class="md-header__button md-logo" aria-label="java-tron" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            java-tron
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Proxy Storage Slots
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tronprotocol/documentation-en" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../getting_started/getting_started_with_javatron/" class="md-tabs__link">
+          
+  
+  Getting Started With java-tron
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../using_javatron/installing_javatron/" class="md-tabs__link">
+          
+  
+  Using java-tron
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../api/http/" class="md-tabs__link">
+          
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../mechanism-algorithm/dpos/" class="md-tabs__link">
+          
+  
+  Core Protocol
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../java-tron/" class="md-tabs__link">
+          
+  
+  For java-tron Developers
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../contracts/tools/" class="md-tabs__link">
+          
+  
+  For Dapp Developers
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../clients/wallet-cli/" class="md-tabs__link">
+          
+  
+  Clients
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../releases/upgrade-instruction/" class="md-tabs__link">
+          
+  
+  Releases
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../glossary/" class="md-tabs__link">
+          
+  
+  Appendix
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="java-tron" class="md-nav__button md-logo" aria-label="java-tron" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    java-tron
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tronprotocol/documentation-en" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started With java-tron
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started With java-tron
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started/getting_started_with_javatron/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Using java-tron
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Using java-tron
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using_javatron/installing_javatron/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deploying
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using_javatron/backup_restore/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Backup and Restore
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using_javatron/litefullnode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lite FullNode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using_javatron/private_network/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Private Network
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/event/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Event Subscription
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/database/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Database Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using_javatron/connecting_to_tron/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Network Connection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using_javatron/metrics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Node Monitoring
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../using_javatron/toolkit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Node Maintenance Tool
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/http/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    HTTP API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/rpc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    gRPC API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/json-rpc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    jsonRPC API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Core Protocol
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Core Protocol
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mechanism-algorithm/dpos/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DPoS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mechanism-algorithm/sr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Super Representative
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mechanism-algorithm/account/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Account Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mechanism-algorithm/resource/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resource Model
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../contracts/contract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Smart Contract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mechanism-algorithm/system-contracts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    System Contract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mechanism-algorithm/dex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Decentralized Exchange
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mechanism-algorithm/multi-signatures/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Account Permission Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    For java-tron Developers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            For java-tron Developers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../java-tron/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Developer Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips-workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TIPs Workflow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TIPs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../issue-workflow/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Issue Workflow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../governance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Governance Workflow
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run-in-idea/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configure the IDE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Development Example
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../code-structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Core Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    For Dapp Developers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            For Dapp Developers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../contracts/tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Clients
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Clients
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../clients/wallet-cli/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    wallet-cli
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Releases
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Releases
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../releases/upgrade-instruction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deployment Manual for the New Version
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../releases/signature_verification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Integrity Check
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../releases/history/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    History
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Appendix
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Appendix
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Proxy Storage Slots</h1>
+
+<div class="highlight"><pre><span></span><code>tip: 1967
+title: Proxy Storage Slots
+description: A consistent location where proxies store the address of the logic contract they delegate to, as well as other proxy-specific information.
+author: yanghang8612@gmail.com
+discussions-to: https://github.com/tronprotocol/tips/issues/845
+status: Last Call
+type: Standards Track
+category: TRC
+created: 2026-03-27
+</code></pre></div>
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>Delegating <strong>proxy contracts</strong> are widely used for both upgradeability and gas savings. These proxies rely on a <strong>logic contract</strong> (also known as implementation contract or master copy) that is called using <code>delegatecall</code>. This allows proxies to keep a persistent state (storage and balance) while the code is delegated to the logic contract.</p>
+<p>To avoid clashes in storage usage between the proxy and logic contract, the address of the logic contract is typically saved in a specific storage slot (for example <code>0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc</code> in OpenZeppelin contracts) guaranteed to be never allocated by a compiler. This TIP proposes a set of standard slots to store proxy information. This allows clients like block explorers to properly extract and show this information to end users, and logic contracts to optionally act upon it.</p>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>Delegating proxies are widely in use, as a means to both support upgrades and reduce gas costs of deployments. Examples of these proxies are found in OpenZeppelin Contracts, Gnosis, AragonOS, Melonport, Limechain, WindingTree, Decentraland, and many others.</p>
+<p>However, the lack of a common interface for obtaining the logic address for a proxy makes it impossible to build common tools that act upon this information.</p>
+<p>A classic example of this is a block explorer. Here, the end user wants to interact with the underlying logic contract and not the proxy itself. Having a common way to retrieve the logic contract address from a proxy allows a block explorer to show the ABI of the logic contract and not that of the proxy. The explorer checks the storage of the contract at the distinguished slots to determine if it is indeed a proxy, in which case it shows information on both the proxy and the logic contract. As an example, this is how <code>0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48</code> is shown on Etherscan:</p>
+<p><img alt="Sample proxy on Etherscan" src="https://eips.ethereum.org/assets/eip-1967/Sample-proxy-on-etherscan.png" /></p>
+<p>Another example is logic contracts that explicitly act upon the fact that they are being proxied. This allows them to potentially trigger a code update as part of their logic. A common storage slot allows these use cases independently of the specific proxy implementation being used.</p>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<p>Monitoring of proxies is essential to the security of many applications. It is thus essential to have the ability to track changes to the implementation and admin slots. Unfortunately, tracking changes to storage slots is not easy. Consequently, it is recommended that any function that changes any of these slots SHOULD also emit the corresponding event. This includes initialization, from <code>0x0</code> to the first non-zero value.</p>
+<p>The proposed storage slots for proxy-specific information are the following. More slots for additional information can be added in subsequent TRCs as needed.</p>
+<h3 id="logic-contract-address">Logic contract address<a class="headerlink" href="#logic-contract-address" title="Permanent link">&para;</a></h3>
+<p>Storage slot <code>0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc</code>
+(obtained as <code>bytes32(uint256(keccak256('eip1967.proxy.implementation')) - 1)</code>).</p>
+<p>Holds the address of the logic contract that this proxy delegates to. SHOULD be empty if a beacon is used instead. Changes to this slot SHOULD be notified by the event:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">event</span><span class="w"> </span><span class="nv">Upgraded</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">indexed</span><span class="w"> </span>implementation<span class="p">);</span>
+</code></pre></div>
+<h3 id="beacon-contract-address">Beacon contract address<a class="headerlink" href="#beacon-contract-address" title="Permanent link">&para;</a></h3>
+<p>Storage slot <code>0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50</code> (obtained as <code>bytes32(uint256(keccak256('eip1967.proxy.beacon')) - 1)</code>).</p>
+<p>Holds the address of the beacon contract this proxy relies on (fallback). SHOULD be empty if a logic address is used directly instead, and should only be considered if the logic contract slot is empty. Changes to this slot SHOULD be notified by the event:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">event</span><span class="w"> </span><span class="nv">BeaconUpgraded</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">indexed</span><span class="w"> </span>beacon<span class="p">);</span>
+</code></pre></div>
+<p>Beacons are used for keeping the logic address for multiple proxies in a single location, allowing the upgrade of multiple proxies by modifying a single storage slot. A beacon contract MUST implement the function:</p>
+<div class="highlight"><pre><span></span><code>function implementation() returns (address)
+</code></pre></div>
+<p>Beacon based proxy contracts do not use the logic contract slot. Instead, they use the beacon contract slot to store the address of the beacon they are attached to. In order to know the logic contract used by a beacon proxy, a client SHOULD:</p>
+<ul>
+<li>Read the address of the beacon for the beacon logic storage slot;</li>
+<li>Call the <code>implementation()</code> function on the beacon contract.</li>
+</ul>
+<p>The result of the <code>implementation()</code> function on the beacon contract SHOULD NOT depend on the caller (<code>msg.sender</code>).</p>
+<h3 id="admin-address">Admin address<a class="headerlink" href="#admin-address" title="Permanent link">&para;</a></h3>
+<p>Storage slot <code>0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103</code>
+(obtained as <code>bytes32(uint256(keccak256('eip1967.proxy.admin')) - 1)</code>).</p>
+<p>Holds the address that is allowed to upgrade the logic contract address for this proxy (optional). Changes to this slot SHOULD be notified by the event:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">event</span><span class="w"> </span><span class="nv">AdminChanged</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">previousAdmin</span><span class="p">,</span><span class="w"> </span><span class="kt">address</span><span class="w"> </span><span class="nv">newAdmin</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="recommended-proxy-detection-algorithm">Recommended Proxy Detection Algorithm<a class="headerlink" href="#recommended-proxy-detection-algorithm" title="Permanent link">&para;</a></h3>
+<p>Ecosystem tooling (block explorers, wallets, debuggers, and security analysis tools) is encouraged to implement slot-based proxy detection as the primary method, rather than relying on source code verification. This enables proxy identification for all contracts, including unverified ones.</p>
+<p>The recommended detection algorithm is:</p>
+<ol>
+<li>Read the implementation slot (<code>0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc</code>) via <code>eth_getStorageAt</code>.</li>
+<li>Check that the returned value is a non-zero 20-byte address.</li>
+<li>Verify that <code>getCode(address)</code> at the resolved address returns non-empty bytecode.</li>
+<li>If the implementation slot is empty, read the beacon slot (<code>0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50</code>) and repeat steps 2-3 on the beacon address. If valid, call <code>implementation()</code> on the beacon contract to resolve the final logic address.</li>
+<li>Optionally, read the admin slot (<code>0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103</code>) to classify the proxy type (Transparent proxy vs. UUPS vs. Beacon proxy).</li>
+</ol>
+<p>Step 3 is critical for avoiding false positives - a valid address at the implementation slot alone is insufficient, as any contract could incidentally write a valid address to that slot.</p>
+<blockquote>
+<p><strong>Note (TRON/TVM):</strong> Although TRON uses base58check encoding for addresses externally, addresses stored in these standardized slots follow the EVM-compatible 20-byte hex format. Tooling that reads these slots via <code>eth_getStorageAt</code> will receive standard 32-byte hex values (with the address left-padded to 32 bytes). Developers coming from a pure TRON background should be aware that no base58 conversion is involved at the storage level.</p>
+</blockquote>
+<h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<p>This TIP standardises the <strong>storage slot</strong> for the logic contract address, instead of a public method on the proxy contract. The rationale for this is that proxies should never expose functions to end users that could potentially clash with those of the logic contract.</p>
+<p>Note that a clash may occur even among functions with different names, since the ABI relies on just four bytes for the function selector. This can lead to unexpected errors, or even exploits, where a call to a proxied contract returns a different value than expected, since the proxy intercepts the call and answers with a value of its own.</p>
+<p>From <em>Malicious backdoors in Ethereum proxies</em> by Nomic Labs:</p>
+<blockquote>
+<p>Any function in the Proxy contract whose selector matches with one in the implementation contract will be called directly, completely skipping the implementation code.</p>
+<p>Because the function selectors use a fixed amount of bytes, there will always be the possibility of a clash. This isn't an issue for day to day development, given that the Solidity compiler will detect a selector clash within a contract, but this becomes exploitable when selectors are used for cross-contract interaction. Clashes can be abused to create a seemingly well-behaved contract that's actually concealing a backdoor.</p>
+</blockquote>
+<p>The fact that proxy public functions are potentially exploitable makes it necessary to standardise the logic contract address in a different way.</p>
+<p>The main requirement for the storage slots chosen is that they must never be picked by the compiler to store any contract state variable. Otherwise, a logic contract could inadvertently overwrite this information on the proxy when writing to a variable of its own.</p>
+<p>Solidity maps variables to storage based on the order in which they were declared, after the contract inheritance chain is linearized: the first variable is assigned the first slot, and so on. The exception is values in dynamic arrays and mappings, which are stored in the hash of the concatenation of the key and the storage slot. The Solidity development team has confirmed that the storage layout is to be preserved among new versions:</p>
+<blockquote>
+<p>The layout of state variables in storage is considered to be part of the external interface of Solidity due to the fact that storage pointers can be passed to libraries. This means that any change to the rules outlined in this section is considered a breaking change of the language and due to its critical nature should be considered very carefully before being executed. In the event of such a breaking change, we would want to release a compatibility mode in which the compiler would generate bytecode supporting the old layout.</p>
+</blockquote>
+<p>Vyper seems to follow the same strategy as Solidity. Note that contracts written in other languages, or directly in assembly, may incur in clashes.</p>
+<p>They are chosen in such a way so they are guaranteed to not clash with state variables allocated by the compiler, since they depend on the hash of a string that does not start with a storage index. Furthermore, a <code>-1</code> offset is added so the preimage of the hash cannot be known, further reducing the chances of a possible attack.</p>
+<h2 id="reference-implementation">Reference Implementation<a class="headerlink" href="#reference-implementation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * @dev This contract implements an upgradeable proxy. It is upgradeable because calls are delegated to an</span>
+<span class="cm"> * implementation address that can be changed. This address is stored in storage in the location specified by</span>
+<span class="cm"> * https://github.com/tronprotocol/tips/issues/845[TIP1967], so that it doesn&#39;t conflict with the storage layout of the</span>
+<span class="cm"> * implementation behind the proxy.</span>
+<span class="cm"> */</span>
+<span class="k">contract</span><span class="w"> </span><span class="ni">TRC1967Proxy</span><span class="w"> </span><span class="kt">is</span><span class="w"> </span>Proxy<span class="p">,</span><span class="w"> </span>TRC1967Upgrade<span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Initializes the upgradeable proxy with an initial implementation specified by `_logic`.</span>
+<span class="cm">     *</span>
+<span class="cm">     * If `_data` is nonempty, it&#39;s used as data in a delegate call to `_logic`. This will typically be an encoded</span>
+<span class="cm">     * function call, and allows initializing the storage of the proxy like a Solidity constructor.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">constructor</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">_logic</span><span class="p">,</span><span class="w"> </span><span class="kt">bytes</span><span class="w"> </span><span class="nv">memory</span><span class="w"> </span>_data<span class="p">)</span><span class="w"> </span><span class="kt">payable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>assert<span class="p">(</span>_IMPLEMENTATION_SLOT<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kt">bytes32</span><span class="p">(</span><span class="kt">uint256</span><span class="p">(</span><span class="nb">keccak256</span><span class="p">(</span><span class="s2">&quot;eip1967.proxy.implementation&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m m-Decimal">1</span><span class="p">));</span>
+<span class="w">        </span>_upgradeToAndCall<span class="p">(</span>_logic<span class="p">,</span><span class="w"> </span>_data<span class="p">,</span><span class="w"> </span><span class="kt">false</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Returns the current implementation address.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_implementation</span><span class="p">()</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>view<span class="w"> </span>virtual<span class="w"> </span>override<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">impl</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">return</span><span class="w"> </span>TRC1967Upgrade<span class="p">.</span>_getImplementation<span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @dev This abstract contract provides getters and event emitting update functions for</span>
+<span class="cm"> * https://github.com/tronprotocol/tips/issues/845[TIP1967] slots.</span>
+<span class="cm"> */</span>
+abstract<span class="w"> </span><span class="k">contract</span><span class="w"> </span><span class="ni">TRC1967Upgrade</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// This is the keccak-256 hash of &quot;eip1967.proxy.rollback&quot; subtracted by 1</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="k">private </span><span class="nv">constant</span><span class="w"> </span>_ROLLBACK_SLOT<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x4910fdfa16fed3260ed0e7147f7cc6da11a60208b5b9406d12a635614ffd9143</span><span class="p">;</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Storage slot with the address of the current implementation.</span>
+<span class="cm">     * This is the keccak-256 hash of &quot;eip1967.proxy.implementation&quot; subtracted by 1, and is</span>
+<span class="cm">     * validated in the constructor.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="k">internal </span><span class="nv">constant</span><span class="w"> </span>_IMPLEMENTATION_SLOT<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc</span><span class="p">;</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Emitted when the implementation is upgraded.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">event</span><span class="w"> </span><span class="nv">Upgraded</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">indexed</span><span class="w"> </span>implementation<span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Returns the current implementation address.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_getImplementation</span><span class="p">()</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>view<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">address</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">return</span><span class="w"> </span>StorageSlot<span class="p">.</span>getAddressSlot<span class="p">(</span>_IMPLEMENTATION_SLOT<span class="p">).</span>value<span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Stores a new address in the TIP1967 implementation slot.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_setImplementation</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">newImplementation</span><span class="p">)</span><span class="w"> </span><span class="kt">private</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">require</span><span class="p">(</span>Address<span class="p">.</span>isContract<span class="p">(</span>newImplementation<span class="p">),</span><span class="w"> </span><span class="s2">&quot;TRC1967: new implementation is not a contract&quot;</span><span class="p">);</span>
+<span class="w">        </span>StorageSlot<span class="p">.</span>getAddressSlot<span class="p">(</span>_IMPLEMENTATION_SLOT<span class="p">).</span>value<span class="w"> </span><span class="o">=</span><span class="w"> </span>newImplementation<span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Perform implementation upgrade</span>
+<span class="cm">     *</span>
+<span class="cm">     * Emits an {Upgraded} event.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_upgradeTo</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">newImplementation</span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>_setImplementation<span class="p">(</span>newImplementation<span class="p">);</span>
+<span class="w">        </span>emit<span class="w"> </span>Upgraded<span class="p">(</span>newImplementation<span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Perform implementation upgrade with additional setup call.</span>
+<span class="cm">     *</span>
+<span class="cm">     * Emits an {Upgraded} event.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_upgradeToAndCall</span><span class="p">(</span>
+<span class="w">        </span><span class="kt">address</span><span class="w"> </span><span class="nv">newImplementation</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">bytes</span><span class="w"> </span><span class="nv">memory</span><span class="w"> </span>data<span class="p">,</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="nv">forceCall</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>_upgradeTo<span class="p">(</span>newImplementation<span class="p">);</span>
+<span class="w">        </span><span class="kt">if</span><span class="w"> </span><span class="p">(</span>data<span class="p">.</span>length<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m m-Decimal">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>forceCall<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span>Address<span class="p">.</span>functionDelegateCall<span class="p">(</span>newImplementation<span class="p">,</span><span class="w"> </span>data<span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Perform implementation upgrade with security checks for UUPS proxies, and additional setup call.</span>
+<span class="cm">     *</span>
+<span class="cm">     * Emits an {Upgraded} event.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_upgradeToAndCallSecure</span><span class="p">(</span>
+<span class="w">        </span><span class="kt">address</span><span class="w"> </span><span class="nv">newImplementation</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">bytes</span><span class="w"> </span><span class="nv">memory</span><span class="w"> </span>data<span class="p">,</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="nv">forceCall</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">address</span><span class="w"> </span><span class="nv">oldImplementation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_getImplementation<span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Initial upgrade and setup call</span>
+<span class="w">        </span>_setImplementation<span class="p">(</span>newImplementation<span class="p">);</span>
+<span class="w">        </span><span class="kt">if</span><span class="w"> </span><span class="p">(</span>data<span class="p">.</span>length<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m m-Decimal">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>forceCall<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span>Address<span class="p">.</span>functionDelegateCall<span class="p">(</span>newImplementation<span class="p">,</span><span class="w"> </span>data<span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Perform rollback test if not already in progress</span>
+<span class="w">        </span>StorageSlot<span class="p">.</span>BooleanSlot<span class="w"> </span>storage<span class="w"> </span>rollbackTesting<span class="w"> </span><span class="o">=</span><span class="w"> </span>StorageSlot<span class="p">.</span>getBooleanSlot<span class="p">(</span>_ROLLBACK_SLOT<span class="p">);</span>
+<span class="w">        </span><span class="kt">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span>rollbackTesting<span class="p">.</span>value<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Trigger rollback using upgradeTo from the new implementation</span>
+<span class="w">            </span>rollbackTesting<span class="p">.</span>value<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">true</span><span class="p">;</span>
+<span class="w">            </span>Address<span class="p">.</span>functionDelegateCall<span class="p">(</span>
+<span class="w">                </span>newImplementation<span class="p">,</span>
+<span class="w">                </span>abi<span class="p">.</span>encodeWithSignature<span class="p">(</span><span class="s2">&quot;upgradeTo(address)&quot;</span><span class="p">,</span><span class="w"> </span>oldImplementation<span class="p">)</span>
+<span class="w">            </span><span class="p">);</span>
+<span class="w">            </span>rollbackTesting<span class="p">.</span>value<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">false</span><span class="p">;</span>
+<span class="w">            </span><span class="c1">// Check rollback was effective</span>
+<span class="w">            </span><span class="kt">require</span><span class="p">(</span>oldImplementation<span class="w"> </span><span class="o">==</span><span class="w"> </span>_getImplementation<span class="p">(),</span><span class="w"> </span><span class="s2">&quot;TRC1967Upgrade: upgrade breaks further upgrades&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="c1">// Finally reset to the new implementation and log the upgrade</span>
+<span class="w">            </span>_upgradeTo<span class="p">(</span>newImplementation<span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Storage slot with the admin of the contract.</span>
+<span class="cm">     * This is the keccak-256 hash of &quot;eip1967.proxy.admin&quot; subtracted by 1, and is</span>
+<span class="cm">     * validated in the constructor.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="k">internal </span><span class="nv">constant</span><span class="w"> </span>_ADMIN_SLOT<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103</span><span class="p">;</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Emitted when the admin account has changed.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">event</span><span class="w"> </span><span class="nv">AdminChanged</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">previousAdmin</span><span class="p">,</span><span class="w"> </span><span class="kt">address</span><span class="w"> </span><span class="nv">newAdmin</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Returns the current admin.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_getAdmin</span><span class="p">()</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>view<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">address</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">return</span><span class="w"> </span>StorageSlot<span class="p">.</span>getAddressSlot<span class="p">(</span>_ADMIN_SLOT<span class="p">).</span>value<span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Stores a new address in the TIP1967 admin slot.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_setAdmin</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">newAdmin</span><span class="p">)</span><span class="w"> </span><span class="kt">private</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">require</span><span class="p">(</span>newAdmin<span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kt">address</span><span class="p">(</span><span class="m m-Decimal">0</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;TRC1967: new admin is the zero address&quot;</span><span class="p">);</span>
+<span class="w">        </span>StorageSlot<span class="p">.</span>getAddressSlot<span class="p">(</span>_ADMIN_SLOT<span class="p">).</span>value<span class="w"> </span><span class="o">=</span><span class="w"> </span>newAdmin<span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Changes the admin of the proxy.</span>
+<span class="cm">     *</span>
+<span class="cm">     * Emits an {AdminChanged} event.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_changeAdmin</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">newAdmin</span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>emit<span class="w"> </span>AdminChanged<span class="p">(</span>_getAdmin<span class="p">(),</span><span class="w"> </span>newAdmin<span class="p">);</span>
+<span class="w">        </span>_setAdmin<span class="p">(</span>newAdmin<span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev The storage slot of the UpgradeableBeacon contract which defines the implementation for this proxy.</span>
+<span class="cm">     * This is bytes32(uint256(keccak256(&#39;eip1967.proxy.beacon&#39;)) - 1)) and is validated in the constructor.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="k">internal </span><span class="nv">constant</span><span class="w"> </span>_BEACON_SLOT<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xa3f0ad74e5423aebfd80d3ef4346578335a9a72aeaee59ff6cb3582b35133d50</span><span class="p">;</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Emitted when the beacon is upgraded.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">event</span><span class="w"> </span><span class="nv">BeaconUpgraded</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">indexed</span><span class="w"> </span>beacon<span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Returns the current beacon.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_getBeacon</span><span class="p">()</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>view<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">address</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">return</span><span class="w"> </span>StorageSlot<span class="p">.</span>getAddressSlot<span class="p">(</span>_BEACON_SLOT<span class="p">).</span>value<span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Stores a new beacon in the TIP1967 beacon slot.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_setBeacon</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">newBeacon</span><span class="p">)</span><span class="w"> </span><span class="kt">private</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">require</span><span class="p">(</span>Address<span class="p">.</span>isContract<span class="p">(</span>newBeacon<span class="p">),</span><span class="w"> </span><span class="s2">&quot;TRC1967: new beacon is not a contract&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">require</span><span class="p">(</span>
+<span class="w">            </span>Address<span class="p">.</span>isContract<span class="p">(</span>IBeacon<span class="p">(</span>newBeacon<span class="p">).</span>implementation<span class="p">()),</span>
+<span class="w">            </span><span class="s2">&quot;TRC1967: beacon implementation is not a contract&quot;</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span>StorageSlot<span class="p">.</span>getAddressSlot<span class="p">(</span>_BEACON_SLOT<span class="p">).</span>value<span class="w"> </span><span class="o">=</span><span class="w"> </span>newBeacon<span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Perform beacon upgrade with additional setup call. Note: This upgrades the address of the beacon, it does</span>
+<span class="cm">     * not upgrade the implementation contained in the beacon (see {UpgradeableBeacon-_setImplementation} for that).</span>
+<span class="cm">     *</span>
+<span class="cm">     * Emits a {BeaconUpgraded} event.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_upgradeBeaconToAndCall</span><span class="p">(</span>
+<span class="w">        </span><span class="kt">address</span><span class="w"> </span><span class="nv">newBeacon</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">bytes</span><span class="w"> </span><span class="nv">memory</span><span class="w"> </span>data<span class="p">,</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="nv">forceCall</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>_setBeacon<span class="p">(</span>newBeacon<span class="p">);</span>
+<span class="w">        </span>emit<span class="w"> </span>BeaconUpgraded<span class="p">(</span>newBeacon<span class="p">);</span>
+<span class="w">        </span><span class="kt">if</span><span class="w"> </span><span class="p">(</span>data<span class="p">.</span>length<span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m m-Decimal">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>forceCall<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span>Address<span class="p">.</span>functionDelegateCall<span class="p">(</span>IBeacon<span class="p">(</span>newBeacon<span class="p">).</span>implementation<span class="p">(),</span><span class="w"> </span>data<span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @dev This abstract contract provides a fallback function that delegates all calls to another contract using the EVM</span>
+<span class="cm"> * instruction `delegatecall`. We refer to the second contract as the _implementation_ behind the proxy, and it has to</span>
+<span class="cm"> * be specified by overriding the virtual {_implementation} function.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Additionally, delegation to the implementation can be triggered manually through the {_fallback} function, or to a</span>
+<span class="cm"> * different contract through the {_delegate} function.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The success and return data of the delegated call will be returned back to the caller of the proxy.</span>
+<span class="cm"> */</span>
+abstract<span class="w"> </span><span class="k">contract</span><span class="w"> </span><span class="ni">Proxy</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Delegates the current call to `implementation`.</span>
+<span class="cm">     *</span>
+<span class="cm">     * This function does not return to its internal call site, it will return directly to the external caller.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_delegate</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">implementation</span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>virtual<span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>assembly<span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Copy msg.data. We take full control of memory in this inline assembly</span>
+<span class="w">            </span><span class="c1">// block because it will not return to Solidity code. We overwrite the</span>
+<span class="w">            </span><span class="c1">// Solidity scratch pad at memory position 0.</span>
+<span class="w">            </span>calldatacopy<span class="p">(</span><span class="m m-Decimal">0</span><span class="p">,</span><span class="w"> </span><span class="m m-Decimal">0</span><span class="p">,</span><span class="w"> </span>calldatasize<span class="p">())</span>
+
+<span class="w">            </span><span class="c1">// Call the implementation.</span>
+<span class="w">            </span><span class="c1">// out and outsize are 0 because we don&#39;t know the size yet.</span>
+<span class="w">            </span>let<span class="w"> </span>result<span class="w"> </span><span class="o">:=</span><span class="w"> </span>delegatecall<span class="p">(</span>gas<span class="p">(),</span><span class="w"> </span>implementation<span class="p">,</span><span class="w"> </span><span class="m m-Decimal">0</span><span class="p">,</span><span class="w"> </span>calldatasize<span class="p">(),</span><span class="w"> </span><span class="m m-Decimal">0</span><span class="p">,</span><span class="w"> </span><span class="m m-Decimal">0</span><span class="p">)</span>
+
+<span class="w">            </span><span class="c1">// Copy the returned data.</span>
+<span class="w">            </span>returndatacopy<span class="p">(</span><span class="m m-Decimal">0</span><span class="p">,</span><span class="w"> </span><span class="m m-Decimal">0</span><span class="p">,</span><span class="w"> </span>returndatasize<span class="p">())</span>
+
+<span class="w">            </span>switch<span class="w"> </span>result
+<span class="w">            </span><span class="c1">// delegatecall returns 0 on error.</span>
+<span class="w">            </span>case<span class="w"> </span><span class="m m-Decimal">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span>revert<span class="p">(</span><span class="m m-Decimal">0</span><span class="p">,</span><span class="w"> </span>returndatasize<span class="p">())</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span>default<span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="kt">return</span><span class="p">(</span><span class="m m-Decimal">0</span><span class="p">,</span><span class="w"> </span>returndatasize<span class="p">())</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev This is a virtual function that should be overridden so it returns the address to which the fallback function</span>
+<span class="cm">     * and {_fallback} should delegate.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_implementation</span><span class="p">()</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>view<span class="w"> </span>virtual<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">address</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Delegates the current call to the address returned by `_implementation()`.</span>
+<span class="cm">     *</span>
+<span class="cm">     * This function does not return to its internal call site, it will return directly to the external caller.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_fallback</span><span class="p">()</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>virtual<span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>_beforeFallback<span class="p">();</span>
+<span class="w">        </span>_delegate<span class="p">(</span>_implementation<span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Fallback function that delegates calls to the address returned by `_implementation()`. Will run if no other</span>
+<span class="cm">     * function in the contract matches the call data.</span>
+<span class="cm">     */</span>
+<span class="w">    </span>fallback<span class="p">()</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span><span class="kt">payable</span><span class="w"> </span>virtual<span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>_fallback<span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Fallback function that delegates calls to the address returned by `_implementation()`. Will run if call data</span>
+<span class="cm">     * is empty.</span>
+<span class="cm">     */</span>
+<span class="w">    </span>receive<span class="p">()</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span><span class="kt">payable</span><span class="w"> </span>virtual<span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>_fallback<span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Hook that is called before falling back to the implementation. Can happen as part of a manual `_fallback`</span>
+<span class="cm">     * call, or as part of the Solidity `fallback` or `receive` functions.</span>
+<span class="cm">     *</span>
+<span class="cm">     * If overridden should call `super._beforeFallback()`.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_beforeFallback</span><span class="p">()</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>virtual<span class="w"> </span><span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @dev Library for reading and writing primitive types to specific storage slots.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Storage slots are often used to avoid storage conflict when dealing with upgradeable contracts.</span>
+<span class="cm"> * This library helps with reading and writing to such slots without the need for inline assembly.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The functions in this library return Slot structs that contain a `value` member that can be used to read or write.</span>
+<span class="cm"> */</span>
+<span class="kt">library</span><span class="w"> </span>StorageSlot<span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">struct</span><span class="w"> </span><span class="nv">AddressSlot</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">address</span><span class="w"> </span><span class="nv">value</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">struct</span><span class="w"> </span><span class="nv">BooleanSlot</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="nv">value</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">struct</span><span class="w"> </span><span class="nv">Bytes32Slot</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">value</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">struct</span><span class="w"> </span><span class="nv">Uint256Slot</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">value</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Returns an `AddressSlot` with member `value` located at `slot`.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">getAddressSlot</span><span class="p">(</span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">slot</span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>pure<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span>AddressSlot<span class="w"> </span>storage<span class="w"> </span>r<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>assembly<span class="w"> </span><span class="p">{</span>
+<span class="w">            </span>r<span class="p">.</span>slot<span class="w"> </span><span class="o">:=</span><span class="w"> </span>slot
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Returns an `BooleanSlot` with member `value` located at `slot`.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">getBooleanSlot</span><span class="p">(</span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">slot</span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>pure<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span>BooleanSlot<span class="w"> </span>storage<span class="w"> </span>r<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>assembly<span class="w"> </span><span class="p">{</span>
+<span class="w">            </span>r<span class="p">.</span>slot<span class="w"> </span><span class="o">:=</span><span class="w"> </span>slot
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Returns an `Bytes32Slot` with member `value` located at `slot`.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">getBytes32Slot</span><span class="p">(</span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">slot</span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>pure<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span>Bytes32Slot<span class="w"> </span>storage<span class="w"> </span>r<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>assembly<span class="w"> </span><span class="p">{</span>
+<span class="w">            </span>r<span class="p">.</span>slot<span class="w"> </span><span class="o">:=</span><span class="w"> </span>slot
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * @dev Returns an `Uint256Slot` with member `value` located at `slot`.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">getUint256Slot</span><span class="p">(</span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">slot</span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>pure<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span>Uint256Slot<span class="w"> </span>storage<span class="w"> </span>r<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>assembly<span class="w"> </span><span class="p">{</span>
+<span class="w">            </span>r<span class="p">.</span>slot<span class="w"> </span><span class="o">:=</span><span class="w"> </span>slot
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<p>This TRC relies on the fact that the chosen storage slots are <strong>not</strong> to be allocated by the solidity compiler. This guarantees that an implementation contract will not accidentally overwrite any of the information required for the proxy to operate. As such, locations with a high slot number were chosen to avoid clashes with the slots allocated by the compiler. Also, locations with no known preimage were picked, to ensure that a write to mapping with a maliciously crafted key could not overwrite it.</p>
+<p>Logic contracts that intend to modify proxy-specific information must do so deliberately (as is the case with UUPS) by writing to the specific storage slot.</p>
+<h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
+<p>Copyright and related rights waived via <a href="https://github.com/tronprotocol/tips/blob/master/LICENSE.md">CC0</a>.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <!--div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div-->
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "navigation.footer", "toc.integrate", "search.highlight", "search.suggest", "content.code.annotate", "content.tooltips", "navigation.tabs", "content.tabs.link", "content.code.copy", "tags"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../../../javascripts/toc.js"></script>
+      
+        <script src="../../../javascripts/nav-toc.js"></script>
+      
+        <script src="../../../javascripts/mathjax-sri.js"></script>
+      
+    
+  </body>
+</html>

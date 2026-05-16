@@ -7,8 +7,10 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
+        <meta name="author" content="Zorro <zorro11639@gmail.com>">
       
-        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/category-interface/">
+      
+        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/tip-6963/">
       
       
       
@@ -18,7 +20,7 @@
     
     
       
-        <title>TRON Improvement Proposals (TIPs) - java-tron</title>
+        <title>Multi Injected Provider Discovery - java-tron</title>
       
     
     
@@ -70,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tron-improvement-proposals-tips" class="md-skip">
+        <a href="#table-of-contents" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              TRON Improvement Proposals (TIPs)
+              Multi Injected Provider Discovery
             
           </span>
         </div>
@@ -1650,73 +1652,150 @@
   
 
 
-<h1 id="tron-improvement-proposals-tips">TRON Improvement Proposals (TIPs)<a class="headerlink" href="#tron-improvement-proposals-tips" title="Permanent link">&para;</a></h1>
-<p><strong>Categories:</strong></p>
-<p><a class="md-button" href="../">All</a> <a class="md-button" href="../category-core/">Core</a> <a class="md-button" href="../category-networking/">Networking</a> <a class="md-button md-button--primary" href="./">Interface</a> <a class="md-button" href="../category-trc/">TRC</a> <a class="md-button" href="../category-vm/">VM</a> <a class="md-button" href="../category-informational/">Informational</a></p>
-<p><strong>Quick Jump to Status:</strong></p>
-<p><a class="md-button" href="#final">Final</a></p>
-<hr />
-<h2 id="final">Final<a class="headerlink" href="#final" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">6963</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-6963.md">Multi Injected Provider Discovery</a></td>
-<td style="text-align: left;">Zorro(<a href="https://github.com/zorro11639">@zorro11639</a>)</td>
-<td style="text-align: left;">Interface</td>
-</tr>
-<tr>
-<td style="text-align: left;">3326</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-3326.md">Wallet Switch TRON Chain Method</a></td>
-<td style="text-align: left;">EllenWhitmore(<a href="https://github.com/EllenWhitmore">@EllenWhitmore</a>)</td>
-<td style="text-align: left;">Interface</td>
-</tr>
-<tr>
-<td style="text-align: left;">1193</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-1193.md">TRON Provider JavaScript API</a></td>
-<td style="text-align: left;">EllenWhitmore(<a href="https://github.com/EllenWhitmore">@EllenWhitmore</a>)</td>
-<td style="text-align: left;">Interface</td>
-</tr>
-<tr>
-<td style="text-align: left;">1102</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-1102.md">Opt-in account exposure</a></td>
-<td style="text-align: left;">EllenWhitmore(<a href="https://github.com/EllenWhitmore">@EllenWhitmore</a>)</td>
-<td style="text-align: left;">Interface</td>
-</tr>
-<tr>
-<td style="text-align: left;">712</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-712.md">TRON typed structured data hashing and signing</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">Interface</td>
-</tr>
-<tr>
-<td style="text-align: left;">544</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-544.md">Add <code>data</code> to the http interfaces interacting with smart contract</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">Interface</td>
-</tr>
-<tr>
-<td style="text-align: left;">387</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-387.md">Transaction memo fee</a></td>
-<td style="text-align: left;">Andy(<a href="https://github.com/zhang0125">@zhang0125</a>)</td>
-<td style="text-align: left;">Interface</td>
-</tr>
-<tr>
-<td style="text-align: left;">51</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-51.md">TRC-51 rate limit of API traffic</a></td>
-<td style="text-align: left;">Michael Sun(<a href="https://github.com/shydesky">@shydesky</a>)</td>
-<td style="text-align: left;">Interface</td>
-</tr>
-</tbody>
-</table>
+  <h1>Multi Injected Provider Discovery</h1>
+
+<div class="highlight"><pre><span></span><code>tip: 6963
+title: Multi Injected Provider Discovery
+author: Zorro &lt;zorro11639@gmail.com&gt;
+discussions to: https://github.com/tronprotocol/tips/issues/737
+category: Interface
+status: Final
+created: 2025-03-19
+</code></pre></div>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#abstract">Abstract</a></li>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#specification">Specification</a></li>
+<li><a href="#definitions">Definitions</a></li>
+<li><a href="#provider-info">Provider Info</a><ul>
+<li><a href="#imagesicons">Images/Icons</a></li>
+<li><a href="#rdns">RDNS</a></li>
+</ul>
+</li>
+<li><a href="#provider-detail">Provider Detail</a></li>
+<li><a href="#window-events">Window Events</a><ul>
+<li><a href="#announce-and-request-events">Announce and Request Events</a></li>
+</ul>
+</li>
+<li><a href="#backwards-compatibility">Backwards Compatibility</a></li>
+<li><a href="#copyright">Copyright</a></li>
+</ul>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>A standard mechanism for discovering multiple injected TRON Wallet Providers in a web page using JavaScript <code>window</code> events, as an alternative to <code>window.tron</code>.</p>
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>An alternative discovery mechanism to <code>window.tron</code> for <a href="https://github.com/tronprotocol/tips/blob/master/tip-1193.md">TIP-1193</a> providers which supports discovering multiple injected Wallet Providers in a web page using JavaScript <code>window</code> events.</p>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>Currently, Wallets that offer browser extensions must inject their TRON providers (<a href="https://github.com/tronprotocol/tips/blob/master/tip-1193.md">TIP-1193</a>) into the same window object <code>window.tron</code>; however, this creates conflicts for users that may install more than one browser extension.</p>
+<p>Browser extensions are loaded in the web page in an unpredictable and unstable order, resulting in a race condition where the user does not have control over which Wallet Provider is selected to expose the TRON interface under the <code>window.tron</code> object. Instead, the last wallet to load usually wins.</p>
+<p>This results not only in a degraded user experience but also increases the barrier to entry for new browser extensions as users are forced to only install one browser extension at a time.</p>
+<p>Some browser extensions attempt to counteract this problem by delaying their injection to overwrite the same <code>window.tron</code> object which creates an unfair competition for Wallet Providers and lack of interoperability.</p>
+<p>In this proposal, we present a solution that focuses on optimizing the interoperability of multiple Wallet Providers. This solution aims to foster fairer competition by reducing the barriers to entry for new Wallet Providers, along with enhancing the user experience on TRON networks.</p>
+<p>This is achieved by introducing a set of window events to provide a two-way communication protocol between TRON libraries and injected scripts provided by browser extensions thus enabling users to select their wallet of choice.</p>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<h3 id="definitions">Definitions<a class="headerlink" href="#definitions" title="Permanent link">&para;</a></h3>
+<p><strong>Wallet Provider</strong>: A user agent that manages keys and facilitates transactions on the TRON network.</p>
+<p><strong>Decentralized Application (DApp)</strong>: A web page that relies upon one or more Web3 APIs exposed through the wallet.</p>
+<p><strong>Provider Discovery Library</strong>: A library or piece of software that assists a DApp in interacting with the wallet.</p>
+<h3 id="provider-info">Provider Info<a class="headerlink" href="#provider-info" title="Permanent link">&para;</a></h3>
+<p>Each wallet provider must announce itself using the <code>TIP6963ProviderInfo</code> interface. All required fields defined in this interface must be included in the provider info object.</p>
+<ul>
+<li><strong><code>uuid</code></strong> - a globally unique identifier of the wallet provider that must be (<a href="https://www.rfc-editor.org/rfc/rfc4122">UUIDv4</a>-compliant) to uniquely distinguish different <a href="https://github.com/tronprotocol/tips/blob/master/tip-1193.md">TIP-1193</a> provider sessions that have matching properties defined below during the lifetime of the page. The cryptographic uniqueness provided by <a href="https://www.rfc-editor.org/rfc/rfc4122">UUIDv4</a> guarantees that two independent <code>TIP6963ProviderInfo</code> objects can be separately identified.</li>
+<li><strong><code>name</code></strong> - a human-readable local alias of the Wallet Provider to be displayed to the user on the DApp. (e.g. <code>Example Wallet Extension</code> or <code>Awesome Example Wallet</code>)</li>
+<li><strong><code>icon</code></strong> - a <a href="https://www.rfc-editor.org/rfc/rfc3986">URI</a> pointing to an image. The image should be a square with 96x96px minimum resolution. See the <a href="#imagesicons">Images/Icons</a> below for further requirements of this property.</li>
+<li><strong><code>rdns</code></strong> - The Wallet must supply the <code>rdns</code> property which is intended to be a domain name from the Domain Name System in reverse syntax ordering such as <code>com.example.subdomain</code>. It's up to the Wallet to determine the domain name they wish to use, but it's generally expected the identifier will remain the same throughout the development of the Wallet. It's also worth noting that similar to a user agent string in browsers, there are times where the supplied value could be unknown, invalid, incorrect, or attempt to imitate a different Wallet. Therefore, the DApp should be able to handle these failure cases with minimal degradation to the functionality of the DApp.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * Represents the assets needed to display a wallet</span>
+<span class="cm"> */</span>
+<span class="kd">interface</span><span class="w"> </span><span class="nx">TIP6963ProviderInfo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">uuid</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">rdns</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="imagesicons">Images/Icons<a class="headerlink" href="#imagesicons" title="Permanent link">&para;</a></h4>
+<p>A URI-encoded image was chosen to enable flexibility for multiple protocols for fetching and rendering icons, for example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># svg (data uri)</span>
+data:image/svg+xml,&lt;svg<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s2">&quot;1.1&quot;</span><span class="w"> </span><span class="nv">xmlns</span><span class="o">=</span><span class="s2">&quot;http://www.w3.org/2000/svg&quot;</span><span class="w"> </span><span class="nv">width</span><span class="o">=</span><span class="s2">&quot;32px&quot;</span><span class="w"> </span><span class="nv">height</span><span class="o">=</span><span class="s2">&quot;32px&quot;</span><span class="w"> </span><span class="nv">viewBox</span><span class="o">=</span><span class="s2">&quot;0 0 32 32&quot;</span>&gt;&lt;circle<span class="w"> </span><span class="nv">fill</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="w"> </span><span class="nv">cx</span><span class="o">=</span><span class="s2">&quot;16&quot;</span><span class="w"> </span><span class="nv">cy</span><span class="o">=</span><span class="s2">&quot;16&quot;</span><span class="w"> </span><span class="nv">r</span><span class="o">=</span><span class="s2">&quot;12&quot;</span>/&gt;&lt;/svg&gt;
+<span class="c1"># png (data uri)</span>
+data:image/png<span class="p">;</span>base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg<span class="o">==</span>
+</code></pre></div>
+<p>The <code>icon</code> string must be a data URI as defined in <a href="https://www.rfc-editor.org/rfc/rfc2397">RFC-2397</a>. The image should be a square with 96x96px minimum resolution. The image format is recommended to be either lossless or vector based such as PNG, WebP or SVG to make the image easy to render on the DApp. Since SVG images can execute Javascript, applications and libraries must render SVG images using the <code>&lt;img&gt;</code> tag to ensure no untrusted Javascript execution can occur.</p>
+<h4 id="rdns">RDNS<a class="headerlink" href="#rdns" title="Permanent link">&para;</a></h4>
+<p>The <strong><code>rdns</code></strong> (Reverse-DNS) property serves to provide an identifier which DApps can rely on to be stable between sessions. The Reverse Domain Name Notation is chosen to prevent namespace collisions.</p>
+<p>The Reverse-DNS convention implies that the value should start with a reversed DNS domain name controlled by the Provider. The domain name should be followed by a subdomain or a product name. Example: <code>com.example.MyBrowserWallet</code>.</p>
+<ul>
+<li>The <code>rdns</code> value must be a valid <a href="https://www.rfc-editor.org/rfc/rfc1034">RFC-1034</a> Domain Name;</li>
+<li>The DNS part of the <code>rdns</code> value should be an active domain controlled by the Provider;</li>
+<li>DApps may reject the Providers which do not follow the Reverse-DNS convention correctly;</li>
+<li>DApps should not use the <code>rdns</code> value for feature detection as these are self-attested and prone to impersonation or bad incentives without an additional verification mechanism; feature-discovery and verification are both out of scope of this interface specification.</li>
+</ul>
+<h3 id="provider-detail">Provider Detail<a class="headerlink" href="#provider-detail" title="Permanent link">&para;</a></h3>
+<p>The <code>TIP6963ProviderDetail</code> is used as a composition interface to announce a Wallet Provider and related metadata about the Wallet Provider. The <code>TIP6963ProviderDetail</code> must contain an <code>info</code> property of type <code>TIP6963ProviderInfo</code> and a <code>provider</code> property of type <code>TIP1193Provider</code> defined by <a href="https://github.com/tronprotocol/tips/blob/master/tip-1193.md">TIP-1193</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nx">TIP6963ProviderDetail</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">info</span><span class="o">:</span><span class="w"> </span><span class="kt">TIP6963ProviderInfo</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">provider</span><span class="o">:</span><span class="w"> </span><span class="kt">TIP1193Provider</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="window-events">Window Events<a class="headerlink" href="#window-events" title="Permanent link">&para;</a></h3>
+<p>In order to prevent provider collisions, the DApp and the Wallet are expected to emit an event and instantiate an eventListener to discover the various Wallets. This forms an Event concurrency loop.</p>
+<p>Since the DApp code and Wallet code aren't guaranteed to run in a particular order, the events are designed to handle such race conditions.</p>
+<p>To emit events, both DApps and Wallets must use the <code>window.dispatchEvent</code> function to emit events and must use the <code>window.addEventListener</code> function to observe events. There are two Event interfaces used for the DApp and Wallet to discover each other.</p>
+<h4 id="announce-and-request-events">Announce and Request Events<a class="headerlink" href="#announce-and-request-events" title="Permanent link">&para;</a></h4>
+<p>The <code>TIP6963AnnounceProviderEvent</code> interface must be a <code>CustomEvent</code> object with a <code>type</code> property containing a string value of <code>TIP6963:announceProvider</code> and a <code>detail</code> property with an object value of type <code>TIP6963ProviderDetail</code>. The <code>TIP6963ProviderDetail</code> object should be frozen by calling <code>Object.freeze()</code> on the value of the <code>detail</code> property.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Announce Event dispatched by a Wallet</span>
+<span class="kd">interface</span><span class="w"> </span><span class="nx">TIP6963AnnounceProviderEvent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">CustomEvent</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;TIP6963:announceProvider&quot;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="kt">TIP6963ProviderDetail</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The <code>TIP6963RequestProviderEvent</code> interface must be an <code>Event</code> object with a <code>type</code> property containing a string value of <code>TIP6963:requestProvider</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Request Event dispatched by a DApp</span>
+<span class="kd">interface</span><span class="w"> </span><span class="nx">TIP6963RequestProviderEvent</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Event</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;TIP6963:requestProvider&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The Wallet must announce the <code>TIP6963AnnounceProviderEvent</code> to the DApp via a <code>window.dispatchEvent()</code> function call. The Wallet must add an EventListener to catch a <code>TIP6963RequestProviderEvent</code> dispatched from the DApp. This EventListener must use a handler that will re-dispatch a <code>TIP6963AnnounceProviderEvent</code>. This re-announcement by the Wallet is useful for when a Wallet's initial Event announcement may have been delayed or fired before the DApp had initialized its EventListener. This allows the various Wallet Providers to react to the DApp without the need to pollute the <code>window.tron</code> namespace which can produce non-deterministic wallet behavior such as different wallets connecting each time.</p>
+<p>The Wallet dispatches the <code>"TIP6963:announceProvider"</code> event with immutable contents and listens to the <code>"TIP6963:requestProvider"</code> event:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">info</span><span class="o">:</span><span class="w"> </span><span class="kt">TIP6963ProviderInfo</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">provider</span><span class="o">:</span><span class="w"> </span><span class="kt">TIP1193Provider</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">announceEvent</span><span class="o">:</span><span class="w"> </span><span class="kt">TIP6963AnnounceProviderEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">CustomEvent</span><span class="p">(</span>
+<span class="w">  </span><span class="s2">&quot;TIP6963:announceProvider&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="kt">Object.freeze</span><span class="p">({</span><span class="w"> </span><span class="nx">info</span><span class="p">,</span><span class="w"> </span><span class="nx">provider</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">},</span>
+<span class="p">);</span>
+
+<span class="c1">// The Wallet dispatches an announce event which is heard by</span>
+<span class="c1">// the DApp code that had run earlier</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">announceEvent</span><span class="p">);</span>
+
+<span class="c1">// The Wallet listens to the request events which may be</span>
+<span class="c1">// dispatched later and re-dispatches the `TIP6963AnnounceProviderEvent`</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;TIP6963:requestProvider&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">announceEvent</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>The DApp must listen for the <code>TIP6963AnnounceProviderEvent</code> dispatched by the Wallet via a <code>window.addEventListener()</code> method and must not remove the Event Listener for the lifetime of the page so that the DApp can continue to handle Events beyond the initial page load interaction. The DApp must dispatch the <code>TIP6963RequestProviderEvent</code> via a <code>window.dispatchEvent()</code> function call after the <code>TIP6963AnnounceProviderEvent</code> handler has been initialized.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// The DApp listens to announced providers</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span>
+<span class="w">  </span><span class="s2">&quot;TIP6963:announceProvider&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">TIP6963AnnounceProviderEvent</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{},</span>
+<span class="p">);</span>
+
+<span class="c1">// The DApp dispatches a request event which will be heard by</span>
+<span class="c1">// Wallets&#39; code that had run earlier</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nx">Event</span><span class="p">(</span><span class="s2">&quot;TIP6963:requestProvider&quot;</span><span class="p">));</span>
+</code></pre></div>
+<p>The DApp may elect to persist various <code>TIP6963ProviderDetail</code> objects contained in the announcement events sent by multiple wallets. Thus, if the user wishes to utilize a different Wallet over time, the user can express this within the DApp's interface and the DApp can immediately elect to send transactions to that new Wallet. Otherwise, the DApp may re-initiate the wallet discovery flow via dispatching a new <code>TIP6963RequestProviderEvent</code>, potentially discovering a different set of wallets.</p>
+<p>The described orchestration of events guarantees that the DApp is able to discover the Wallet, regardless of which code executes first, the Wallet code or the DApp code.</p>
+<h2 id="backwards-compatibility">Backwards Compatibility<a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
+<p>This TIP doesn't require supplanting <code>window.tron</code>, so it doesn't directly break existing applications that cannot update to this method of Wallet discovery. However, it is recommended DApps implement this TIP to ensure discovery of multiple Wallet Providers and should disable <code>window.tron</code> usage except as a fail-over when discovery fails. Similarly, Wallets should keep compatibility of <code>window.tron</code> to ensure backwards compatibility for DApps that have not implemented this TIP. In order to prevent the previous issues of namespace collisions, it's also recommended that wallets inject their provider object under a wallet specific namespace then proxy the object into the <code>window.tron</code> namespace.</p>
+<h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
+<p>Copyright and related rights waived via <a href="../LICENSE/">CC0</a>.</p>
 
 
 
