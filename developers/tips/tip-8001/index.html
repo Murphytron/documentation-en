@@ -1661,7 +1661,7 @@ title: Agent Coordination Framework
 description: Minimal, single-chain, multi-party agent coordination using EIP-712 attestations
 author: yanghang8612@gmail.com
 discussions-to: https://github.com/tronprotocol/tips/issues/828
-status: Last Call
+status: Final
 type: Standards Track
 category: TRC
 created: 2025-08-02
@@ -1924,8 +1924,21 @@ error<span class="w"> </span>ERC8001_NotReady<span class="p">();</span>
 <li>Keeping TRC-8001 single-chain avoids coupling to bridge semantics and keeps the primitive audit-friendly.</li>
 <li>Wallet friendliness: EIP-712 arrays let signers see actual participant addresses.</li>
 </ul>
+<h3 id="reference-scenario">Reference Scenario<a class="headerlink" href="#reference-scenario" title="Permanent link">&para;</a></h3>
+<p>One natural fit for TRON is multi-agent DeFi coordination — for example, agents collaborating on cross-DEX execution via on-chain intents, with atomic settlement and result verification handled by the coordination framework.</p>
+<h2 id="tvm-compatibility">TVM Compatibility<a class="headerlink" href="#tvm-compatibility" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>Note (TRON/TVM):</strong> TRC-8001 targets the TRON Virtual Machine and is fully compatible with EVM-style EIP-712 signing primitives used by TRON wallets.</p>
+<ul>
+<li><strong><code>chainId</code></strong>: follows <a href="https://github.com/tronprotocol/tips/blob/master/tip-712.md">TIP-712</a>, which defines <code>chainId</code> as <code>block.chainid &amp; 0xffffffff</code> on TVM (e.g. <code>728126428</code> on TRON mainnet). The same convention applies on Nile and Shasta testnets.</li>
+<li><strong><code>address</code></strong>: within EIP-712 typed-data encoding, addresses MUST be encoded as <code>uint160</code> after removing the TRON-specific <code>0x41</code> prefix byte, as defined in <a href="https://github.com/tronprotocol/tips/blob/master/tip-712.md">TIP-712</a>. The <code>participants</code> array and all address fields follow this form.</li>
+<li><strong>Signatures</strong>: ECDSA over secp256k1 with low-<code>s</code> enforcement is the canonical form and is wire-compatible with TRON wallet signatures. Both 65-byte and <a href="https://eips.ethereum.org/EIPS/eip-2098">EIP-2098</a> 64-byte compact forms MUST be accepted, alongside <a href="https://eips.ethereum.org/EIPS/eip-1271">ERC-1271</a> contract-wallet signatures.</li>
+</ul>
+</blockquote>
 <h2 id="backwards-compatibility">Backwards Compatibility<a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
 <p>TRC-8001 introduces a new interface. It is compatible with EOA and contract wallets via ECDSA and ERC-1271. It does not modify existing standards.</p>
+<h3 id="related-tips">Related TIPs<a class="headerlink" href="#related-tips" title="Permanent link">&para;</a></h3>
+<p>TRC-8001 is the coordination primitive. <a href="https://github.com/tronprotocol/tips/blob/master/tip-1271.md">TRC-1271</a> is used for agent signature validation within the coordination flow, and <a href="https://github.com/tronprotocol/tips/issues/832">TRC-8126</a> (proposed) is intended to provide the complementary agent registration and verification layer.</p>
 <h2 id="reference-implementation">Reference Implementation<a class="headerlink" href="#reference-implementation" title="Permanent link">&para;</a></h2>
 <p>A permissive reference implementation is provided in <a href="https://github.com/ethereum/ERCs/blob/master/assets/erc-8001/contracts/AgentCoordination.sol"><code>contracts/AgentCoordination.sol</code></a>. It uses a minimal ECDSA helper and supports ERC-1271 signers. It enforces participant canonicalisation, intent nonces, acceptance freshness, and all-participants policy.</p>
 <h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>

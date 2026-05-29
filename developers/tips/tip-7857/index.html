@@ -1661,7 +1661,7 @@ title: AI Agents NFT with Private Metadata
 description: AI agent NFTs, enabling secure management of private metadata with verifiable data transfer
 author: yanghang8612@gmail.com
 discussions-to: https://github.com/tronprotocol/tips/issues/831
-status: Last Call
+status: Final
 type: Standards Track
 category: TRC
 created: 2025-01-02
@@ -1689,6 +1689,13 @@ created: 2025-01-02
 <li>The agent's execution environment can verify ownership and load appropriate metadata</li>
 </ol>
 <p>This TIP introduces a standard for NFTs with private metadata that addresses these requirements through privacy-preserving verification mechanisms, enabling secure ownership and transfer of valuable agent data while maintaining confidentiality and verifiability. This standard will serve as a foundation for the emerging agent ecosystem, allowing platforms to provide verifiable agent ownership and secure metadata management in a decentralized manner.</p>
+<h3 id="relationship-to-erc-7662">Relationship to ERC-7662<a class="headerlink" href="#relationship-to-erc-7662" title="Permanent link">&para;</a></h3>
+<p>Both <a href="https://eips.ethereum.org/EIPS/eip-7662">ERC-7662</a> and this standard represent AI agents as NFTs, but they focus on different layers:</p>
+<ul>
+<li><strong>ERC-7662</strong> is essentially an <a href="https://github.com/tronprotocol/tips/blob/master/tip-721.md">TRC-721</a>/ERC-721 extension that adds an <code>IERC7662.getAgentData</code> view returning name, description, model, user/system prompt URIs, and a <code>promptsEncrypted</code> flag. It provides basic encryption status tracking, but the encryption itself is handled externally — the standard does not define how encrypted metadata is transferred or re-encrypted when ownership changes.</li>
+<li><strong>TRC-7857</strong> goes further by building a full privacy-preserving transfer workflow into the standard itself. It defines on-chain verifier contracts and off-chain provers that cryptographically guarantee: (1) the seller actually holds the original data, (2) correct decryption and re-encryption occurred, (3) the new key is sealed with the buyer's public key, and (4) data availability is confirmed by the receiver's signature. It supports both TEE-based and ZKP-based verification paths.</li>
+</ul>
+<p>In short, ERC-7662 handles "who owns the agent NFT and where the metadata lives," while TRC-7857 handles "how to securely transfer the actual agent intelligence (models, memory, character) without exposing it to anyone other than the rightful owner."</p>
 <h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
 <p>This TIP defines three key interfaces: the main NFT interface, the metadata interface, and the data verification interface.</p>
 <h3 id="data-verification-system">Data Verification System<a class="headerlink" href="#data-verification-system" title="Permanent link">&para;</a></h3>
@@ -1997,6 +2004,14 @@ interface<span class="w"> </span>IERC7857Metadata<span class="w"> </span><span c
 <span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">getDelegateAccess</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">_user</span><span class="p">)</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span>view<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">address</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
+<h3 id="contract-interaction-flow">Contract Interaction Flow<a class="headerlink" href="#contract-interaction-flow" title="Permanent link">&para;</a></h3>
+<p>This standard is a pure smart contract specification. It can be implemented entirely on TVM without any protocol-level changes — all core operations (encrypted metadata hash storage, ownership tracking, and proof verification) are standard contract-level logic that TVM already supports. The heavy lifting (metadata encryption/re-encryption, AI model storage, oracle proof generation) all happens off-chain.</p>
+<p>Cross-contract interactions follow the interfaces defined in this specification and rely on the existing cross-contract call mechanism that TVM shares with the EVM, with no protocol-layer modifications required:</p>
+<ol>
+<li>The NFT contract calls the verifier contract through <code>verifier().verifyTransferValidity(...)</code> during <code>iTransfer</code> and <code>iClone</code>, consuming the structured <code>TransferValidityProofOutput[]</code> that the verifier returns.</li>
+<li>The verifier contract queries the configured oracle / attestation contract (e.g., a TEE attestation contract) to validate the underlying proof material.</li>
+<li>Interactions between the verifier contract and any oracle / attestation contract it relies on are implementation-specific and not standardized by this TIP; no additional coordination layer above the NFT–verifier interface is required.</li>
+</ol>
 <h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
 <p>The design choices in this standard are motivated by several key requirements:</p>
 <ol>
@@ -2022,7 +2037,24 @@ interface<span class="w"> </span>IERC7857Metadata<span class="w"> </span><span c
 </ol>
 <h2 id="backwards-compatibility">Backwards Compatibility<a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
 <p>This TIP does not inherit from existing NFT standards to maintain its focus on functional data management. However, implementations can choose to additionally implement <a href="https://github.com/tronprotocol/tips/blob/master/tip-721.md">TRC-721</a> if traditional NFT compatibility is desired.</p>
+<h2 id="v1-scope">V1 Scope<a class="headerlink" href="#v1-scope" title="Permanent link">&para;</a></h2>
+<p>The immediate goal of this TIP is <strong>specification only</strong> — defining the interfaces, proof semantics, and transfer workflows adapted for TRON. Specifically:</p>
+<ul>
+<li><strong>In scope (normative).</strong> The private-metadata NFT interface, the data verification interface, the ownership and transfer-validity proof semantics, and the transfer / clone / authorization workflows defined above.</li>
+<li><strong>Out of scope for V1.</strong> Deployment of TEE/ZKP attestation contracts and prover networks, and any associated infrastructure roadmap. Such infrastructure belongs to the implementation layer and is tracked as a separate follow-up milestone.</li>
+<li><strong>TRC-721 compatibility.</strong> Remains an optional recommendation, not a mandatory base, consistent with the equivalent treatment in <a href="https://eips.ethereum.org/EIPS/eip-7857">ERC-7857</a>.</li>
+<li><strong>Reference Implementation.</strong> The contract code provided below is informative and intended to illustrate how the normative interfaces can be wired together; a production-grade reference implementation may follow once the spec is stable and the community has aligned on the verification approach.</li>
+</ul>
+<h2 id="implementation-notes">Implementation Notes<a class="headerlink" href="#implementation-notes" title="Permanent link">&para;</a></h2>
+<p>The TEE/ZKP re-encryption infrastructure required by this standard is specialized and beyond what general-purpose oracles (such as WINkLink) can provide. This TIP only standardizes the on-chain interfaces and proof semantics; deployment of the attestation contracts and prover networks is left to ecosystem participants. Possible paths include:</p>
+<ol>
+<li><strong>Partnering with existing infrastructure providers</strong> who already operate TEE/ZKP verification for <a href="https://eips.ethereum.org/EIPS/eip-7857">ERC-7857</a> (for example, 0G documents a TEE-based oracle for ERC-7857 iNFT transfers).</li>
+<li><strong>Community-driven development of TRON-native verification infrastructure</strong>, in which case the attestation contracts targeted by the verifier are deployed on TVM directly.</li>
+<li><strong>Cross-chain integration with existing off-chain prover networks</strong>, in which case the on-chain verifier consumes attestations sourced from another network.</li>
+</ol>
+<p>The choice between these paths is non-normative; any combination is acceptable as long as the verifier contract honors the interface and proof semantics defined in this TIP.</p>
 <h2 id="reference-implementation">Reference Implementation<a class="headerlink" href="#reference-implementation" title="Permanent link">&para;</a></h2>
+<p><em>This section is informative / non-normative. The contracts below illustrate one possible wiring of the interfaces specified above and are not part of the normative requirements of this TIP.</em></p>
 <h3 id="verifier">Verifier<a class="headerlink" href="#verifier" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>abstract<span class="w"> </span><span class="k">contract</span><span class="w"> </span><span class="ni">BaseVerifier</span><span class="w"> </span><span class="kt">is</span><span class="w"> </span>IERC7857DataVerifier<span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// prevent replay attack</span>
@@ -2774,6 +2806,13 @@ interface<span class="w"> </span>IERC7857Metadata<span class="w"> </span><span c
 <li>The Sealed Executor authenticates users and processes requests in a secure environment by verifying user signatures against authorized public keys for each tokenId</li>
 <li>The Sealed Executor can be implemented through a trusted party (where permitted), TEE or FHE</li>
 <li>Ensuring secure request processing and result delivery</li>
+</ul>
+</li>
+<li><strong>Off-chain Storage</strong><ul>
+<li>This standard relies on privacy-preserving, verifiable off-chain storage for encrypted AI metadata; only data hashes and sealed keys are kept on-chain</li>
+<li>The standard is orthogonal to the choice of storage backend and does not mandate a specific provider</li>
+<li>On TRON, implementations MAY use <a href="https://www.btfs.io/">BTFS</a> or any other decentralized storage that offers comparable availability and integrity guarantees; cross-chain access to dedicated DA layers (for example, 0G Storage) is also an acceptable implementation path</li>
+<li>Regardless of the backend, implementations should ensure that the ciphertext referenced by <code>dataHash</code> remains retrievable for as long as the corresponding token exists, and that retrieval does not leak the plaintext to unauthorized parties</li>
 </ul>
 </li>
 </ol>

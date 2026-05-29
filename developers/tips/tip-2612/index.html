@@ -1661,7 +1661,7 @@ title: Permit Extension for TIP-20 Signed Approvals
 description: TIP-20 approvals via TIP-712 secp256k1 signatures
 author: yanghang8612@gmail.com
 discussions-to: https://github.com/tronprotocol/tips/issues/842
-status: Last Call
+status: Final
 type: Standards Track
 category: TRC
 created: 2026-03-24
@@ -1806,6 +1806,8 @@ A common choice for <code>DOMAIN_SEPARATOR</code> is:</p>
 <p>Though the signer of a <code>Permit</code> may have a certain party in mind to submit their transaction, another party can always front run this transaction and call <code>permit</code> before the intended party. The end result is the same for the <code>Permit</code> signer, however.</p>
 <p>Since the ecrecover precompile fails silently and just returns the zero address as <code>signer</code> when given malformed messages, it is important to ensure <code>owner != address(0)</code> to avoid <code>permit</code> from creating an approval to spend "zombie funds" belong to the zero address.</p>
 <p>Signed <code>Permit</code> messages are censorable. The relaying party can always choose to not submit the <code>Permit</code> after having received it, withholding the option to submit it. The <code>deadline</code> parameter is one mitigation to this. If the signing party holds TRX they can also just submit the <code>Permit</code> themselves, which can render previously signed <code>Permit</code>s invalid.</p>
+<p><strong>Implementation Note on <code>deadline</code></strong></p>
+<p>While the protocol does not enforce a specific value for <code>deadline</code>, frontend interfaces are encouraged to set it to a near-future timestamp (for example, <code>block.timestamp + 5–10 minutes</code>) rather than <code>type(uint256).max</code>, so that the parameter retains its protective value against relayer censorship and stale signature replay. Wallets are encouraged to clearly display the <code>deadline</code> value when prompting users for permit signatures, so that signers can verify the validity window before approving the transaction.</p>
 <p>The standard TIP-20 race condition for approvals (SWC-114) applies to <code>permit</code> as well.</p>
 <p>If the <code>DOMAIN_SEPARATOR</code> contains the <code>chainId</code> and is defined at contract deployment instead of reconstructed for every signature, there is a risk of possible replay attacks between chains in the event of a future chain split.</p>
 <h2 id="future-extensions">Future Extensions<a class="headerlink" href="#future-extensions" title="Permanent link">&para;</a></h2>

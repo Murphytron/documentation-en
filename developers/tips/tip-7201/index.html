@@ -6,9 +6,13 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Conventions for the storage location of structs in the namespaced storage pattern.">
       
       
-        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/category-trc/">
+        <meta name="author" content="TonyStank911@gmail.com">
+      
+      
+        <link rel="canonical" href="https://tronprotocol.github.io/documentation-en/developers/tips/tip-7201/">
       
       
       
@@ -18,7 +22,7 @@
     
     
       
-        <title>TRON Improvement Proposals (TIPs) - java-tron</title>
+        <title>Namespaced Storage Layout - java-tron</title>
       
     
     
@@ -70,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tron-improvement-proposals-tips" class="md-skip">
+        <a href="#abstract" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              TRON Improvement Proposals (TIPs)
+              Namespaced Storage Layout
             
           </span>
         </div>
@@ -1650,334 +1654,95 @@
   
 
 
-<h1 id="tron-improvement-proposals-tips">TRON Improvement Proposals (TIPs)<a class="headerlink" href="#tron-improvement-proposals-tips" title="Permanent link">&para;</a></h1>
-<p><strong>Categories:</strong></p>
-<p><a class="md-button" href="../">All</a> <a class="md-button" href="../category-core/">Core</a> <a class="md-button" href="../category-networking/">Networking</a> <a class="md-button" href="../category-interface/">Interface</a> <a class="md-button md-button--primary" href="./">TRC</a> <a class="md-button" href="../category-vm/">VM</a> <a class="md-button" href="../category-informational/">Informational</a></p>
-<p><strong>Quick Jump to Status:</strong></p>
-<p><a class="md-button" href="#draft">Draft</a> <a class="md-button" href="#last-call">Last Call</a> <a class="md-button" href="#final">Final</a> <a class="md-button" href="#deferred">Deferred</a></p>
-<hr />
-<h2 id="draft">Draft<a class="headerlink" href="#draft" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">165</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-165.md">TRC-165 Standard Interface Detection In Contract</a></td>
-<td style="text-align: left;">Timothy(<a href="https://github.com/timothyckw">@timothyckw</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-</tbody>
-</table>
-<h2 id="last-call">Last Call<a class="headerlink" href="#last-call" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">7201</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-7201.md">Namespaced Storage Layout</a></td>
-<td style="text-align: left;">TonyStank911@gmail.com</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">2771</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-2771.md">Secure Protocol for Native Meta Transactions</a></td>
-<td style="text-align: left;">lily309@gmail.com</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">104</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-104.md">Data Signing Specification</a></td>
-<td style="text-align: left;">Federico2014(<a href="https://github.com/Federico2014">@Federico2014</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">102</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-102.md">Hierarchical Deterministic Wallet</a></td>
-<td style="text-align: left;">Federico2014(<a href="https://github.com/Federico2014">@Federico2014</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">101</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-101.md">Wallet Keystore Specification</a></td>
-<td style="text-align: left;">Federico2014(<a href="https://github.com/Federico2014">@Federico2014</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-</tbody>
-</table>
-<h2 id="final">Final<a class="headerlink" href="#final" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">8004</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-8004.md">Trustless Agents - Discover agents and establish trust through reputation and validation</a></td>
-<td style="text-align: left;">team-bankofai(<a href="https://github.com/team-bankofai">@team-bankofai</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">8001</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-8001.md">Agent Coordination Framework</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">7857</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-7857.md">AI Agents NFT with Private Metadata</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">7007</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-7007.md">Verifiable AI-Generated Content Token</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">4907</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-4907.md">Fork from ERC-4907 Rental NFT</a></td>
-<td style="text-align: left;">lopeed(<a href="https://github.com/lopeed">@lopeed</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">4626</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-4626.md">Tokenized Vaults</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">2612</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-2612.md">Permit Extension for TIP-20 Signed Approvals</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">1967</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-1967.md">Proxy Storage Slots</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">1271</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-1271.md">Standard Signature Validation Method for Contracts</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">1155</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-1155.md">Multi Token Standard</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">721</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-721.md">TRC-721 Non-Fungible Token Standard</a></td>
-<td style="text-align: left;">Timothy(<a href="https://github.com/timothyckw">@timothyckw</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">484</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-484.md">Smart Contract Standard for TRX liquidity staking and resource market</a></td>
-<td style="text-align: left;">raymondliu0711(<a href="https://github.com/raymondliu0711">@raymondliu0711</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">293</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-293.md">Add a proposal to adjust the total net limit</a></td>
-<td style="text-align: left;">Federico2014(<a href="https://github.com/Federico2014">@Federico2014</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">292</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-292.md">Add a proposal to adjust the free net limit in an account</a></td>
-<td style="text-align: left;">Federico2014(<a href="https://github.com/Federico2014">@Federico2014</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">222</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-222.md">Improve transaction execution speed</a></td>
-<td style="text-align: left;">lvs007(<a href="https://github.com/lvs007">@lvs007</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">191</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-191.md">Signed Data Standard</a></td>
-<td style="text-align: left;">Asuka(<a href="https://github.com/yanghang8612">@yanghang8612</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">135</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-135.md">Shielded TRC-20 Contract</a></td>
-<td style="text-align: left;">Federico2014(<a href="https://github.com/Federico2014">@Federico2014</a>), Federico2014(<a href="https://github.com/Federico2014">@Federico2014</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">120</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-120.md">ECDSA Signature Encoding Specification</a></td>
-<td style="text-align: left;">Federico2014(<a href="https://github.com/Federico2014">@Federico2014</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">105</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-105.md">Multi-signature Permission Operation</a></td>
-<td style="text-align: left;">Federico2014(<a href="https://github.com/Federico2014">@Federico2014</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">54</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-54.md">TRC-54: Automatically active non-existent account when transferring TRX/TRC10 asset in a smart contract</a></td>
-<td style="text-align: left;">BlueHoopor(<a href="https://github.com/BlueHoopor">@BlueHoopor</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">53</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-53.md">Optimize the current TRON delegation mechanism</a></td>
-<td style="text-align: left;">ffkissyou(<a href="https://github.com/lvs007">@lvs007</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">44</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-44.md">TRC-44 Address.isContract instructions</a></td>
-<td style="text-align: left;">llwslc(<a href="https://github.com/llwslc">@llwslc</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">43</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-43.md">TRC-43: Precompiled contract function for signature parallel verification</a></td>
-<td style="text-align: left;">Julian.Kang(<a href="https://github.com/Sh11thead">@Sh11thead</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">41</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-41.md">Optimize transactionHistoryStore occupancy space#40</a></td>
-<td style="text-align: left;">wubin1<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#119;&#117;&#98;&#105;&#110;&#49;&#64;&#116;&#114;&#111;&#110;&#46;&#110;&#101;&#116;&#119;&#111;&#114;&#107;">&#119;&#117;&#98;&#105;&#110;&#49;&#64;&#116;&#114;&#111;&#110;&#46;&#110;&#101;&#116;&#119;&#111;&#114;&#107;</a></td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">37</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-37.md">TRC-37: forbid using TransferContract &amp; TransferAssetContract  for contract account</a></td>
-<td style="text-align: left;">taihaofu(<a href="https://github.com/taihaofu">@taihaofu</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">32</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-32.md">TRC-32 Clear the ABI of contract</a></td>
-<td style="text-align: left;">llwslc(<a href="https://github.com/llwslc">@llwslc</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">31</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-31.md">TRC-31 Trigger constant contract</a></td>
-<td style="text-align: left;">llwslc(<a href="https://github.com/llwslc">@llwslc</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">30</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-30.md">TRC-30 Code hash instructions</a></td>
-<td style="text-align: left;">llwslc(<a href="https://github.com/llwslc">@llwslc</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">29</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-29.md">Bitwise shifting instructions in Tron</a></td>
-<td style="text-align: left;">yinshucheng(<a href="https://github.com/yinshucheng">@yinshucheng</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">26</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-26.md">Add a contract creation function called CREATE2</a></td>
-<td style="text-align: left;">Unknown</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">24</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-24.md">Implement DB storage with RocksDB</a></td>
-<td style="text-align: left;">Michael Sun(<a href="https://github.com/shydesky">@shydesky</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">23</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-23.md">TRC-23 Add the account world status tree root to the block header</a></td>
-<td style="text-align: left;">lvs007(<a href="https://github.com/lvs007">@lvs007</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">20</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-20.md">TRC-20 Token Standard</a></td>
-<td style="text-align: left;">zhaohong(<a href="https://github.com/zhaohong">@zhaohong</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">17</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-17.md">Adaptive Energy Limit Model</a></td>
-<td style="text-align: left;">nanfengpo(<a href="https://github.com/nanfengpo">@nanfengpo</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">16</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-16.md">Account Multi-signature</a></td>
-<td style="text-align: left;">hzhao(<a href="https://github.com/zhaohong">@zhaohong</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">13</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-13.md">Account System Standard</a></td>
-<td style="text-align: left;">Justin(<a href="https://github.com/justintron">@justintron</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">12</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-12.md">TRC-12 Tron event subscribes model</a></td>
-<td style="text-align: left;">jiangyy0824(<a href="https://github.com/jiangyy0824">@jiangyy0824</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-<tr>
-<td style="text-align: left;">10</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-10.md">TRC-10 Token Standard</a></td>
-<td style="text-align: left;">hzhao(<a href="https://github.com/zhaohong">@zhaohong</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-</tbody>
-</table>
-<h2 id="deferred">Deferred<a class="headerlink" href="#deferred" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;">TIP</th>
-<th style="text-align: left;">Title</th>
-<th style="text-align: left;">Author</th>
-<th style="text-align: left;">Category</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;">19</td>
-<td style="text-align: left;"><a href="https://github.com/tronprotocol/tips/blob/master/tip-19.md">TRC-19 Deferred transaction</a></td>
-<td style="text-align: left;">jiangyy0824(<a href="https://github.com/jiangyy0824">@jiangyy0824</a>)</td>
-<td style="text-align: left;">TRC</td>
-</tr>
-</tbody>
-</table>
+  <h1>Namespaced Storage Layout</h1>
+
+<div class="highlight"><pre><span></span><code>tip: 7201
+title: Namespaced Storage Layout
+description: Conventions for the storage location of structs in the namespaced storage pattern.
+author: TonyStank911@gmail.com
+discussions-to: https://github.com/tronprotocol/tips/issues/853
+status: Last Call
+type: Standards Track
+category: TRC
+created: 2026-04-09
+</code></pre></div>
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>We define the NatSpec annotation <code>@custom:storage-location</code> to document storage namespaces and their location in storage in Solidity or Vyper source code. Additionally, we define a formula to derive a location from an arbitrary identifier. The formula is chosen to be safe against collisions with the storage layouts used by Solidity and Vyper.</p>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>Smart contract languages such as Solidity and Vyper rely on tree-shaped storage layout. This tree starts at slot 0 and is composed of sequential chunks for consecutive variables. Hashes are used to ensure the chunks containing values of mappings and dynamic arrays do not collide. This is sufficient for most contracts. However, it presents a challenge for various design patterns used in smart contract development. One example is a modular design where using <code>DELEGATECALL</code> a contract executes code from multiple contracts, all of which share the same storage space, and which have to carefully coordinate on how to use it. Another example is upgradeable contracts, where it can be difficult to add state variables in an upgrade given that they may affect the assigned storage location for the preexisting variables.</p>
+<p>Rather than using this default storage layout, these patterns can benefit from laying out state variables across the storage space, usually at pseudorandom locations obtained by hashing. Each value may be placed in an entirely different location, but more frequently values that are used together are put in a Solidity struct and co-located in storage. These pseudorandom locations can be the root of new storage trees that follow the same rules as the default one. Provided that this pseudorandom root is constructed so that it is not part of the default tree, this should result in the definition of independent spaces that do not collide with one another or with the default one.</p>
+<p>These storage usage patterns are invisible to the Solidity and Vyper compilers because they are not represented as Solidity state variables. Smart contract tools like static analyzers or blockchain explorers often need to know the storage location of contract data. Standardizing the location for storage layouts will allow these tools to correctly interpret contracts where these design patterns are used.</p>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<h3 id="preliminaries">Preliminaries<a class="headerlink" href="#preliminaries" title="Permanent link">&para;</a></h3>
+<p>A <em>namespace</em> consists of a set of ordered variables, some of which may be dynamic arrays or mappings, with its values laid out following the same rules as the default storage layout but rooted in some location that is not necessarily slot 0. A contract using namespaces to organize storage is said to use <em>namespaced storage</em>.</p>
+<p>A <em>namespace id</em> is a string that identifies a namespace in a contract. It should not contain any whitespace characters.</p>
+<h3 id="customstorage-location"><code>@custom:storage-location</code><a class="headerlink" href="#customstorage-location" title="Permanent link">&para;</a></h3>
+<p>A namespace in a contract should be implemented as a struct type. These structs should be annotated with the NatSpec tag <code>@custom:storage-location &lt;FORMULA_ID&gt;:&lt;NAMESPACE_ID&gt;</code>, where <code>&lt;FORMULA_ID&gt;</code> identifies a formula used to compute the storage location where the namespace is rooted, based on the namespace id. _(Note: The <code>@custom:storage-location</code> annotation is a Solidity NatSpec feature, included in the AST since Solidity v0.8.20, which is the recommended minimum compiler version when using this pattern. Vyper does not use NatSpec and does not currently support this annotation; Vyper developers using namespaced storage should document namespace locations through their own conventions.)_Structs with this annotation found outside of contracts are not considered to be namespaces for any contract in the source code.</p>
+<h3 id="formula">Formula<a class="headerlink" href="#formula" title="Permanent link">&para;</a></h3>
+<p>The formula identified by <code>trc7201</code> is defined as <code>trc7201(id: string) = keccak256(keccak256(id) - 1) &amp; ~0xff</code>. In Solidity, this corresponds to the expression <code>keccak256(abi.encode(uint256(keccak256(bytes(id))) - 1)) &amp; ~bytes32(uint256(0xff))</code>. When using this formula the annotation becomes <code>@custom:storage-location trc7201:&lt;NAMESPACE_ID&gt;</code>. For example, <code>@custom:storage-location trc7201:foobar</code> annotates a namespace with id <code>"foobar"</code> rooted at <code>trc7201("foobar")</code>.</p>
+<p>Future TIPs may define new formulas with unique formula identifiers. Formula IDs MUST be globally unique across all TIPs to prevent conflicts. It is recommended to follow the convention set in this TIP and use an identifier of the format <code>trc1234</code>.</p>
+<h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<p>The tree-shaped storage layout used by Solidity and Vyper follows the following grammar (with root=0):</p>
+<p><span class="arithmatex"><span class="MathJax_Preview">L_{root} := \mathit{root} \mid L_{root} + n \mid \texttt{keccak256}(L_{root}) \mid \texttt{keccak256}(H(k) \oplus L_{root}) \mid \texttt{keccak256}(L_{root} \oplus H(k))</span><script type="math/tex">L_{root} := \mathit{root} \mid L_{root} + n \mid \texttt{keccak256}(L_{root}) \mid \texttt{keccak256}(H(k) \oplus L_{root}) \mid \texttt{keccak256}(L_{root} \oplus H(k))</script></span></p>
+<p>A requirement for the root is that it shouldn't overlap with any storage location that would be part of the standard storage tree used by Solidity and Vyper (root = 0), nor should it be part of the storage tree derived from any other namespace (another root). This is so that multiple namespaces may be used alongside each other and alongside the standard storage layout, either deliberately or accidentally, without colliding. The term <code>keccak256(id) - 1</code> in the formula is chosen as a location that is unused by Solidity, but this is not used as the final location because namespaces can be larger than 1 slot and would extend into <code>keccak256(id) + n</code>, which is potentially used by Solidity. A second hash is added to prevent this and guarantee that namespaces are completely disjoint from standard storage, assuming keccak256 collision resistance and that arrays are not unreasonably large.</p>
+<blockquote>
+<p><strong>Note:</strong> The <code>&amp; ~0xff</code> mask aligns namespace roots to 256-slot boundaries. If a namespace struct contains fewer than 256 slots, it is fully contained within a single aligned chunk. If a struct exceeds 256 slots, it extends beyond the chunk boundary. In this case, the guarantee of no overlap with other namespaces or default storage relies on keccak256 collision resistance of the roots and the practical assumption that structs are not unreasonably large. Developers should be aware of this when designing particularly large namespace structs.</p>
+</blockquote>
+<p>Additionally, namespace locations are aligned to 256 as a potential optimization, in anticipation of gas schedule changes after the Verkle state tree migration, which may cause groups of 256 storage slots to become warm all at once.</p>
+<h3 id="naming">Naming<a class="headerlink" href="#naming" title="Permanent link">&para;</a></h3>
+<p>This pattern has sometimes been referred to as "diamond storage". This causes it to be conflated with the "diamond proxy pattern", even though they can be used independently of each other. This TIP has chosen to use a different name to clearly differentiate it from the proxy pattern.</p>
+<h2 id="backwards-compatibility">Backwards Compatibility<a class="headerlink" href="#backwards-compatibility" title="Permanent link">&para;</a></h2>
+<p>No backward compatibility issues found.</p>
+<h2 id="reference-implementation">Reference Implementation<a class="headerlink" href="#reference-implementation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">pragma solidity</span><span class="w"> </span><span class="o">^</span><span class="k">0.8.20</span><span class="p">;</span>
+
+<span class="k">contract</span><span class="w"> </span><span class="ni">Example</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">/// @custom:storage-location trc7201:example.main</span>
+<span class="w">    </span><span class="kt">struct</span><span class="w"> </span><span class="nv">MainStorage</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">x</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">y</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// keccak256(abi.encode(uint256(keccak256(&quot;example.main&quot;)) - 1)) &amp; ~bytes32(uint256(0xff));</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="k">private </span><span class="nv">constant</span><span class="w"> </span>MAIN_STORAGE_LOCATION<span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="mh">0x183a6125c38840424c4a85fa12bab2ab606c4b6d0e7cc73c0c06ba5300eab500</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_getMainStorage</span><span class="p">()</span><span class="w"> </span><span class="kt">private</span><span class="w"> </span>pure<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span>MainStorage<span class="w"> </span>storage<span class="w"> </span><span class="err">$</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>assembly<span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="err">$</span><span class="p">.</span>slot<span class="w"> </span><span class="o">:=</span><span class="w"> </span>MAIN_STORAGE_LOCATION
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">_getXTimesY</span><span class="p">()</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>view<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">uint256</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>MainStorage<span class="w"> </span>storage<span class="w"> </span><span class="err">$</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_getMainStorage<span class="p">();</span>
+<span class="w">        </span><span class="kt">return</span><span class="w"> </span><span class="err">$</span><span class="p">.</span>x<span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="err">$</span><span class="p">.</span>y<span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<p>Namespaces should avoid collisions with other namespaces or with standard Solidity or Vyper storage layout. The formula defined in this TRC guarantees this property for arbitrary namespace ids under the assumption of keccak256 collision resistance, as discussed in Rationale.</p>
+<p><code>@custom:storage-location</code> is a NatSpec annotation that current compilers don't enforce any rules for or ascribe any meaning to. The contract developer is responsible for implementing the pattern and using the namespace as claimed in the annotation.</p>
+<h2 id="upgrade-considerations">Upgrade Considerations<a class="headerlink" href="#upgrade-considerations" title="Permanent link">&para;</a></h2>
+<p>One of the key advantages of namespaced storage over the traditional sequential layout is that it eliminates the need for <code>__gap</code> placeholder variables in upgradeable contracts. Since each namespace root is isolated in storage, developers can safely <strong>append new fields at the end of the struct</strong> in a new implementation version without affecting existing field positions.</p>
+<p>For example, upgrading from:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">/// @custom:storage-location trc7201:example.main</span>
+<span class="kt">struct</span><span class="w"> </span><span class="nv">MainStorage</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">x</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">y</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>to:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">/// @custom:storage-location trc7201:example.main</span>
+<span class="kt">struct</span><span class="w"> </span><span class="nv">MainStorage</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">x</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">y</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">z</span><span class="p">;</span><span class="w"> </span><span class="c1">// safely added in upgrade</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>is safe — <code>z</code> simply occupies the next sequential slot after <code>y</code> within the same namespace.</p>
+<p>Developers MUST ensure that fields are only appended to the end of the struct and never reordered or removed, as the Solidity compiler does not enforce storage layout consistency across upgrades. For entirely new state groups unrelated to an existing struct, creating a separate namespace with its own storage location and namespace id is the recommended approach.</p>
+<h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
+<p>Copyright and related rights waived via <a href="https://github.com/tronprotocol/tips/blob/master/LICENSE.md">CC0</a>.</p>
 
 
 
